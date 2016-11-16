@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html>
+   <head>
+      <script type="text/javascript" src="webSockets.js"></script>
+      <script type="text/javascript" src="unityClient.js"></script>
+      <script type="text/javascript" charset="UTF-8">
+         var config = {
+            "onOpen": function() {
+               console.log("WebSocket opened.");
+            },
+            "onMessage": function(msg) {
+               console.log("Server responded: " + msg);
+            },
+            "onClose": function() {
+               console.log("WebSocket closed.");
+            }
+         };
+
+         window.onload = function() {
+            if ("WebSocket" in window) {
+               console.log("WebSockets are available!");
+            } else {
+               alert("WebSockets are not supported in this browser");
+            }
+         };
+
+         function buildCommand() {
+            var objectName = document.getElementById("buildCommandObjectName").value;
+            UnityClient.buildCommand(objectName);
+         }
+
+         function open() {
+            var url = document.getElementById("url");
+            openWebSocket(url.value, config);
+         }
+
+         function close() {
+            closeWebSocket();
+         }
+      </script>
+		
+   </head>
+   <body>
+      <div id="content">
+         <p>Make sure your Unity server is runnning.<br>Please enter the host you are connecting to and open the websocket before you send a message.<br>When you are finished, please close the WebSocket.<br>Make sure you check the console for now so that you can see what is going on.</p>
+         <form>
+         <label for="url">Server IP Address</label>
+         <input id="url" type="text" value="localhost"> 
+         <a href="javascript:open()">Open WebSocket</a>
+         <a href="javascript:close()">Close WebSocket</a>
+         </form>
+
+         <form>
+         <h2>Commands</h2>
+         <label for=buildCommandObjectName">Build: objectName</label>
+         <input id="buildCommandObjectName" type="text">
+         <a href="javascript:buildCommand()">Send</a>
+         </form>
+      </div>
+      
+   </body>
+</html>
