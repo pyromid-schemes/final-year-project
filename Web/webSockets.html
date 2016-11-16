@@ -25,8 +25,10 @@
          };
 
          function buildCommand() {
-            var objectName = document.getElementById("buildCommandObjectName").value;
-            UnityClient.buildCommand(objectName);
+            var objectId = document.getElementById("buildCommandObjectId").value;
+            var xPos = document.getElementById("buildCommandXPos").value;
+            var zPos = document.getElementById("buildCommandZPos").value;
+            UnityClient.buildCommand(objectId, xPos, zPos);
          }
 
          function open() {
@@ -52,8 +54,12 @@
 
          <form>
          <h2>Commands</h2>
-         <label for=buildCommandObjectName">Build: objectName</label>
-         <input id="buildCommandObjectName" type="text">
+         <label for="buildCommandObjectId">ObjectId:</label>
+         <input id="buildCommandObjectId" type="text">
+         <label for="buildCommandXPos">xPos:</label>
+         <input id="buildCommandXPos" type="text">
+         <label for="buildCommandZPos">zPos:</label>
+         <input id="buildCommandZPos" type="text">
          <a href="javascript:buildCommand()">Send</a>
          </form>
       </div>
