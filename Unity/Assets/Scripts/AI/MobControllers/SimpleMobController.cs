@@ -1,17 +1,27 @@
-﻿using UnityEngine;
+﻿using AI.States;
+using UnityEngine;
 
-namespace Assets.Scripts.AI.MobControllers
+namespace AI.MobControllers
 {
-    public class SimpleMobController : MonoBehaviour
-    {        
+    abstract class SimpleMobController : MonoBehaviour
+    {
+        protected IState CurrentState;
+
         // Use this for initialization
         void Start()
         {
+
         }
 
         // Update is called once per frame
         void Update()
         {
+            CurrentState.OnUpdate();
+        }
+
+        void FixedUpdate()
+        {
+            CurrentState.OnFixedUpdate();
         }
     }
 }

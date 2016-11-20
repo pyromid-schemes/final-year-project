@@ -1,11 +1,9 @@
-﻿using UnityEngine;
-using UnityEditor;
 using NUnit.Framework;
-using System.Collections.Generic;
 using Parsing.Commands;
+using Parsing.Parsers;
 using Test.Builders;
 
-namespace Parsing.Parsers {
+namespace Test.Parsing.Parsers {
 	public class BuildCommandParserTest
 	{
 		private BuildCommandParser underTest;
