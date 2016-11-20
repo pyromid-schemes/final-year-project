@@ -28,4 +28,7 @@ sysinfo.txt
 
 # Builds
 *.apk
-*.unitypackage
+*.unitypackagei
+
+# Unsure if we need to ignore this, i am for now because we're not all using ReSharper
+*.DOTSETTINGS
