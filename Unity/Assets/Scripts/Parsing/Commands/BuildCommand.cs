@@ -5,22 +5,35 @@ namespace Parsing.Commands
 {
 	public class BuildCommand : Command
 	{
-		private string objectName;
-		private CommandType type;
+		private string objectId;
+		private int xPos;
+		private int zPos;
 
-		public BuildCommand (string objectName, CommandType type)
+		public BuildCommand (string objectId, int xPos, int zPos)
 		{
-			this.objectName = objectName;
-			this.type = type;
+			this.objectId = objectId;
+			this.xPos = xPos;
+			this.zPos = zPos;
 		}
 
-		public string GetObjectName ()
+		public string GetObjectId ()
 		{
-			return objectName;
+			return objectId;
 		}
 
-		public CommandType GetCommandType() {
-			return type;
+		public int GetXPos()
+		{
+			return xPos;
+		}
+
+		public int GetZPos()
+		{
+			return zPos;
+		}
+
+		public CommandType GetCommandType()
+		{
+			return CommandType.BUILD;
 		}
 	}
 }

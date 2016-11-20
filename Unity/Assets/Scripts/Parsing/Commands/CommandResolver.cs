@@ -1,5 +1,6 @@
 ﻿using Parsing.Commands;
 using UnityEngine;
+using System;
 
 namespace Parsing.Commands
 {
@@ -19,7 +20,8 @@ namespace Parsing.Commands
 			switch (command.GetCommandType ()) {
 			case CommandType.BUILD:
 				var buildCommand = (BuildCommand)command;
-				Debug.Log ("Build command received.\nBuilding: " + buildCommand.GetObjectName ());
+				Debug.Log (String.Format("Build command received.\nObjectId:{0}, xPos:{1}, zPos{2}", 
+					buildCommand.GetObjectId (), buildCommand.GetXPos(), buildCommand.GetZPos()));
 				break;
 			}
 		}
