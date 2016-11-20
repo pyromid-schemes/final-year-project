@@ -5,6 +5,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Parsing.Commands;
+using System;
 
 namespace Parsing.Parsers
 {
@@ -21,7 +22,9 @@ namespace Parsing.Parsers
 			var obj = (JObject)JsonConvert.DeserializeObject (msg);
 			var options = (JObject)obj ["options"];
 
-			return new BuildCommand (options["objectName"].ToString(), CommandType.BUILD);
+			return new BuildCommand (options["objectId"].ToString(), 
+				Int32.Parse(options["xPos"].ToString()), 
+				Int32.Parse(options["zPos"].ToString()));
 		}
 	}
 }
