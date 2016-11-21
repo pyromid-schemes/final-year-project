@@ -1,0 +1,85 @@
+{
+  "frames": [
+    {
+      "filename": "tl.png",
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 16,
+        "h": 16
+      }
+    },
+    {
+      "filename": "tm.png",
+      "frame": {
+        "x": 16,
+        "y": 0,
+        "w": 16,
+        "h": 16
+      }
+    },
+    {
+      "filename": "tr.png",
+      "frame": {
+        "x": 32,
+        "y": 0,
+        "w": 16,
+        "h": 16
+      }
+    },
+    {
+      "filename": "mr.png",
+      "frame": {
+        "x": 32,
+        "y": 16,
+        "w": 16,
+        "h": 16
+      }
+    },
+    {
+      "filename": "br.png",
+      "frame": {
+        "x": 32,
+        "y": 32,
+        "w": 16,
+        "h": 16
+      }
+    },
+    {
+      "filename": "bm.png",
+      "frame": {
+        "x": 16,
+        "y": 32,
+        "w": 16,
+        "h": 16
+      }
+    },
+    {
+      "filename": "bl.png",
+      "frame": {
+        "x": 0,
+        "y": 32,
+        "w": 16,
+        "h": 16
+      }
+    },
+    {
+      "filename": "ml.png",
+      "frame": {
+        "x": 0,
+        "y": 16,
+        "w": 16,
+        "h": 16
+      }
+    },
+    {
+      "filename": "mm.png",
+      "frame": {
+        "x": 16,
+        "y": 16,
+        "w": 16,
+        "h": 16
+      }
+    }
+  ]
+}

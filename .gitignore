@@ -1,3 +1,5 @@
+*.DS_Store
+
 /Unity/[Ll]ibrary/
 /Unity/[Tt]emp/
 /Unity/[Oo]bj/
