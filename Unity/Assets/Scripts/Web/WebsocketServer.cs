@@ -9,14 +9,14 @@ namespace Web
 {
 	class WebsocketServer : MonoBehaviour
 	{
-		CommandResolver commandResolver;
-		int clientSocket = -1;
-		bool clientInitialised = false;
+		public CommandResolver commandResolver;
+
+		private int clientSocket = -1;
+		private bool clientInitialised = false;
 
 
 		void Start ()
 		{
-			commandResolver = new CommandResolver ();
 			NetworkTransport.Init ();
 
 			ConnectionConfig config = new ConnectionConfig ();
