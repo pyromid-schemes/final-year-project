@@ -62,6 +62,7 @@ namespace Web
 				case NetworkEventType.DataEvent:
 					if (recHostId == clientSocket) {
 						string msg = System.Text.Encoding.UTF8.GetString (buffer);
+						Debug.Log (msg);
 						commandResolver.ResolveMessage(msg);
 					}
 					break;

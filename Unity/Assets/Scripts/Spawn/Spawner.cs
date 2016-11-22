@@ -5,31 +5,50 @@ namespace Spawn
 {
 	public class Spawner : MonoBehaviour
 	{
-		public GameObject room1Prefab;
+		public PrefabMap prefabs;
 
-		private List<GameObject> spawnQueue;
-		private List<Vector3> positions;
+		private bool queueActive;
+		private List<PositionalGameObject> objectsToBeBuilt;
 
 		void Start ()
 		{
-			spawnQueue = new List<GameObject> ();
-			positions = new List<Vector3> ();
+			objectsToBeBuilt = new List<PositionalGameObject> ();
+			queueActive = false;
 		}
 	
 		void Update ()
 		{
-			for (int i = 0; i < spawnQueue.Count; i++) {
-				Instantiate (spawnQueue [i], positions [i], Quaternion.identity);
+			if (queueActive) {
+				for (int i = 0; i < objectsToBeBuilt.Count; i++) {
+					var obj = (GameObject)Instantiate (objectsToBeBuilt [i].gameObj, objectsToBeBuilt[i].position, Quaternion.identity);
+					obj.SetActive (true);
+					objectsToBeBuilt.RemoveAt (i);
+				}
+				queueActive = false;
 			}
-
-			spawnQueue = new List<GameObject> ();
-			positions = new List<Vector3> ();
 		}
 
 		public void addRoomPrefab (string objectId, int xPos, int zPos)
 		{
-			spawnQueue.Add (room1Prefab);
-			positions.Add (new Vector3 (xPos, 0, zPos));
+			GameObject room = prefabs.GetGameObject (objectId);
+			if (room == null) {
+				return;
+			}
+
+			queueActive = true;
+			objectsToBeBuilt.Add(new PositionalGameObject (room, new Vector3 (xPos, 0, zPos)));
+		}
+	}
+
+	struct PositionalGameObject
+	{
+		public GameObject gameObj;
+		public Vector3 position;
+
+		public PositionalGameObject(GameObject g, Vector3 p)
+		{
+			gameObj = g;
+			position = p;
 		}
 	}
 }
