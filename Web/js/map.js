@@ -5,7 +5,7 @@ var Map = {
 
     map: null,
     mapData: [],
-    mapRooms: null,
+    mapRooms: [],
     roomStructures: null,
 
     mapWidth: 32,
@@ -18,9 +18,14 @@ var Map = {
 
     empty_tile: null,
 
-    tilemaps: null,
+    tilemaps: {},
 
+    mapScrollOffsetX: 0,
+    mapScrollOffsetY: 0,
 
+    dragCurrentX: 0,
+    dragCurrentY: 0,
+    isDragging: false,
 
 
     create: function(GameObject) {
@@ -32,13 +37,8 @@ var Map = {
 
         this.empty_tile = game.phaser.make.sprite(0, 0, 'tile-empty-16');
 
-        this.mapRooms = [];
-
         this.createRooms();
         this.createMap();
-
-
-        this.tilemaps = {};
         this.createTilemap('tilemap-chengy');
     },
 
@@ -97,7 +97,7 @@ var Map = {
     },
 
     onDown: function(e) {
-        var pointer = game.phaser.input.activePointer;
+        var pointer = this.game.phaser.input.activePointer;
 
         var tile_x = Math.floor((pointer.x - this.mapOffsetX - 1) / this.tileSize); // -1 on the x because phaser coordinate system is messed up
         var tile_y = Math.floor((pointer.y - this.mapOffsetY - 2) / this.tileSize); // -2 on the y because phaser coordinate system is messed up
@@ -112,12 +112,55 @@ var Map = {
                 if(this.canPlaceRoom(btn.room_id, tile_x, tile_y)){
                     this.placeRoom(btn.room_id, tile_x, tile_y);
                 }
+            }else {
+                this.isDragging = true;
+
+                this.dragCurrentX = pointer.x;
+                this.dragCurrentY = pointer.y;
             }
         }
+
+
+
+        var relative_click_x = (pointer.x - this.mapOffsetX - 1);
+        var relative_click_y = (pointer.y - this.mapOffsetY - 2);
+
+        var relative_tile_x = Math.floor(relative_click_x / this.tileSize);
+        var relative_tile_y = Math.floor(relative_click_y / this.tileSize);
+
+        console.log("Relative coords ["+relative_click_x+","+relative_click_y+"]");
+        console.log("Relative tile xy ["+relative_tile_x+","+relative_tile_y+"]");
+
+        // console.log(game.phaser.input.activePointer);
+        // if(game.phaser.input.mouse.button == Phaser.Mouse.RIGHT_BUTTON){
+        //     console.log("Right click");
+        // }
+    },
+
+    onUp: function(e){
+        this.isDragging = false;
     },
 
     onMove: function(e){
 
+        if(this.isDragging) {
+            // console.log("Map:onMove()");
+            // console.log(e);
+            var pointer = this.game.phaser.input.activePointer;
+
+            // console.log("Drag XY ["+pointer.x+","+pointer.y+"]");
+
+            var difference_x = this.dragCurrentX - pointer.x;
+            var difference_y = this.dragCurrentY - pointer.y;
+
+            this.dragCurrentX = pointer.x;
+            this.dragCurrentY = pointer.y;
+
+            this.mapScrollOffsetX -= difference_x;
+            this.mapScrollOffsetY -= difference_y;
+
+            console.log("Map scroll XY ["+this.mapScrollOffsetX+","+this.mapScrollOffsetY+"]");
+        }
     },
 
 

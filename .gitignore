@@ -30,4 +30,10 @@ sysinfo.txt
 
 # Builds
 *.apk
+*.unitypackagei
+
+# Unsure if we need to ignore this, i am for now because we're not all using ReSharper
+*.DotSettings
 *.unitypackage
+
+node_modules/
