@@ -37,6 +37,8 @@ var game = {
     },
 
     create: function(){
+        game.phaser.canvas.oncontextmenu = function (e) { e.preventDefault(); };
+
         // Initialize the graphics object for drawing things
         var graphics = game.phaser.add.graphics(0, 0);
         window.graphics = graphics;
@@ -56,6 +58,7 @@ var game = {
         game.phaser.input.onDown.add(onDown, this);
         game.phaser.input.onUp.add(onUp, this);
         game.phaser.input.addMoveCallback(onMove, this);
+        // game.phaser.input.
 
     },
 
@@ -106,10 +109,11 @@ function onDown(e){
 }
 
 function onUp(e){
+    game.mapObject.onUp(e);
 }
 
 function onMove(e){
-
+    game.mapObject.onMove(e);
 }
 
 function getAccurateCoords(pointer){
