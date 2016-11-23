@@ -1,23 +1,3 @@
-
-
-var purple_3by3_room = {
-    w: 3,
-    h: 3,
-    center: { x: 1, y: 1 }
-};
-
-var yellow_3by5_room = {
-    w: 3,
-    h: 5,
-    center: { x: 1, y: 2 }
-};
-
-var green_4by3_room = {
-    w: 4,
-    h: 3,
-    center: { x: 1, y: 1 }
-};
-
 var chengy_room = {
     w: 4,
     h: 4,
@@ -54,7 +34,6 @@ var l_shape_room = {
         [1,1,0,0],
         [1,2,0,0]
     ]
-
 };
 
 var room_6by6 = {
