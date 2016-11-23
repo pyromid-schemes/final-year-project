@@ -1,11 +1,14 @@
 ﻿using Parsing.Commands;
 using UnityEngine;
 using System;
+using Spawn;
 
 namespace Parsing.Commands
 {
-	public class CommandResolver
+	public class CommandResolver : MonoBehaviour
 	{
+		public Spawner spawner;
+
 		private ParserLibrary parserLibrary;
 
 		public CommandResolver ()
@@ -20,8 +23,7 @@ namespace Parsing.Commands
 			switch (command.GetCommandType ()) {
 			case CommandType.BUILD:
 				var buildCommand = (BuildCommand)command;
-				Debug.Log (String.Format("Build command received.\nObjectId:{0}, xPos:{1}, zPos{2}", 
-					buildCommand.GetObjectId (), buildCommand.GetXPos(), buildCommand.GetZPos()));
+				spawner.addRoomPrefab (buildCommand.GetObjectId (), buildCommand.GetXPos (), buildCommand.GetZPos ());
 				break;
 			}
 		}
