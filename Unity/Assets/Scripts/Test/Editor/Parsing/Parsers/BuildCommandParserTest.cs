@@ -16,13 +16,37 @@ namespace Test.Parsing.Parsers {
 		[Test]
 		public void CanParseBuildCommand ()
 		{
-			Assert.True(underTest.CanParse(TestMsgWithCommandName("build")));
+			Assert.IsTrue(underTest.CanParse(TestMsgWithCommandName("build")));
 		}
 
 		[Test]
 		public void CannotParseUnsupportedCommand()
 		{
-			Assert.False (underTest.CanParse (TestMsgWithCommandName("foobar")));
+			Assert.IsFalse (underTest.CanParse (TestMsgWithCommandName ("foobar")));
+		}
+
+		[Test]
+		public void CannotParseCommandWithoutObjectIdKey()
+		{
+			Assert.IsFalse (underTest.CanParse ("{\"command\":\"build\",\"options\":{\"xPos\":0,\"zPos\":0}}"));
+		}
+
+		[Test]
+		public void CannotParseCommandWithoutXPosKey()
+		{
+			Assert.IsFalse (underTest.CanParse ("{\"command\":\"build\",\"options\":{\"objectId\":\"room1\",\"zPos\":0}}"));
+		}
+
+		[Test]
+		public void CannotParseCommandWithoutZPosKey()
+		{
+			Assert.IsFalse (underTest.CanParse ("{\"command\":\"build\",\"options\":{\"objectId\":\"room1\",\"xPos\":0}}"));
+		}
+
+		[Test]
+		public void CannotParseCommandWithoutCommandKey()
+		{
+			Assert.IsFalse (underTest.CanParse ("{\"options\":{\"objectId\":\"room1\",\"xPos\":0,\"zPos\":0}}"));
 		}
 
 		[Test]
