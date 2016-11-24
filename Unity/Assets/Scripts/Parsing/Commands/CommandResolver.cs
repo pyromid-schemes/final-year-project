@@ -5,25 +5,28 @@ using Spawn;
 
 namespace Parsing.Commands
 {
-	public class CommandResolver : MonoBehaviour
+	public class CommandResolver
 	{
-		public Spawner spawner;
-
+		private ISpawner spawner;
 		private ParserLibrary parserLibrary;
 
-		public CommandResolver ()
+		public CommandResolver (ISpawner spawner)
 		{
 			parserLibrary = new ParserLibrary ();
+			this.spawner = spawner;
 		}
 
 		public void ResolveMessage(string msg)
 		{
 			Command command = parserLibrary.Parse (msg);
+			if (command == null) {
+				return;
+			}
 
 			switch (command.GetCommandType ()) {
 			case CommandType.BUILD:
 				var buildCommand = (BuildCommand)command;
-				spawner.addRoomPrefab (buildCommand.GetObjectId (), buildCommand.GetXPos (), buildCommand.GetZPos ());
+				spawner.AddRoomPrefab (buildCommand.GetObjectId (), buildCommand.GetXPos (), buildCommand.GetZPos ());
 				break;
 			}
 		}
