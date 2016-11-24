@@ -1,7 +1,7 @@
 {
   "frames": [
     {
-      "filename": "tl.png",
+      "filename": "tl",
       "frame": {
         "x": 0,
         "y": 0,
@@ -10,7 +10,7 @@
       }
     },
     {
-      "filename": "tm.png",
+      "filename": "tm",
       "frame": {
         "x": 16,
         "y": 0,
@@ -19,7 +19,7 @@
       }
     },
     {
-      "filename": "tr.png",
+      "filename": "tr",
       "frame": {
         "x": 32,
         "y": 0,
@@ -28,7 +28,7 @@
       }
     },
     {
-      "filename": "mr.png",
+      "filename": "mr",
       "frame": {
         "x": 32,
         "y": 16,
@@ -37,7 +37,7 @@
       }
     },
     {
-      "filename": "br.png",
+      "filename": "br",
       "frame": {
         "x": 32,
         "y": 32,
@@ -46,7 +46,7 @@
       }
     },
     {
-      "filename": "bm.png",
+      "filename": "bm",
       "frame": {
         "x": 16,
         "y": 32,
@@ -55,7 +55,7 @@
       }
     },
     {
-      "filename": "bl.png",
+      "filename": "bl",
       "frame": {
         "x": 0,
         "y": 32,
@@ -64,7 +64,7 @@
       }
     },
     {
-      "filename": "ml.png",
+      "filename": "ml",
       "frame": {
         "x": 0,
         "y": 16,
@@ -73,7 +73,7 @@
       }
     },
     {
-      "filename": "mm.png",
+      "filename": "mm",
       "frame": {
         "x": 16,
         "y": 16,

@@ -16,6 +16,8 @@
         <div id="game"></div>
 
         <div id="sse">
+            <!-- just debug for amount of times everything is redrawn -->
+            <div id="redraws">Amount of redraws: <span id="redraw-count">0</span></div>
             <p>Please enter the host you are connecting to and open the websocket before you send a message.</p>
             <p>When you are finished, please close the WebSocket.</p>
             <p>Make sure you check the console for now so that you can see what is going on.</p>
@@ -35,7 +37,10 @@
 
     <!-- Include JS scripts after page DOM has loaded -->
     <script src="js/phaser/phaser.min.js"></script>
-    <script src="js/tile-data/tile-data.js"></script>
+
+    <!-- ToDo: Compile these into one file? -->
+    <script src="js/data/tilemaps.js"></script>
+    <script src="js/data/rooms.js"></script>
     <script src="js/game.js"></script>
     <script src="js/map.js"></script>
     <script src="js/builder.js"></script>

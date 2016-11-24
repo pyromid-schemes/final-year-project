@@ -21,10 +21,11 @@ var Builder = {
         game.graphics.endFill();
 
         // Setup the buttons which place rooms
-        this.createButton(600, 40, 'builder-button-chengy', 'room-1');
-        this.createButton(600, 80, 'builder-button-chengy4doors', 'room-2');
-        this.createButton(640, 40, 'builder-button-lava5x3', 'room-3');
-        this.createButton(640, 80, 'builder-button-chengy-door-up', 'room-4');
+        this.createButton(600, 40, Rooms.chengy_room);
+        this.createButton(600, 80, Rooms.chengy_room4doors);
+        this.createButton(640, 40, Rooms.chengy_room_5x3);
+        this.createButton(640, 80, Rooms.chengy_room_door_up);
+        this.createButton(680, 40, Rooms.l_shape_room);
 
 
         // Create the 'selector' so that when a room tile is selected it can be reflect it's state
@@ -33,11 +34,11 @@ var Builder = {
     },
 
     // Creates a button
-    createButton: function(x, y, sprite_path, room_id){
-        var btn = game.phaser.add.sprite(x, y, sprite_path);
+    createButton: function(x, y, room){
+        var btn = game.phaser.add.sprite(x, y, room.builderButton.key);
         btn.inputEnabled = true;
         btn.events.onInputDown.add(this.listener, this);
-        this.buttons[sprite_path] = {tile: btn, room_id: room_id};
+        this.buttons[room.builderButton.key] = {tile: btn, room_id: room.room_id};
     },
 
     // When a button is clicked, figure out which button it was and set some variables
@@ -66,5 +67,13 @@ var Builder = {
     unselectTile: function(){
         this.tile_selector.alpha = 0;
         this.which_tile_to_place = -1;
+
+        this.game.mapObject.redrawEverything();
+    },
+
+    keyOnDown: function(e){
+        if(e.key == "Escape"){
+            this.unselectTile();
+        }
     }
 };
