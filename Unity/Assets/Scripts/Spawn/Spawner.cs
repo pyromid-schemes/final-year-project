@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Spawn
 {
-	public class Spawner : MonoBehaviour
+	public class Spawner : MonoBehaviour, ISpawner
 	{
 		public PrefabMap prefabs;
 
@@ -28,7 +28,7 @@ namespace Spawn
 			}
 		}
 
-		public void addRoomPrefab (string objectId, int xPos, int zPos)
+		public void AddRoomPrefab (string objectId, int xPos, int zPos)
 		{
 			GameObject room = prefabs.GetGameObject (objectId);
 			if (room == null) {

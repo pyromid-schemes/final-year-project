@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using Parsing.Parsers;
+using Newtonsoft.Json;
+using UnityEngine;
+using System;
 
 namespace Parsing
 {
@@ -16,7 +19,15 @@ namespace Parsing
 		public Command Parse(string msg)
 		{
 			foreach (Parser p in parsers) {
-				if (p.CanParse (msg)) {
+				bool canParse = false;
+				try {
+					canParse = p.CanParse (msg);
+				} catch (JsonReaderException ex) {
+					Console.Error.WriteLine ("Message is not valid JSON: " + msg);
+					Console.Error.WriteLine (ex.ToString ());
+					break;
+				}
+				if (canParse) {
 					return p.Parse (msg);
 				}
 			}

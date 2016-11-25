@@ -4,19 +4,23 @@ using UnityEngine.Networking;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Parsing.Commands;
+using Spawn;
 
 namespace Web
 {
 	class WebsocketServer : MonoBehaviour
 	{
-		public CommandResolver commandResolver;
+		public Spawner spawner;
 
 		private int clientSocket = -1;
 		private bool clientInitialised = false;
+		private CommandResolver commandResolver;
 
 
 		void Start ()
 		{
+			commandResolver = new CommandResolver (spawner);
+
 			NetworkTransport.Init ();
 
 			ConnectionConfig config = new ConnectionConfig ();

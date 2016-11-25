@@ -11,6 +11,18 @@ var chengy_room = {
     tilemap: 'chengy'
 };
 
+var chengy_room_5x3 = {
+    w: 5,
+    h: 3,
+    center: { x: 2, y: 1 },
+    data: [
+        [1,1,1,1,1],
+        [2,1,1,1,2],
+        [1,1,1,1,1]
+    ],
+    tilemap: 'lava'
+};
+
 var chengy_room4doors = {
     w: 4,
     h: 4,
@@ -22,6 +34,18 @@ var chengy_room4doors = {
         [1,2,2,1]
     ],
     tilemap: 'chengy'
+};
+
+var chengy_room_door_up = {
+    w: 4,
+    h: 4,
+    center: { x: 1, y: 1 },
+    data: [
+        [1,2,2,1],
+        [1,1,1,1],
+        [1,1,1,1],
+        [1,1,1,1]
+    ]
 };
 
 var l_shape_room = {

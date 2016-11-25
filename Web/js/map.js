@@ -4,6 +4,7 @@ var Map = {
     game: null,
 
     map: null,
+    mapDimensions: null,
     mapData: [],
     mapRooms: [],
     roomStructures: null,
@@ -28,62 +29,102 @@ var Map = {
     isDragging: false,
 
 
+    /* Utils */
+    black_bg: null,
+
+
     create: function(GameObject) {
+        //Reference the main game object
         this.game = GameObject;
 
+        // Set the background colour for the section
         this.game.graphics.beginFill(0xb5e3ea, 1);
         this.game.graphics.drawRect(this.game.mapView.x, this.game.mapView.y, this.game.mapView.w, this.game.mapView.h);
         this.game.graphics.endFill();
 
+        // Set the empty tile sprite - the lonely initialized sprite
         this.empty_tile = game.phaser.make.sprite(0, 0, 'tile-empty-16');
 
-        this.createRooms();
+        // 
+        this.setupRooms();
         this.createMap();
         this.createTilemap('tilemap-chengy');
+        this.createTilemap('tilemap-lava');
     },
 
     createMap: function(){
-        // Setup the background outline
-        var map_bg_width = this.mapWidth * this.tileSize + 2;
-        var map_bg_height = this.mapHeight * this.tileSize + 2;
-        var mapBG_temp = game.phaser.make.bitmapData(map_bg_width, map_bg_height);
 
-        mapBG_temp.rect(0, 0, map_bg_width, map_bg_height, '#f00');
-        var mapBG = game.phaser.add.sprite(this.mapOffsetX - 1, this.mapOffsetY - 1, mapBG_temp);
+        // Setup the background blackness
+        var map_world_width = this.mapWidth * this.tileSize;
+        var map_world_height = this.mapHeight * this.tileSize;
+        var map_bg_black = game.phaser.make.bitmapData(map_world_width, map_world_height);
+        map_bg_black.rect(0, 0, map_world_width, map_world_height, '#000');
+
+        this.mapDimensions = {x: this.mapOffsetX, y: this.mapOffsetY, w: map_world_width, h: map_world_height};
+
+        // Setup the background outline
+        var map_bg_width = map_world_width + 2;
+        var map_bg_height = map_world_height + 2;
+        var map_bg_red_border = game.phaser.make.bitmapData(map_bg_width, map_bg_height);
+        map_bg_red_border.rect(0, 0, map_bg_width, map_bg_height, '#f00');
+
+        // Add the coloured rects to the world
+        game.phaser.add.sprite(this.mapOffsetX - 1, this.mapOffsetY - 1, map_bg_red_border);
+        game.phaser.add.sprite(this.mapOffsetX, this.mapOffsetY, map_bg_black);
+
+
 
         // Create the map of tiles
-        this.map = game.phaser.add.renderTexture(800, 600, 'map');
+        this.map = game.phaser.add.renderTexture(map_bg_width - 2, map_bg_height - 2, 'map');
         this.mapData = [];
         this.game.phaser.add.sprite(this.mapOffsetX, this.mapOffsetY, this.map);
 
         this.renderEmptyTiles();
     },
 
-    renderEmptyTiles: function(){
-        for(var x=0; x<this.mapWidth; x++) {
-            for (var y = 0; y < this.mapHeight; y++) {
-                this.map.renderRawXY(this.empty_tile, x * this.tileSize, y * this.tileSize);
-                this.mapData[x + y * this.mapWidth] = '.';
+    renderEmptyTiles: function() {
+        // Clear the drawn rooms
+        this.map.clear();
+
+        // Get the map offset (mod tileSize)
+        var offset = this.getOffsetXY();
+
+        // Draw a grid of empty tiles
+        for (var x = -1; x < this.mapWidth + 1; x++) {
+            for (var y = -1; y < this.mapHeight + 1; y++) {
+                this.map.renderRawXY(this.empty_tile, offset.x + x * this.tileSize, offset.y + y * this.tileSize);
+                // this.mapData[x + y * this.mapWidth] = '.'; // I think mapData is irrelevant?
             }
         }
     },
 
-    resetMap: function(){
+    renderAllRooms: function(){
+        // Render rooms now
+        for(var i = 0; i < this.mapRooms.length; i++){
+            var r = this.mapRooms[i];
 
+            var render_x = r.x2 * this.tileSize + this.mapScrollOffsetX;
+            var render_y = r.y2 * this.tileSize + this.mapScrollOffsetY;
+
+            this.renderRoomXY(r.room_id, render_x, render_y);
+        }
+    },
+
+    resetMap: function(){
     },
 
     redrawEverything: function(){
-
+        this.renderEmptyTiles();
+        this.renderAllRooms();
     },
 
-    createRooms: function(){
+    setupRooms: function(){
         this.roomStructures = {};
 
-        this.roomStructures['room-1'] = {dimensions: chengy_room, tilemap: 'tilemap-chengy'};
+        this.roomStructures['room-1'] = {dimensions: chengy_room, tilemap: 'tilemap-chengy' };
         this.roomStructures['room-2'] = {dimensions: chengy_room4doors, tilemap: 'tilemap-chengy'};
-
-        //map_rooms[0] = {room_id: 'room-1', x: 1, y: 1}
-        //map_rooms[1] = {room_id: 'room-1', x: 4, y: 1}
+        this.roomStructures['room-3'] = {dimensions: chengy_room_5x3, tilemap: 'tilemap-lava'};
+        this.roomStructures['room-4'] = {dimensions: chengy_room_door_up, tilemap: 'tilemap-chengy'};
     },
 
     createTilemap: function(tilemap_key){
@@ -99,22 +140,28 @@ var Map = {
     onDown: function(e) {
         var pointer = this.game.phaser.input.activePointer;
 
-        var tile_x = Math.floor((pointer.x - this.mapOffsetX - 1) / this.tileSize); // -1 on the x because phaser coordinate system is messed up
-        var tile_y = Math.floor((pointer.y - this.mapOffsetY - 2) / this.tileSize); // -2 on the y because phaser coordinate system is messed up
-
-        if (tile_x >= 0 && tile_y >= 0 && tile_x < this.mapWidth && tile_y < this.mapHeight) {
+        var tile_x = Math.floor((pointer.x - this.mapOffsetX - 1 - this.mapScrollOffsetX) / this.tileSize); // -1 on the x because phaser coordinate system is messed up
+        var tile_y = Math.floor((pointer.y - this.mapOffsetY - 2 - this.mapScrollOffsetY) / this.tileSize); // -2 on the y because phaser coordinate system is messed up
 
 
+        var mouse_x = pointer.x - 1;
+        var mouse_y = pointer.y - 2;
+        var is_mouse_inside_map = (mouse_x >= this.mapOffsetX && mouse_y >= this.mapOffsetY && mouse_x < this.mapOffsetX + this.mapDimensions.w && mouse_y < this.mapOffsetY + this.mapDimensions.h);
+
+        // If the mouse is inside the map when the user clicks?
+        if(is_mouse_inside_map){
+            // If there is a room-tile selected inside the [game.builderObject]
             if(this.game.builderObject.which_tile_to_place != -1){
-                var btn = this.game.buttons[this.game.builderObject.which_tile_to_place];
-
+                var btn = this.game.builderObject.buttons[this.game.builderObject.which_tile_to_place];
 
                 if(this.canPlaceRoom(btn.room_id, tile_x, tile_y)){
                     this.placeRoom(btn.room_id, tile_x, tile_y);
                 }
             }else {
+                // Can only navigate the map if you're not placing objects
                 this.isDragging = true;
 
+                // Set the current drag position to the mouse position
                 this.dragCurrentX = pointer.x;
                 this.dragCurrentY = pointer.y;
             }
@@ -128,8 +175,8 @@ var Map = {
         var relative_tile_x = Math.floor(relative_click_x / this.tileSize);
         var relative_tile_y = Math.floor(relative_click_y / this.tileSize);
 
-        console.log("Relative coords ["+relative_click_x+","+relative_click_y+"]");
-        console.log("Relative tile xy ["+relative_tile_x+","+relative_tile_y+"]");
+        // console.log("Relative coords ["+relative_click_x+","+relative_click_y+"]");
+        // console.log("Relative tile xy ["+relative_tile_x+","+relative_tile_y+"]");
 
         // console.log(game.phaser.input.activePointer);
         // if(game.phaser.input.mouse.button == Phaser.Mouse.RIGHT_BUTTON){
@@ -138,17 +185,16 @@ var Map = {
     },
 
     onUp: function(e){
-        this.isDragging = false;
+
+        if(this.isDragging) {
+            this.isDragging = false;
+        }
     },
 
     onMove: function(e){
 
         if(this.isDragging) {
-            // console.log("Map:onMove()");
-            // console.log(e);
             var pointer = this.game.phaser.input.activePointer;
-
-            // console.log("Drag XY ["+pointer.x+","+pointer.y+"]");
 
             var difference_x = this.dragCurrentX - pointer.x;
             var difference_y = this.dragCurrentY - pointer.y;
@@ -159,7 +205,7 @@ var Map = {
             this.mapScrollOffsetX -= difference_x;
             this.mapScrollOffsetY -= difference_y;
 
-            console.log("Map scroll XY ["+this.mapScrollOffsetX+","+this.mapScrollOffsetY+"]");
+            this.redrawEverything();
         }
     },
 
@@ -170,41 +216,48 @@ var Map = {
 
     canPlaceRoom: function(room_id, x, y){
         var room = this.roomStructures[room_id];
+        var bounding_box = this.getBoundingBoxForRoom(x, y, room);
 
-        if(x >= room.dimensions.center.x && y >= room.dimensions.center.y &&
-            x <= (this.mapWidth - (room.dimensions.w - room.dimensions.center.x)) && y <= (this.mapHeight - (room.dimensions.h - room.dimensions.center.y))){
-            for(var room_x = 0; room_x < room.dimensions.w; room_x++){
-                for(var room_y = 0; room_y < room.dimensions.h; room_y++){
-                    // Get the room's offset from the center (from each tile's perspective)
-                    var offset_x = room_x - room.dimensions.center.x;
-                    var offset_y = room_y - room.dimensions.center.y;
+        for(var i = 0; i < this.mapRooms.length; i++){
+            var r = this.mapRooms[i];
 
-                    // Get the relative coordinates
-                    var relative_x = x + offset_x;
-                    var relative_y = y + offset_y;
-
-                    // If the tile in the position is not empty then the room does not fit
-                    if(this.mapData[relative_x + relative_y * this.mapWidth] != '.'){
-                        return false;
-                    }
-                }
+            if(this.doesBoundingBoxesCollide(bounding_box, r.bb)){
+                //ToDo: "per-tile" collision, so for odd shaped rooms which don't occupy all of a square they can not collide if their bounding boxes do
+                return false;
             }
-
-            // If the room's tiles are all unoccupied then it can fit
-            return true;
         }
+        return true;
     },
 
     placeRoom: function(room_id, x, y){
+        // Get the room data from the roomStructures array
         var room = this.roomStructures[room_id];
+        // Basic way of getting the next index
         var map_room_id = this.mapRooms.length;
 
-        this.mapRooms[map_room_id] = {room_id: room_id, x: x - room.dimensions.center.x, y: y - room.dimensions.center.y};
+        // Get the bounding box from the current x/y and room data
+        var bounding_box = this.getBoundingBoxForRoom(x, y, room);
 
-        console.log("sending data:");
-        console.log(this.mapRooms[map_room_id]);
+        // Add the room into the world room array
+        this.mapRooms[map_room_id] = {room_id: room_id,
+            x: x - room.dimensions.center.x,
+            y: y - room.dimensions.center.y,
+            x2: x,
+            y2: y,
+            bb: bounding_box,
+            room: room};
 
+        // Broadcast a message to the VR client
         this.game.sendMessage(room_id, x - room.dimensions.center.x, y - room.dimensions.center.y);
+
+        // Repaint the world with the new room
+        this.redrawEverything();
+    },
+
+    // So this function just blits out a room at a specific location...
+    renderRoomXY: function(room_id, x, y){
+        var room = this.roomStructures[room_id];
+        var map_room_id = this.mapRooms.length;
 
         for(var room_x = 0; room_x < room.dimensions.w; room_x++){
             for(var room_y = 0; room_y < room.dimensions.h; room_y++){
@@ -213,18 +266,18 @@ var Map = {
                 var offset_y = room_y - room.dimensions.center.y;
 
                 // Get the relative coordinates
-                var relative_x = x + offset_x;
-                var relative_y = y + offset_y;
+                var relative_x = x + offset_x * this.tileSize;
+                var relative_y = y + offset_y * this.tileSize;
 
-
+                // Get the tile data for the room
                 var tile_data = room.dimensions.data[room_y][room_x];
-                // console.log('['+room_x+','+room_y+'] ['+tile_data+']');
 
                 // If the tile in the position is not empty then the room does not fit
-                this.mapData[relative_x + relative_y * this.mapWidth] = map_room_id;
+                // this.mapData[relative_x + relative_y * this.mapWidth] = map_room_id; //mapData is irrelevant??
 
                 var tile_position = "";
 
+                // This is... some piece of code to draw the correct tiles for the room... surprised it actually somewhat works.
                 if(tile_data == '1') {
                     tile_position += (room_y == 0 ? 't' : (room_y == room.dimensions.h - 1 ? 'b' : 'm'));
                     tile_position += (room_x == 0 ? 'l' : (room_x == room.dimensions.w - 1 ? 'r' : 'm'));
@@ -232,106 +285,42 @@ var Map = {
                     tile_position = 'mm';
                 }
 
-                this.map.renderRawXY(this.tilemaps[room.tilemap][tile_position], relative_x * this.tileSize, relative_y * this.tileSize);
+                // Render the specific tile piece from the tilemap at the correct position
+                this.map.renderRawXY(this.tilemaps[room.tilemap][tile_position], relative_x , relative_y );
             }
         }
     },
 
+    // This gets the current map scroll offset mod the tileSize - so it only returns from [0 up to tileSize]
+    getOffsetXY: function(){
+        return {
+            x: this.mapScrollOffsetX % this.tileSize,
+            y: this.mapScrollOffsetY % this.tileSize
+        };
+    },
+
+    // Do two bounding boxes collide?
+    doesBoundingBoxesCollide: function(bb1, bb2){
+        return !((bb2.x1 > bb1.x2) || (bb2.x2 < bb1.x1) || (bb2.y1 > bb1.y2) || (bb2.y2 < bb1.y1));
+    },
+
+    // Returns a bounding box for a room at a specific location
+    getBoundingBoxForRoom: function(x, y, room){
+        var top_left_x = x - room.dimensions.center.x;
+        var top_left_y = y - room.dimensions.center.y;
+
+        var bottom_right_x = top_left_x + room.dimensions.w - 1;
+        var bottom_right_y = top_left_y + room.dimensions.h - 1;
+
+        return {
+            x1: top_left_x,
+            y1: top_left_y,
+            x2: bottom_right_x,
+            y2: bottom_right_y
+        };
+    },
 
     return: {
-        onDown: onDown
+        onDown: this.onDown
     }
-
 };
-
-window.reset = Map.resetMap;
-
-// function refreshMap(){
-//     for(var xy = 0; xy < mapWidth * mapHeight; xy++){
-//         var x = (xy % mapWidth);
-//         var y = Math.floor((xy / mapWidth));
-//         var tile_str = findTileStrFromKey(mapData[xy]);
-//         updateMapTile(x, y, tile_str);
-//     }
-// }
-
-// // Update the view with
-// function updateMap(x, y, tile_str){
-//     var tile_data = hashmap[tile_str];
-//
-//     // DEBUG --- THIS IS NOT PRODUCTION CODE
-//     if(tile_data.key == '.') {
-//         map.renderRawXY(tiles_16_hash['empty'].tile, x * tileSize, y * tileSize);
-//     }else if(tile_data.key == '1') {
-//         if (checkRoomCanFit(x, y, green_4by3_room)) {
-//             placeRoom(x, y, green_4by3_room, '1', 'green-16');
-//         }
-//     }else if(tile_data.key == '2') {
-//         if (checkRoomCanFit(x, y, purple_3by3_room)) {
-//             placeRoom(x, y, purple_3by3_room, '2', 'purple-16');
-//         }
-//     }else if(tile_data.key == '3'){
-//         if(checkRoomCanFit(x, y, yellow_3by5_room)){
-//             placeRoom(x, y, yellow_3by5_room, '3', 'yellow-16');
-//         }
-//     }else{
-//         map.renderRawXY(tile_data.tile, x * tileSize, y * tileSize);
-//         mapData[x + y * mapWidth] = tile_data.key;
-//     }
-// }
-// function updateMapTile(x, y, tile_str){
-//     var tile_data = hashmap[tile_str];
-//     mapData[x + y * mapWidth] = tile_data.key;
-//     map.renderRawXY(tile_data.tile, x * tileSize, y * tileSize);
-//     // map.renderRawXY(tile_data.tile, x * tileSize, y * tileSize);
-// }
-
-
-/**
- * Debug methods
- * **/
-
-// Save the mapData and output it
-function save(){
-    var data = {w: mapWidth, h: mapHeight};
-    data['map'] = mapData;
-
-    console.log('[save]');
-    console.log(JSON.stringify(data));
-}
-// Load a map
-function load(map_data){
-    mapWidth = map_data.w;
-    mapHeight = map_data.h;
-
-    mapData = map_data.map;
-    // refreshMap(); //Refresh the map by drawing all the things
-}
-window.save = save;
-window.load = load;
-
-
-function print_map_data(){
-    console.log("map_data:");
-    console.log(JSON.stringify(Map.mapData));
-}
-window.map_print = print_map_data;
-
-window.map = Map;
-
-function pretty_print(){
-    var log_counter = 0;
-    for(var y=0; y<Map.mapHeight; y++){
-        var str = "";
-        for (var x=0; x<Map.mapWidth; x++){
-            var md = Map.mapData[x + y * Map.mapWidth];
-
-            if(md == '.'){ str += '..'; }
-            if(md >= 0 && md <= 9) str += '0' + md;
-            else if(md > 9) str += md; 
-        }
-        log_counter++;
-        console.log(str + (log_counter % 2 ? '\u200B' : ''));
-    }
-}
-window.pretty_print = pretty_print;
