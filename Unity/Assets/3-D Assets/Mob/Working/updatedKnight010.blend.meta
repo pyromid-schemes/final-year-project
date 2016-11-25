@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: e4124612b047b8246946bd85c16f4522
-timeCreated: 1479847849
+guid: 501183e6d13d9374f9d620c25000ed05
+timeCreated: 1480070174
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -23,13 +23,13 @@ ModelImporter:
     100030: Bone_014
     100032: Bone_1
     100034: Bone_2
-    100036: Helmet_Armature
-    100038: IKLower_R
-    100040: IKLower_R_001
-    100042: Lance
-    100044: LanceArmature
-    100046: melee_helmet
-    100048: shield
+    100036: Cube
+    100038: Helmet_Armature
+    100040: IKLower_R
+    100042: IKLower_R_001
+    100044: Lance
+    100046: LanceArmature
+    100048: melee_helmet
     100050: shield_Armature
     100052: //RootNode
     100054: UpperLeftArm
@@ -52,13 +52,13 @@ ModelImporter:
     400030: Bone_014
     400032: Bone_1
     400034: Bone_2
-    400036: Helmet_Armature
-    400038: IKLower_R
-    400040: IKLower_R_001
-    400042: Lance
-    400044: LanceArmature
-    400046: melee_helmet
-    400048: shield
+    400036: Cube
+    400038: Helmet_Armature
+    400040: IKLower_R
+    400042: IKLower_R_001
+    400044: Lance
+    400046: LanceArmature
+    400048: melee_helmet
     400050: shield_Armature
     400052: //RootNode
     400054: UpperLeftArm
@@ -66,7 +66,7 @@ ModelImporter:
     4300000: body
     4300002: Lance
     4300004: melee_helmet
-    4300006: shield
+    4300006: Cube
     7400000: Default Take
     7400002: Attack
     7400004: Defend
@@ -75,9 +75,9 @@ ModelImporter:
     7400010: Walking
     9500000: //RootNode
     13700000: body
-    13700002: Lance
-    13700004: melee_helmet
-    13700006: shield
+    13700002: Cube
+    13700004: Lance
+    13700006: melee_helmet
   materials:
     importMaterials: 1
     materialName: 0
@@ -103,7 +103,7 @@ ModelImporter:
       name: Default Take
       takeName: Default Take
       firstFrame: 0
-      lastFrame: 27
+      lastFrame: 29
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -164,6 +164,8 @@ ModelImporter:
         weight: 1
       - path: body_Armature/IKLower_R_001/Bone_014
         weight: 1
+      - path: Cube
+        weight: 1
       - path: Helmet_Armature
         weight: 1
       - path: Helmet_Armature/Bone_1
@@ -175,8 +177,6 @@ ModelImporter:
       - path: LanceArmature/Bone_0
         weight: 1
       - path: melee_helmet
-        weight: 1
-      - path: shield
         weight: 1
       - path: shield_Armature
         weight: 1
@@ -250,6 +250,8 @@ ModelImporter:
         weight: 1
       - path: body_Armature/IKLower_R_001/Bone_014
         weight: 1
+      - path: Cube
+        weight: 1
       - path: Helmet_Armature
         weight: 1
       - path: Helmet_Armature/Bone_1
@@ -261,8 +263,6 @@ ModelImporter:
       - path: LanceArmature/Bone_0
         weight: 1
       - path: melee_helmet
-        weight: 1
-      - path: shield
         weight: 1
       - path: shield_Armature
         weight: 1
@@ -336,6 +336,8 @@ ModelImporter:
         weight: 1
       - path: body_Armature/IKLower_R_001/Bone_014
         weight: 1
+      - path: Cube
+        weight: 1
       - path: Helmet_Armature
         weight: 1
       - path: Helmet_Armature/Bone_1
@@ -347,8 +349,6 @@ ModelImporter:
       - path: LanceArmature/Bone_0
         weight: 1
       - path: melee_helmet
-        weight: 1
-      - path: shield
         weight: 1
       - path: shield_Armature
         weight: 1
@@ -422,6 +422,8 @@ ModelImporter:
         weight: 1
       - path: body_Armature/IKLower_R_001/Bone_014
         weight: 1
+      - path: Cube
+        weight: 1
       - path: Helmet_Armature
         weight: 1
       - path: Helmet_Armature/Bone_1
@@ -433,8 +435,6 @@ ModelImporter:
       - path: LanceArmature/Bone_0
         weight: 1
       - path: melee_helmet
-        weight: 1
-      - path: shield
         weight: 1
       - path: shield_Armature
         weight: 1
@@ -508,6 +508,8 @@ ModelImporter:
         weight: 1
       - path: body_Armature/IKLower_R_001/Bone_014
         weight: 1
+      - path: Cube
+        weight: 1
       - path: Helmet_Armature
         weight: 1
       - path: Helmet_Armature/Bone_1
@@ -519,8 +521,6 @@ ModelImporter:
       - path: LanceArmature/Bone_0
         weight: 1
       - path: melee_helmet
-        weight: 1
-      - path: shield
         weight: 1
       - path: shield_Armature
         weight: 1
@@ -594,6 +594,8 @@ ModelImporter:
         weight: 1
       - path: body_Armature/IKLower_R_001/Bone_014
         weight: 1
+      - path: Cube
+        weight: 1
       - path: Helmet_Armature
         weight: 1
       - path: Helmet_Armature/Bone_1
@@ -605,8 +607,6 @@ ModelImporter:
       - path: LanceArmature/Bone_0
         weight: 1
       - path: melee_helmet
-        weight: 1
-      - path: shield
         weight: 1
       - path: shield_Armature
         weight: 1
