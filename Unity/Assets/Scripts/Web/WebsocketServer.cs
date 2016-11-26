@@ -5,6 +5,8 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Parsing.Commands;
 using Spawn;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Web
 {
@@ -60,6 +62,9 @@ namespace Web
 				case NetworkEventType.ConnectEvent:
 					if (recHostId == clientSocket) {
 						Debug.Log ("Client connected to " + connectionId.ToString () + "!");
+
+						byte[] gameWorld = System.Text.Encoding.UTF8.GetBytes(FormatGameWorldAsJson(spawner.GetGameWorld()));
+						NetworkTransport.Send(recHostId, connectionId, channelId, gameWorld, gameWorld.Length, out error); 
 					}
 					break;
 
@@ -79,6 +84,24 @@ namespace Web
 				}
 
 			} while (networkEvent != NetworkEventType.Nothing);
+		}
+
+		private string FormatGameWorldAsJson(HashSet<PlacedPrefab> gameWorld)
+		{
+			StringBuilder sb = new StringBuilder ();
+			sb.Append ("[");
+
+			foreach (PlacedPrefab p in gameWorld) {
+				sb.Append ("{");
+				sb.Append (string.Format("\"objectId\":\"{0}\",", p.GetName()));
+				sb.Append (string.Format("\"xPos\":{0},", p.GetPosition().x));
+				sb.Append (string.Format("\"zPos\":{0}", p.GetPosition().z));
+				sb.Append ("},");
+			}
+			sb.Remove (sb.Length - 1, 1);
+			sb.Append ("]");
+
+			return sb.ToString ();
 		}
 	}
 }
