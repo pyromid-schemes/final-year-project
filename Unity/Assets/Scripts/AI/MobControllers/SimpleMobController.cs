@@ -5,23 +5,17 @@ namespace AI.MobControllers
 {
     abstract class SimpleMobController : MonoBehaviour
     {
-        protected IState CurrentState;
-
-        // Use this for initialization
-        void Start()
-        {
-
-        }
+        protected StateManager _stateManager;
 
         // Update is called once per frame
         void Update()
         {
-            CurrentState.OnUpdate();
+            _stateManager.GetCurrentState().OnUpdate();
         }
 
         void FixedUpdate()
         {
-            CurrentState.OnFixedUpdate();
+            _stateManager.GetCurrentState().OnFixedUpdate();
         }
     }
 }
