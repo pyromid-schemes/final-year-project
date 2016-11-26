@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Client Test</title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css"/>
+</head>
+<body>
+    <!-- Nav bar -->
+    <!--<section id="header" class="align&#45;&#45;center background&#45;&#45;purps color&#45;&#45;white">-->
+        <!--This is the nav bar-->
+    <!--</section>-->
+
+    <!-- Game canvas -->
+    <section id="game-section">
+        <div id="game"></div>
+
+        <div id="sse">
+            <p>Please enter the host you are connecting to and open the websocket before you send a message.</p>
+            <p>When you are finished, please close the WebSocket.</p>
+            <p>Make sure you check the console for now so that you can see what is going on.</p>
+            <input id="url" type="text" value="localhost">
+            <input id="message" type="text" value="some-text">
+            <a href="javascript:open()">Open WebSocket</a>
+            <a href="javascript:send()">Send Message</a>
+            <a href="javascript:close()">Close WebSocket</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <section id="footer" class="align--center background--purps color--white">
+        This is the footer
+    </section>
+
+
+    <!-- Include JS scripts after page DOM has loaded -->
+    <script src="js/phaser/phaser.min.js"></script>
+    <script src="js/tile-data/tile-data.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/builder.js"></script>
+    <script src="js/property.js"></script>
+
+
+    <!-- Jamie's WebSockets script -->
+    <script type="text/javascript" src="js/sockets/unityClient.js"></script>
+    <script type="text/javascript" src="js/sockets/webSockets.js"></script>
+    <script type="text/javascript" charset="UTF-8">
+        var config = {
+            "onOpen": function() {
+                console.log("WebSocket opened.");
+            },
+            "onMessage": function(msg) {
+                console.log("Server responded: " + msg);
+            },
+            "onClose": function() {
+                console.log("WebSocket closed.");
+            }
+        };
+
+        window.onload = function() {
+            if ("WebSocket" in window) {
+                console.log("WebSockets are available!");
+            } else {
+                alert("WebSockets are not supported in this browser");
+            }
+        };
+
+        function buildCommand() {
+            var objectName = document.getElementById("buildCommandObjectName").value;
+            UnityClient.buildCommand(objectName);
+        }
+
+        function open() {
+            var url = document.getElementById("url");
+            openWebSocket(url.value, config);
+        }
+
+        function close() {
+            closeWebSocket();
+        }
+    </script>
+</body>
+</html>

@@ -31,7 +31,7 @@ namespace AI.States.SimpleSkeleton
 
         public void OnFixedUpdate()
         {
-//            _mob.transform.Rotate(Vector3.up, Time.deltaTime*_mob.RotateSpeed);
+            _mob.transform.Rotate(Vector3.up, Time.deltaTime*_mob.RotateSpeed);
         }
     }
 }
