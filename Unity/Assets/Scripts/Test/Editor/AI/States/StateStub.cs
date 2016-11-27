@@ -8,9 +8,11 @@ namespace Test.AI.States
 {
     class StateStub : IState
     {
+        public bool HasEntered = false;
+
         public void OnEnter()
         {
-            throw new NotImplementedException();
+            HasEntered = true;
         }
 
         public void OnUpdate()

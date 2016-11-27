@@ -65,10 +65,10 @@ namespace Test.AI.States
         }
 
         [Test]
-        public void givenTwoStatesThatHaveATransition_whenChangingToState_updateCurrentStateCorrectly()
+        public void givenTwoStatesThatHaveATransition_whenChangingToState_updateCurrentStateCorrectlyAndCallOnEnterCorrectly()
         {
-            IState stateOne = new StateStub();
-            IState stateTwo = new StateStub();
+            StateStub stateOne = new StateStub();
+            StateStub stateTwo = new StateStub();
 
             _stateManager.AddState((int) States.Meow, stateOne);
             _stateManager.AddState((int) States.Woof, stateTwo);
@@ -77,6 +77,7 @@ namespace Test.AI.States
             _stateManager.ChangeToState((int) States.Woof);
 
             Assert.AreEqual(stateTwo, _stateManager.GetCurrentState());
+            Assert.IsTrue(stateTwo.HasEntered);
         }
 
     }

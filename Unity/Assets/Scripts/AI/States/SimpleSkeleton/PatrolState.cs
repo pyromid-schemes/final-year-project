@@ -14,6 +14,7 @@ namespace AI.States.SimpleSkeleton
 
         public void OnEnter()
         {
+            _mob.ToIdleState();
         }
 
         public void OnUpdate()
@@ -21,10 +22,12 @@ namespace AI.States.SimpleSkeleton
             RaycastHit hit;
             for (float i = -90f; i < 90f; i++)
             {
-                Vector3 direction = _mob.transform.forward - _mob.transform.right*i;
-                if (Physics.Raycast(_mob.transform.position, direction, out hit) && hit.collider.CompareTag("Player"))
+                Vector3 direction = _mob.Eyes.forward - _mob.Eyes.right*i;
+
+                if (Physics.Raycast(_mob.Eyes.position, direction, out hit) && hit.collider.CompareTag("Player"))
                 {
                     _mob.ChangeState(SimpleSkeletonController.States.Pursue);
+                    break;
                 }
             }
         }

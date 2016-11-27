@@ -47,7 +47,7 @@ namespace AI.States
             _transitionTable[stateId] = new List<int>();
         }
 
-        public void AddTransition(int initialStateId, int stateIdToTransitionTo)
+        public void AddTransition(int initialStateId, int stateIdToTransitionTo )
         {
             _transitionTable[initialStateId].Add(stateIdToTransitionTo);
         }
@@ -57,10 +57,11 @@ namespace AI.States
             if (_transitionTable[_currentStateId].Contains(stateId))
             {
                 _currentStateId = stateId;
+                _stateTable[_currentStateId].OnEnter();
             }
             else
             {
-                throw new InvalidStateTransitionException("You cannot transition to this state!");
+                throw new InvalidStateTransitionException("You cannot transition to this state! (StateID : " + stateId + " )");
             }
         }
     }
