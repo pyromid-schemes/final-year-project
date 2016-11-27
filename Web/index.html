@@ -50,10 +50,12 @@
             "onOpen": function() {
                 console.log("WebSocket opened.");
             },
-            "onMessage": function(msg) {
-                console.log("Server responded with JSON:");
-                for (var i = 0; i<msg.length;i++) {
-                    console.log("Room: " + msg[i].objectId + ", xPos: " + msg[i].xPos + ", zPos: " + msg[i].zPos);
+            "onMessage": {
+                "worldStatus": function(msg) {
+                    console.log("Server sent worldStatus message:");
+                    for (var i = 0; i<msg.length;i++) {
+                        console.log("Room: " + msg[i].objectId + ", xPos: " + msg[i].xPos + ", zPos: " + msg[i].zPos);
+                    }
                 }
             },
             "onClose": function() {

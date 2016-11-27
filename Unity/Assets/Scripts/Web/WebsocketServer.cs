@@ -89,7 +89,9 @@ namespace Web
 		private string FormatGameWorldAsJson(HashSet<PlacedPrefab> gameWorld)
 		{
 			StringBuilder sb = new StringBuilder ();
-			sb.Append ("[");
+			sb.Append ("{");
+			sb.Append ("\"command\":\"worldStatus\",");
+			sb.Append ("\"objects\":[");
 
 			foreach (PlacedPrefab p in gameWorld) {
 				sb.Append ("{");
@@ -99,7 +101,7 @@ namespace Web
 				sb.Append ("},");
 			}
 			sb.Remove (sb.Length - 1, 1);
-			sb.Append ("]");
+			sb.Append ("]}");
 
 			return sb.ToString ();
 		}
