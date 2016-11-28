@@ -3,17 +3,14 @@ using System.Collections;
 
 public class MockController : MonoBehaviour
 {
-
     private CharacterController controller;
     private float speed = 3f;
     private const float MeleeMaxRange = 3f;
-    private Animator animator;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        Cursor.lockState = CursorLockMode.Locked;
-        animator = GetComponent<Animator>();
+        DisableAndLockMouseCursorToScreen();
     }
 
     void Update()
@@ -23,18 +20,7 @@ public class MockController : MonoBehaviour
 
         UpdatePositionOfCharacterIgnoringCollisions(horizontal, vertical);
         UpdateCharactersFowardPositionForCollisions(vertical);
-
-        if (Input.GetKeyDown("escape"))
-        {
-            Cursor.lockState = CursorLockMode.None;
-        }
-
-        if (Input.GetButtonDown("Fire1"))
-        {
-            Debug.Log("left mouse down for fire");
-            animator.Play("Attack");
-        }
-
+        IfEscapeIsPressedEnableMouseCursor();
     }
 
     private void UpdatePositionOfCharacterIgnoringCollisions(float horizontal, float vertical)
@@ -48,4 +34,19 @@ public class MockController : MonoBehaviour
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         controller.SimpleMove(forward * vertical);
     }
+
+    private void DisableAndLockMouseCursorToScreen()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    private void IfEscapeIsPressedEnableMouseCursor()
+    {
+        if (Input.GetKeyDown("escape"))
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
+    }
+
+
 }

@@ -195,6 +195,7 @@ GameObject:
   - 65: {fileID: 65000013748979804}
   - 95: {fileID: 95000010635277432}
   - 114: {fileID: 114000011289772676}
+  - 114: {fileID: 114000010087592710}
   m_Layer: 0
   m_Name: MockVRPlayer
   m_TagString: Untagged
@@ -1000,6 +1001,17 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114000010087592710
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011417705008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ce20c7129cb01b429c8d78386b9a498, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114000011289772676
 MonoBehaviour:
   m_ObjectHideFlags: 1
