@@ -16,7 +16,7 @@ namespace Spawn
 			spawnQueue = new List<PositionalGameObject> ();
 			gameWorld = new HashSet<PlacedPrefab> ();
 			queueActive = false;
-			AddRoomPrefab ("room-1", 0, 0);
+			AddRoomPrefab ("room1", 0, 0);
 		}
 	
 		void Update ()
