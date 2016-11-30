@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Web Client Test</title>
     <link rel="stylesheet" type="text/css" href="css/styles.css"/>
+    <link rel="icon" href="favicon.ico">
 </head>
 <body>
     <!-- Nav bar -->
@@ -36,18 +37,12 @@
     <!-- Include JS scripts after page DOM has loaded -->
     <script src="js/phaser/phaser.min.js"></script>
 
-    <!-- ToDo: Compile these into one file? -->
-    <script src="js/data/tilemaps.js"></script>
-    <script src="js/data/rooms.js"></script>
-    <script src="js/game.js"></script>
-    <script src="js/map.js"></script>
-    <script src="js/builder.js"></script>
-    <script src="js/property.js"></script>
+    <!-- Game minified -->
+    <script src="js/bin/game.min.js"></script>
 
 
-    <!-- Jamie's WebSockets script -->
-    <script type="text/javascript" src="js/sockets/unityClient.js"></script>
-    <script type="text/javascript" src="js/sockets/webSockets.js"></script>
+    <!-- Jamie's WebSockets scripts minified -->
+    <script src="js/bin/networking.min.js"></script>
     <script type="text/javascript" charset="UTF-8">
         var config = {
             "onOpen": function() {
@@ -56,17 +51,8 @@
                 document.getElementById("closeWSButton").disabled = false;
             },
             "onMessage": {
-                "worldStatus": function(msg) {
-                    console.log("Server sent worldStatus message:");
-                    for (var i = 0; i<msg.length;i++) {
-                        console.log("Room: " + msg[i].objectId + ", xPos: " + msg[i].xPos + ", zPos: " + msg[i].zPos);
-                    }
-                },
-                "vrPosition": function (msg) {
-                    // By default (defined in Unity) this will be called 30x a second
-                    console.log("Server sent vrPosition message:");
-                    console.log("xPos: " + msg.xPos + ", zPos: " + msg.zPos);
-                }
+                "worldStatus": game.worldStatusUpdate,
+                "vrPosition": game.vrPositionUpdate
             },
             "onClose": function() {
                 console.log("WebSocket closed.");
