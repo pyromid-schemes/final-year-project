@@ -8,21 +8,24 @@ namespace Spawn
 		public PrefabMap prefabs;
 
 		private bool queueActive;
-		private List<PositionalGameObject> objectsToBeBuilt;
+		private List<PositionalGameObject> spawnQueue;
+		private HashSet<PlacedPrefab> gameWorld;
 
 		void Start ()
 		{
-			objectsToBeBuilt = new List<PositionalGameObject> ();
+			spawnQueue = new List<PositionalGameObject> ();
+			gameWorld = new HashSet<PlacedPrefab> ();
 			queueActive = false;
+			AddRoomPrefab ("room1", 0, 0);
 		}
 	
 		void Update ()
 		{
 			if (queueActive) {
-				for (int i = 0; i < objectsToBeBuilt.Count; i++) {
-					var obj = (GameObject)Instantiate (objectsToBeBuilt [i].gameObj, objectsToBeBuilt[i].position, Quaternion.identity);
+				for (int i = 0; i < spawnQueue.Count; i++) {
+					var obj = (GameObject)Instantiate (spawnQueue [i].gameObj, spawnQueue[i].position, Quaternion.identity);
 					obj.SetActive (true);
-					objectsToBeBuilt.RemoveAt (i);
+					spawnQueue.RemoveAt (i);
 				}
 				queueActive = false;
 			}
@@ -30,13 +33,22 @@ namespace Spawn
 
 		public void AddRoomPrefab (string objectId, int xPos, int zPos)
 		{
+			// TODO change where the name of the room is resolved
 			GameObject room = prefabs.GetGameObject (objectId);
 			if (room == null) {
 				return;
 			}
 
 			queueActive = true;
-			objectsToBeBuilt.Add(new PositionalGameObject (room, new Vector3 (xPos, 0, zPos)));
+			Vector3 position = new Vector3 (xPos, 0, zPos);
+
+			spawnQueue.Add(new PositionalGameObject (room, position));
+			gameWorld.Add (new PlacedPrefab (objectId, position));
+		}
+
+		public HashSet<PlacedPrefab> GetGameWorld()
+		{
+			return gameWorld;
 		}
 	}
 

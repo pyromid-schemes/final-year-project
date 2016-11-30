@@ -14,7 +14,14 @@ function openWebSocket(ipAddress, config) {
 	ws.onmessage = function(evt) {
 		var reader = new FileReader();
 		reader.addEventListener("loadend", function(e) {
-			config.onMessage(e.target.result);
+			var msg = JSON.parse(e.target.result.substring(1));
+			if (msg.hasOwnProperty("command")) {
+				switch (msg.command) {
+					case "worldStatus":
+						config.onMessage.worldStatus(msg.objects);
+						break;
+				}
+			}
 		});
 		reader.readAsText(evt.data);
 	};

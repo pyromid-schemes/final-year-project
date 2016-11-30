@@ -16,8 +16,8 @@ namespace Spawn
 		{
 			map = new Dictionary<string, GameObject> ();
 
-			map.Add ("room-1", room1);
-			map.Add ("room-2", room2);
+			map.Add ("room1", room1);
+			map.Add ("room2", room2);
 		}
 
 		public GameObject GetGameObject(string name)
