@@ -5,17 +5,18 @@ namespace AI.MobControllers
 {
     abstract class SimpleMobController : MonoBehaviour
     {
-        protected StateManager _stateManager;
+        protected StateManager StateManager;
+        protected Animator Anim;
 
         // Update is called once per frame
         void Update()
         {
-            _stateManager.GetCurrentState().OnUpdate();
+            StateManager.GetCurrentState().OnUpdate();
         }
 
         void FixedUpdate()
         {
-            _stateManager.GetCurrentState().OnFixedUpdate();
+            StateManager.GetCurrentState().OnFixedUpdate();
         }
     }
 }

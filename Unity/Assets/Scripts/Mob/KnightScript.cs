@@ -94,7 +94,7 @@ public class KnightScript : MonoBehaviour {
     }
 
     void SetIdle(bool isIdle) {
-        animator.SetBool("isIdle", isIdle);
+        animator.SetBool("isIdling", isIdle);
     }
 
     void SetAttack(bool isAttack)
