@@ -18,13 +18,16 @@ var game = {
     builderView: null,
     propertyView: null,
 
+    redraws: 0, /// DEBUG 
+
     preload: function() {
         /** Builder view section */
         // Buttons
-        game.phaser.load.image('builder-button-chengy', 'assets/buttons/button4.png');
-        game.phaser.load.image('builder-button-chengy4doors', 'assets/buttons/chengy-room-4doors.png');
-        game.phaser.load.image('builder-button-lava5x3', 'assets/buttons/lava-5x3.png');
-        game.phaser.load.image('builder-button-chengy-door-up', 'assets/buttons/chengy-room-door-up.png');
+        game.phaser.load.image(Rooms.chengy_room.builderButton.key, Rooms.chengy_room.builderButton.image);
+        game.phaser.load.image(Rooms.chengy_room4doors.builderButton.key, Rooms.chengy_room4doors.builderButton.image);
+        game.phaser.load.image(Rooms.chengy_room_5x3.builderButton.key, Rooms.chengy_room_5x3.builderButton.image);
+        game.phaser.load.image(Rooms.chengy_room_door_up.builderButton.key, Rooms.chengy_room_door_up.builderButton.image);
+        game.phaser.load.image(Rooms.l_shape_room.builderButton.key, Rooms.l_shape_room.builderButton.image);
         // Selector
         game.phaser.load.image('builder-button-selector', 'assets/buttons/selector.png');
 
@@ -32,15 +35,15 @@ var game = {
         /** World view section */
         // Tiles
         game.phaser.load.image('tile-empty-16', 'assets/buttons/empty-tile-16.png');
-        // Tilemaps
-        game.phaser.load.atlas('tilemap-chengy', 'assets/tilemaps/chengy-room.png', 'assets/tilemaps/tilemap.json');
-        game.phaser.load.atlas('tilemap-lava', 'assets/tilemaps/lava-room.png', 'assets/tilemaps/tilemap.json');
+        // TileMaps
+        game.phaser.load.atlas(Tilemaps.chengy.tilemapKey, Tilemaps.chengy.tilemapPath, 'assets/tilemaps/tilemap.json');
+        game.phaser.load.atlas(Tilemaps.lava.tilemapKey, Tilemaps.lava.tilemapPath, 'assets/tilemaps/tilemap.json');
+        game.phaser.load.atlas(Tilemaps.ghostRoom.placeable.tilemapKey, Tilemaps.ghostRoom.placeable.tilemapPath, 'assets/tilemaps/tilemap.json');
+        game.phaser.load.atlas(Tilemaps.ghostRoom.nonplaceable.tilemapKey, Tilemaps.ghostRoom.nonplaceable.tilemapPath, 'assets/tilemaps/tilemap.json');
 
     },
 
     create: function(){
-        game.phaser.canvas.oncontextmenu = function (e) { e.preventDefault(); };
-
         // Initialize the graphics object for drawing things
         var graphics = game.phaser.add.graphics(0, 0);
         window.graphics = graphics;
@@ -54,13 +57,17 @@ var game = {
         // Setup object classes
         game.mapObject = Map; game.mapObject.create(game);
         game.builderObject = Builder; game.builderObject.create(game);
-        game.propertyObject = new Property(game);
+        game.propertyObject = Property; game.propertyObject.create(game);
 
         // Input callbacks
         game.phaser.input.onDown.add(game.onDown, this);
         game.phaser.input.onUp.add(game.onUp, this);
         game.phaser.input.addMoveCallback(game.onMove, this);
         game.phaser.input.addMoveCallback(game.onMove, this);
+        game.phaser.input.keyboard.onDownCallback = game.keyOnDown;
+
+        // Prevents right clicks from opening the context menu
+        game.phaser.canvas.oncontextmenu = function (e) { e.preventDefault(); };
     },
 
     // On update
@@ -73,7 +80,7 @@ var game = {
 
     // On mouse press
     onDown: function(e){
-        var mouseCoords = getAccurateCoords(game.phaser.input.activePointer);
+        var mouseCoords = getAccurateCoords();
 
         // If the click is within the mapView - delegate to the Map object
         if(isPointWithinRect(mouseCoords, game.mapView)){
@@ -89,18 +96,27 @@ var game = {
         game.mapObject.onMove(e);
     },
 
+    // When a keyboard press happens
+    keyOnDown: function(e){
+        game.mapObject.keyOnDown(e);
+        game.builderObject.keyOnDown(e);
+    },
+
     // Sends a message to the Unity client
     sendMessage: function(objectId, xPos, yPos){
         UnityClient.buildCommand(objectId, xPos, yPos);
     }
 };
-game.start();
+window.addEventListener('load', function(){
+    game.start();
+});
 
-//So... phaser seems to have a dodge mouse-to-coordinate system - this corrects that
-function getAccurateCoords(pointer){
+//So... Phaser seems to have a dodge mouse-to-coordinate system - this corrects that
+function getAccurateCoords(){
+    var pointer = game.phaser.input.activePointer;
     return {x: pointer.x - 1, y: pointer.y - 2};
 }
 //This checks whether a point is within a rect
 function isPointWithinRect(point, rect){
-    return ( point.x >= rect.x && point.y >= rect.y && point.x < rect.x + rect.w && point.y < rect.y + rect.h );
+    return ( point.x >= rect.x && point.y >= rect.y && point.x <= rect.x + rect.w && point.y <= rect.y + rect.h );
 }
