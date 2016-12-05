@@ -16,7 +16,7 @@ namespace Spawn
 			spawnQueue = new List<PositionalGameObject> ();
 			gameWorld = new HashSet<PlacedPrefab> ();
 			queueActive = false;
-			AddRoomPrefab ("room1", 0, 0);
+			AddPrefab ("room1", 0, 0);
 		}
 	
 		void Update ()
@@ -31,18 +31,18 @@ namespace Spawn
 			}
 		}
 
-		public void AddRoomPrefab (string objectId, int xPos, int zPos)
+		public void AddPrefab (string objectId, int xPos, int zPos)
 		{
 			// TODO change where the name of the room is resolved
-			GameObject room = prefabs.GetGameObject (objectId);
-			if (room == null) {
+			GameObject obj = prefabs.GetGameObject (objectId);
+			if (obj == null) {
 				return;
 			}
 
 			queueActive = true;
 			Vector3 position = new Vector3 (xPos, 0, zPos);
 
-			spawnQueue.Add(new PositionalGameObject (room, position));
+			spawnQueue.Add(new PositionalGameObject (obj, position));
 			gameWorld.Add (new PlacedPrefab (objectId, position));
 		}
 

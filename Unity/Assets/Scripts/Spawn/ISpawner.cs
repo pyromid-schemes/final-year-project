@@ -4,7 +4,7 @@ namespace Spawn
 {
 	public interface ISpawner
 	{
-		void AddRoomPrefab (string objectId, int xPos, int zPos);
+		void AddPrefab (string objectId, int xPos, int zPos);
 	}
 }
 
