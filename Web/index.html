@@ -51,6 +51,8 @@
     <script type="text/javascript" src="js/sockets/unityClient.js"></script>
     <script type="text/javascript" src="js/sockets/webSockets.js"></script>
     <script type="text/javascript" charset="UTF-8">
+	var posCount = 0;
+	var prevPosCount = 0;
         var config = {
             "onOpen": function() {
                 console.log("WebSocket opened.");
@@ -61,7 +63,12 @@
                     for (var i = 0; i<msg.length;i++) {
                         console.log("Room: " + msg[i].objectId + ", xPos: " + msg[i].xPos + ", zPos: " + msg[i].zPos);
                     }
-                }
+                },
+		"vrPosition": function(msg) {
+		    console.log("Server sent vrPosition message:");
+		    console.log("xPos: " + msg.xPos + ", zPos: " + msg.zPos);
+		    posCount++;
+		}
             },
             "onClose": function() {
                 console.log("WebSocket closed.");
@@ -74,6 +81,12 @@
             } else {
                 alert("WebSockets are not supported in this browser");
             }
+	    setInterval(function() {
+		    if (posCount != prevPosCount) {
+			    console.log(posCount - prevPosCount);
+			    prevPosCount = posCount;
+		    }
+	    }, 1000);
         };
 
         function buildCommand() {

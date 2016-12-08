@@ -6,6 +6,7 @@ namespace World
 	public class WorldManager : MonoBehaviour, IWorldManager
 	{
 		public PrefabMap prefabs;
+		public GameObject vrPlayer;
 
 		private bool queueActive;
 		private List<PositionalGameObject> spawnQueue;
@@ -16,7 +17,7 @@ namespace World
 			spawnQueue = new List<PositionalGameObject> ();
 			gameWorld = new HashSet<PlacedPrefab> ();
 			queueActive = false;
-			AddPrefab ("room1", 0, 0);
+			AddPrefab ("room2", 0, 0);
 		}
 	
 		void Update ()
@@ -49,6 +50,11 @@ namespace World
 		public HashSet<PlacedPrefab> GetGameWorld()
 		{
 			return gameWorld;
+		}
+
+		public Vector3 GetVRPosition()
+		{
+			return vrPlayer.transform.position;
 		}
 	}
 

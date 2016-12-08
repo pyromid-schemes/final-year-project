@@ -12,16 +12,17 @@ namespace Web
 {
 	class WebsocketServer : MonoBehaviour
 	{
-		public WorldManager spawner;
+		public WorldManager worldManager;
 
 		private int clientSocket = -1;
 		private bool clientInitialised = false;
 		private CommandResolver commandResolver;
+		private WebsocketClient wsClient = null;
 
 
 		void Start ()
 		{
-			commandResolver = new CommandResolver (spawner);
+			commandResolver = new CommandResolver (worldManager);
 
 			NetworkTransport.Init ();
 
@@ -63,27 +64,37 @@ namespace Web
 					if (recHostId == clientSocket) {
 						Debug.Log ("Client connected to " + connectionId.ToString () + "!");
 
-						byte[] gameWorld = System.Text.Encoding.UTF8.GetBytes(FormatGameWorldAsJson(spawner.GetGameWorld()));
+						byte[] gameWorld = ToByteArray(FormatGameWorldAsJson(worldManager.GetGameWorld()));
 						NetworkTransport.Send(recHostId, connectionId, channelId, gameWorld, gameWorld.Length, out error); 
+						wsClient = new WebsocketClient(recHostId, connectionId, channelId);
 					}
 					break;
 
 				case NetworkEventType.DataEvent:
 					if (recHostId == clientSocket) {
-						string msg = System.Text.Encoding.UTF8.GetString (buffer);
-						Debug.Log (msg);
-						commandResolver.ResolveMessage(msg);
+						commandResolver.ResolveMessage(FromByteArray (buffer));
 					}
 					break;
 
 				case NetworkEventType.DisconnectEvent:
 					if (recHostId == clientSocket) {
 						Debug.Log ("Client has disconnected");
+						wsClient = null;
 					}
 					break;
 				}
-
+					
 			} while (networkEvent != NetworkEventType.Nothing);
+		}
+
+		void FixedUpdate()
+		{
+			if (wsClient != null) {
+				byte[] position = ToByteArray(FormatVRPositionAsJson(worldManager.GetVRPosition ()));
+				byte error;
+
+				NetworkTransport.Send (wsClient.GetHostId(), wsClient.GetConnectionId(), wsClient.GetChannelId(), position, position.Length, out error);
+			}
 		}
 
 		private string FormatGameWorldAsJson(HashSet<PlacedPrefab> gameWorld)
@@ -104,6 +115,29 @@ namespace Web
 			sb.Append ("]}");
 
 			return sb.ToString ();
+		}
+
+		private string FormatVRPositionAsJson(Vector3 position)
+		{
+			StringBuilder sb = new StringBuilder ();
+			sb.Append ("{");
+			sb.Append ("\"command\":\"vrPosition\",");
+			sb.Append ("\"position\": {");
+			sb.Append (string.Format("\"xPos\":{0},", position.x));
+			sb.Append (string.Format("\"zPos\":{0}", position.z));
+			sb.Append ("}}");
+
+			return sb.ToString ();
+		}
+
+		private byte[] ToByteArray(string s)
+		{
+			return System.Text.Encoding.UTF8.GetBytes (s);
+		}
+
+		private string FromByteArray(byte[] b)
+		{
+			return System.Text.Encoding.UTF8.GetString (b);
 		}
 	}
 }
