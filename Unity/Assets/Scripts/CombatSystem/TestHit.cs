@@ -1,12 +1,17 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System;
 
 public class TestHit : Damageable {
-   
+
+    GameObject self;
 
     public TestHit() : base(2)
     {
+    }
+
+    void Start()
+    {
+        self = this.gameObject;
+        Debug.Log(self);
     }
 
     void OnTriggerEnter(Collider other)
@@ -28,7 +33,7 @@ public class TestHit : Damageable {
 
     protected override void OnDeath()
     {
-        Debug.Log(this.gameObject.ToString());     
-        GameObject.Destroy(this.gameObject);
+        Debug.Log(this.gameObject.ToString());
+        GameObject.DestroyObject(self);
     }
 }
