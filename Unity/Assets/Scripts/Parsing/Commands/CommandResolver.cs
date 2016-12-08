@@ -26,7 +26,7 @@ namespace Parsing.Commands
 			switch (command.GetCommandType ()) {
 			case CommandType.BUILD:
 				var buildCommand = (BuildCommand)command;
-				spawner.AddRoomPrefab (buildCommand.GetObjectId (), buildCommand.GetXPos (), buildCommand.GetZPos ());
+				spawner.AddPrefab (buildCommand.GetObjectId (), buildCommand.GetXPos (), buildCommand.GetZPos ());
 				break;
 			}
 		}

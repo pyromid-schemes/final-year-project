@@ -59,7 +59,7 @@ namespace Test.Parsing.Commands
 			private int expectedXPos;
 			private int expectedZPos;
 			
-			public void AddRoomPrefab (string objectId, int xPos, int zPos)
+			public void AddPrefab (string objectId, int xPos, int zPos)
 			{
 				called = true;
 
