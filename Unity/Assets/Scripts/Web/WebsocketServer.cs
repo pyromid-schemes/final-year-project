@@ -13,12 +13,13 @@ namespace Web
 	class WebsocketServer : MonoBehaviour
 	{
 		public WorldManager worldManager;
+		public float updatesPerSecond = 30.0f;
 
 		private int clientSocket = -1;
 		private bool clientInitialised = false;
 		private CommandResolver commandResolver;
 		private WebsocketClient wsClient = null;
-
+//		private float nextUpdate = 0f;
 
 		void Start ()
 		{
@@ -67,6 +68,7 @@ namespace Web
 						byte[] gameWorld = ToByteArray(FormatGameWorldAsJson(worldManager.GetGameWorld()));
 						NetworkTransport.Send(recHostId, connectionId, channelId, gameWorld, gameWorld.Length, out error); 
 						wsClient = new WebsocketClient(recHostId, connectionId, channelId);
+						InvokeRepeating ("SendVRPosition", 0f, 1.0f/updatesPerSecond);
 					}
 					break;
 
@@ -80,6 +82,7 @@ namespace Web
 					if (recHostId == clientSocket) {
 						Debug.Log ("Client has disconnected");
 						wsClient = null;
+						CancelInvoke("SendVRPosition");
 					}
 					break;
 				}
@@ -87,14 +90,13 @@ namespace Web
 			} while (networkEvent != NetworkEventType.Nothing);
 		}
 
-		void FixedUpdate()
+		void SendVRPosition()
 		{
-			if (wsClient != null) {
-				byte[] position = ToByteArray(FormatVRPositionAsJson(worldManager.GetVRPosition ()));
-				byte error;
+			Debug.Log ("sending pos");
+			byte[] position = ToByteArray(FormatVRPositionAsJson(worldManager.GetVRPosition ()));
+			byte error;
 
-				NetworkTransport.Send (wsClient.GetHostId(), wsClient.GetConnectionId(), wsClient.GetChannelId(), position, position.Length, out error);
-			}
+			NetworkTransport.Send (wsClient.GetHostId(), wsClient.GetConnectionId(), wsClient.GetChannelId(), position, position.Length, out error);
 		}
 
 		private string FormatGameWorldAsJson(HashSet<PlacedPrefab> gameWorld)
