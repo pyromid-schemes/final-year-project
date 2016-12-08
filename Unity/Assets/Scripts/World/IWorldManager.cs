@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Spawn
+namespace World
 {
-	public interface ISpawner
+	public interface IWorldManager
 	{
 		void AddPrefab (string objectId, int xPos, int zPos);
 	}

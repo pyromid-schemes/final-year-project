@@ -4,7 +4,7 @@ using UnityEngine.Networking;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Parsing.Commands;
-using Spawn;
+using World;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,7 +12,7 @@ namespace Web
 {
 	class WebsocketServer : MonoBehaviour
 	{
-		public Spawner spawner;
+		public WorldManager spawner;
 
 		private int clientSocket = -1;
 		private bool clientInitialised = false;

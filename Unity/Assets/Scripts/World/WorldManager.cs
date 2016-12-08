@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-namespace Spawn
+namespace World
 {
-	public class Spawner : MonoBehaviour, ISpawner
+	public class WorldManager : MonoBehaviour, IWorldManager
 	{
 		public PrefabMap prefabs;
 
