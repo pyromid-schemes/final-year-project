@@ -256,6 +256,11 @@ Prefab:
       propertyPath: worldManager
       value: 
       objectReference: {fileID: 1912315223}
+    - target: {fileID: 114000011110684770, guid: bf0be37f061fa4215b222831552cacea,
+        type: 2}
+      propertyPath: updatesPerSecond
+      value: 60
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bf0be37f061fa4215b222831552cacea, type: 2}
   m_IsPrefabParent: 0

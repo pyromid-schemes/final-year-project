@@ -13,12 +13,13 @@ namespace Web
 	class WebsocketServer : MonoBehaviour
 	{
 		public WorldManager worldManager;
-		public float updatesPerSecond = 30.0f;
 
 		private int clientSocket = -1;
 		private bool clientInitialised = false;
 		private CommandResolver commandResolver;
 		private WebsocketClient wsClient = null;
+
+		private float updatesPerSecond = 30.0f;
 		private float nextUpdate = 0f;
 
 		void Start ()
@@ -91,9 +92,11 @@ namespace Web
 		void FixedUpdate()
 		{
 			if (wsClient != null) {
-				float currentTime = Time.time;
-				if (currentTime >= nextUpdate) {
-					nextUpdate = currentTime + (1.0f/updatesPerSecond);
+				if (nextUpdate == 0) {
+					nextUpdate = Time.time + (1.0f / updatesPerSecond);
+					SendVRPosition ();
+				} else if (Time.time > nextUpdate) {
+					nextUpdate += (1.0f / updatesPerSecond);
 					SendVRPosition ();
 				}
 			}
