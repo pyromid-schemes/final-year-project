@@ -46,33 +46,13 @@ namespace VirtualReality
                 case MovementType.TouchJoystick:
                     if (Device.GetTouch(SteamVR_Controller.ButtonMask.Touchpad))
                     {
-                        // Work out where the tracked object is facing
-                        float currentAngleOfRotation = RotationTrackedObject.transform.eulerAngles.y;
-                        // Find the angle between where we pressed and above
-                        Vector2 touchPad = Device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
-                        float anglePressed = Vector2.Angle(new Vector2(0f, 1f), touchPad);
-                        // Work out and apply that direction as a vector
-                        float directionAngle = touchPad.x > 0 ? currentAngleOfRotation + anglePressed : currentAngleOfRotation - anglePressed;
-                        Vector2 movementVector = YRotationAsVector2(directionAngle);
-                        Player.transform.Translate(
-                           movementVector.x * Speed * Time.deltaTime, 0f,
-                           movementVector.y * Speed * Time.deltaTime);
+                        MovePlayerWithTouchpad();
                     }
                     break;
                 case MovementType.PressJoystick:
                     if (Device.GetPress(SteamVR_Controller.ButtonMask.Touchpad))
                     {
-                        // Work out where the tracked object is facing
-                        float currentAngleOfRotation = RotationTrackedObject.transform.eulerAngles.y;
-                        // Find the angle between where we pressed and above
-                        Vector2 touchPad = Device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
-                        float anglePressed = Vector2.Angle(new Vector2(0f, 1f), touchPad);
-                        // Work out and apply that direction as a vector
-                        float directionAngle = touchPad.x > 0 ? currentAngleOfRotation + anglePressed : currentAngleOfRotation - anglePressed;
-                        Vector2 movementVector = YRotationAsVector2(directionAngle);
-                        Player.transform.Translate(
-                           movementVector.x * Speed * Time.deltaTime, 0f,
-                           movementVector.y * Speed * Time.deltaTime);
+                        MovePlayerWithTouchpad();
                     }
                     break;
                 case MovementType.GrabAndThrow:
@@ -80,6 +60,21 @@ namespace VirtualReality
                 case MovementType.Teleportation:
                     break;
             }
+        }
+
+        public void MovePlayerWithTouchpad()
+        {
+            // Work out where the tracked object is facing
+            float currentAngleOfRotation = RotationTrackedObject.transform.eulerAngles.y;
+            // Find the angle between where we pressed and above
+            Vector2 touchPad = Device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
+            float anglePressed = Vector2.Angle(new Vector2(0f, 1f), touchPad);
+            // Work out and apply that direction as a vector
+            float directionAngle = touchPad.x > 0 ? currentAngleOfRotation + anglePressed : currentAngleOfRotation - anglePressed;
+            Vector2 movementVector = YRotationAsVector2(directionAngle);
+            Player.transform.Translate(
+               movementVector.x * Speed * Time.deltaTime, 0f,
+               movementVector.y * Speed * Time.deltaTime);
         }
 
         Vector2 YRotationAsVector2(float angle)
