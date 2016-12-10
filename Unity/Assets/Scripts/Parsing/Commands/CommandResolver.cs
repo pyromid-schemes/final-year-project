@@ -7,13 +7,13 @@ namespace Parsing.Commands
 {
 	public class CommandResolver
 	{
-		private IWorldManager spawner;
+		private IWorldManager worldManager;
 		private ParserLibrary parserLibrary;
 
 		public CommandResolver (IWorldManager spawner)
 		{
 			parserLibrary = new ParserLibrary ();
-			this.spawner = spawner;
+			this.worldManager = spawner;
 		}
 
 		public void ResolveMessage(string msg)
@@ -26,7 +26,14 @@ namespace Parsing.Commands
 			switch (command.GetCommandType ()) {
 			case CommandType.BUILD:
 				var buildCommand = (BuildCommand)command;
-				spawner.AddPrefab (buildCommand.GetObjectId (), buildCommand.GetXPos (), buildCommand.GetZPos ());
+				worldManager.AddPrefab (buildCommand.GetObjectId (), buildCommand.GetXPos (), buildCommand.GetZPos ());
+				break;
+			case CommandType.SPAWNMOB:
+				var spawnMobCommand = (SpawnMobCommand)command;
+				Debug.Log ("objID: " + spawnMobCommand.GetObjectId () + 
+					", xPos: " + spawnMobCommand.GetXPos () + 
+					", zPos: " + spawnMobCommand.GetZPos () + 
+					", id: " + spawnMobCommand.GetId ());
 				break;
 			}
 		}
