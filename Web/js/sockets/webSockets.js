@@ -28,8 +28,8 @@ function openWebSocket(ipAddress, config) {
 		});
 		reader.readAsText(evt.data);
 	};
-	ws.onclose = function(onClose) {
-		readyToSend = false;
+    ws.onclose = function (onClose) {
+        readyToSend = false;
 		config.onClose();
 	};
 }
