@@ -21,11 +21,9 @@
             <p>Please enter the host you are connecting to and open the websocket before you send a message.</p>
             <p>When you are finished, please close the WebSocket.</p>
             <p>Make sure you check the console for now so that you can see what is going on.</p>
-            <input id="url" type="text" value="localhost">
-            <input id="message" type="text" value="some-text">
-            <a href="javascript:open()">Open WebSocket</a>
-            <a href="javascript:send()">Send Message</a>
-            <a href="javascript:close()">Close WebSocket</a>
+            <input id="url" type="text" value="localhost"/>
+            <input id="openWSButton" type="button" value="Open connection" onclick="openWebSocket(config);"/>
+            <input id="closeWSButton" type="button" value="Close connection" onclick="closeWebSocket();" disabled/>
         </div>
     </section>
 
@@ -54,6 +52,8 @@
         var config = {
             "onOpen": function() {
                 console.log("WebSocket opened.");
+                document.getElementById("openWSButton").disabled = true;
+                document.getElementById("closeWSButton").disabled = false;
             },
             "onMessage": {
                 "worldStatus": function(msg) {
@@ -62,14 +62,16 @@
                         console.log("Room: " + msg[i].objectId + ", xPos: " + msg[i].xPos + ", zPos: " + msg[i].zPos);
                     }
                 },
-		"vrPosition": function(msg) {
-		    // By default (according to unity) this will be called 30x a second
-		    console.log("Server sent vrPosition message:");
-		    console.log("xPos: " + msg.xPos + ", zPos: " + msg.zPos);
-		}
+                "vrPosition": function (msg) {
+                    // By default (defined in Unity) this will be called 30x a second
+                    console.log("Server sent vrPosition message:");
+                    console.log("xPos: " + msg.xPos + ", zPos: " + msg.zPos);
+                }
             },
             "onClose": function() {
                 console.log("WebSocket closed.");
+                document.getElementById("openWSButton").disabled = false;
+                document.getElementById("closeWSButton").disabled = true;
             }
         };
 
@@ -81,19 +83,6 @@
             }
         };
 
-        function buildCommand() {
-            var objectName = document.getElementById("buildCommandObjectName").value;
-            UnityClient.buildCommand(objectName);
-        }
-
-        function open() {
-            var url = document.getElementById("url");
-            openWebSocket(url.value, config);
-        }
-
-        function close() {
-            closeWebSocket();
-        }
     </script>
 </body>
 </html>

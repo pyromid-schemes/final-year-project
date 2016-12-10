@@ -7,8 +7,8 @@
 <body>
 <div id="main">
     <input id="url" type="text" value="localhost"/>
-    <input id="openWSButton" type="button" value="Open connection" onclick="openWS();"/>
-    <input id="closeWSButton" type="button" value="Close connection" onclick="closeWS();" disabled/>
+    <input id="openWSButton" type="button" value="Open connection" onclick="openWebSocket(config);"/>
+    <input id="closeWSButton" type="button" value="Close connection" onclick="closeWebSocket();" disabled/>
     <table>
         <tr>
             <th>command</th>
@@ -74,7 +74,7 @@
                 }
             },
             "vrPosition": function (msg) {
-                // By default (according to unity) this will be called 30x a second
+                // By default (defined in Unity) this will be called 30x a second
                 if (showPlayerMovement) {
                     writeToOutput("Server sent vrPosition message:");
                     writeToOutput("xPos: " + msg.xPos + ", zPos: " + msg.zPos);
@@ -118,15 +118,6 @@
 
     function setShowPlayerMovement() {
         showPlayerMovement = document.getElementById("showPlayerMovement").checked;
-    }
-
-    function openWS() {
-        var url = document.getElementById("url");
-        openWebSocket(url.value, config);
-    }
-
-    function closeWS() {
-        closeWebSocket();
     }
 
 </script>
