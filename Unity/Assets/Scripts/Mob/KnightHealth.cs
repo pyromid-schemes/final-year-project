@@ -2,7 +2,7 @@
 
 public class KnightHealth : Damageable {
 
-    private const int health = 5;
+    private const int health = 2;
     GameObject self;
 
     public KnightHealth() : base(health)
@@ -13,27 +13,38 @@ public class KnightHealth : Damageable {
     {
         self = this.gameObject;
     }
-
-    void OnTriggerEnter(Collider other)
+    void OnTriggerEnter()
     {
-        if (IsColliding())
-        {
-            return;
-        }
-
-        SetColliding(true);
-
-        if (CollisionIsFromADamageSource(other.gameObject.tag))
-        {
-            int damage = other.GetComponent<Weapon>().GetDamage();
-            ApplyDamage(damage);
-        }
-
-        if(HealthIsZero())
+        Debug.Log(health);
+        if (HealthIsZero())
         {
             OnDeath();
         }
     }
+    /*
+        void OnTriggerEnter(Collider other)
+        {
+            if (IsColliding())
+            {
+                return;
+            }
+
+            SetColliding(true);
+
+            if (CollisionIsFromADamageSource(other.gameObject.tag))
+            {
+                int damage = other.GetComponent<Weapon>().GetDamage();
+                ApplyDamage(damage);
+            }
+
+
+            if(HealthIsZero())
+            {
+                OnDeath();
+            }
+        }
+    */
+
 
     protected override void OnDeath()
     {

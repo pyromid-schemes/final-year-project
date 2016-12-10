@@ -22,13 +22,14 @@ public abstract class Damageable : MonoBehaviour {
         return damageSource.Equals("Weapon");
     }
 
-    protected void ApplyDamage(int damage)
+    public void ApplyDamage(int damage)
     {
         health -= damage;
     }
 
     protected bool HealthIsZero()
     {
+        Debug.Log(health);
         return health == 0;
     }
 

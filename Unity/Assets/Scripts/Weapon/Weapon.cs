@@ -13,4 +13,24 @@ public abstract class Weapon : MonoBehaviour
     {
         return damage;
     }
+
+    void OnTriggerEnter(Collider other) {
+        bool blocked = false;
+
+        if (other.gameObject.tag.Equals("Shield"))
+        {
+            blocked = true;
+        }
+
+        if (other.gameObject.tag.Equals("Monster"))
+        {
+            int totalDamage = 0;
+            if (!blocked)
+            {
+                totalDamage += damage;
+            }
+            
+            other.gameObject.SendMessage("ApplyDamage",totalDamage);
+        }
+    }
 }
