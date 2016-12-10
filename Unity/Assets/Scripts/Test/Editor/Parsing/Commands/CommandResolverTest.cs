@@ -51,7 +51,7 @@ namespace Test.Parsing.Commands
 			Assert.IsFalse (stubSp.WasCalled ());
 		}
 
-		private class StubSpawner : Spawn.ISpawner
+		private class StubSpawner : World.IWorldManager
 		{
 			private bool called = false;
 			

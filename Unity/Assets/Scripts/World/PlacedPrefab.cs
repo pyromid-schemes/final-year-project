@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Spawn
+namespace World
 {
 	public class PlacedPrefab
 	{

@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-namespace Spawn
+namespace World
 {
-	public class Spawner : MonoBehaviour, ISpawner
+	public class WorldManager : MonoBehaviour, IWorldManager
 	{
 		public PrefabMap prefabs;
+		public GameObject vrPlayer;
 
 		private bool queueActive;
 		private List<PositionalGameObject> spawnQueue;
@@ -16,7 +17,7 @@ namespace Spawn
 			spawnQueue = new List<PositionalGameObject> ();
 			gameWorld = new HashSet<PlacedPrefab> ();
 			queueActive = false;
-			AddPrefab ("room1", 0, 0);
+			AddPrefab ("room2", 0, 0);
 		}
 	
 		void Update ()
@@ -49,6 +50,11 @@ namespace Spawn
 		public HashSet<PlacedPrefab> GetGameWorld()
 		{
 			return gameWorld;
+		}
+
+		public Vector3 GetVRPosition()
+		{
+			return vrPlayer.transform.position;
 		}
 	}
 

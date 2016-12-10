@@ -20,6 +20,9 @@ function openWebSocket(ipAddress, config) {
 					case "worldStatus":
 						config.onMessage.worldStatus(msg.objects);
 						break;
+					case "vrPosition":
+						config.onMessage.vrPosition(msg.position);
+						break;
 				}
 			}
 		});

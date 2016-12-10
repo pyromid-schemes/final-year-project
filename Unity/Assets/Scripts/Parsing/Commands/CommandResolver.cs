@@ -1,16 +1,16 @@
 ﻿using Parsing.Commands;
 using UnityEngine;
 using System;
-using Spawn;
+using World;
 
 namespace Parsing.Commands
 {
 	public class CommandResolver
 	{
-		private ISpawner spawner;
+		private IWorldManager spawner;
 		private ParserLibrary parserLibrary;
 
-		public CommandResolver (ISpawner spawner)
+		public CommandResolver (IWorldManager spawner)
 		{
 			parserLibrary = new ParserLibrary ();
 			this.spawner = spawner;

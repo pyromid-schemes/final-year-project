@@ -61,7 +61,12 @@
                     for (var i = 0; i<msg.length;i++) {
                         console.log("Room: " + msg[i].objectId + ", xPos: " + msg[i].xPos + ", zPos: " + msg[i].zPos);
                     }
-                }
+                },
+		"vrPosition": function(msg) {
+		    // By default (according to unity) this will be called 30x a second
+		    console.log("Server sent vrPosition message:");
+		    console.log("xPos: " + msg.xPos + ", zPos: " + msg.zPos);
+		}
             },
             "onClose": function() {
                 console.log("WebSocket closed.");

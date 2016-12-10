@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Spawn
+namespace World
 {
 	public class PrefabMap : MonoBehaviour
 	{
