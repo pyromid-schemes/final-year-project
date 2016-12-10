@@ -1,31 +1,35 @@
 ﻿using UnityEngine;
 
-public class TestHit : Damageable {
+public class KnightHealth : Damageable {
 
+    private const int health = 5;
     GameObject self;
 
-    public TestHit() : base(2)
+    public KnightHealth() : base(health)
     {
     }
 
     void Start()
     {
         self = this.gameObject;
-        Debug.Log(self);
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (isColliding()) return;
+        if (IsColliding())
+        {
+            return;
+        }
+
         SetColliding(true);
 
-        if (CheckCollisionIsFromADamageSource(other.gameObject.tag))
+        if (CollisionIsFromADamageSource(other.gameObject.tag))
         {
-            Debug.Log("Mob: Im hit");
             int damage = other.GetComponent<Weapon>().GetDamage();
             ApplyDamage(damage);
         }
-        if(CheckHealthIsZero())
+
+        if(HealthIsZero())
         {
             OnDeath();
         }
@@ -33,7 +37,6 @@ public class TestHit : Damageable {
 
     protected override void OnDeath()
     {
-        Debug.Log(this.gameObject.ToString());
         GameObject.DestroyObject(self);
     }
 }
