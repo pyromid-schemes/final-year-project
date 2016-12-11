@@ -18,16 +18,21 @@ var game = {
     builderView: null,
     propertyView: null,
 
+    invalidated: false,
+
     redraws: 0, /// DEBUG 
 
     preload: function() {
         /** Builder view section */
-        // Buttons
+        // Room Buttons
         game.phaser.load.image(Rooms.chengy_room.builderButton.key, Rooms.chengy_room.builderButton.image);
         game.phaser.load.image(Rooms.chengy_room4doors.builderButton.key, Rooms.chengy_room4doors.builderButton.image);
         game.phaser.load.image(Rooms.chengy_room_5x3.builderButton.key, Rooms.chengy_room_5x3.builderButton.image);
         game.phaser.load.image(Rooms.chengy_room_door_up.builderButton.key, Rooms.chengy_room_door_up.builderButton.image);
         game.phaser.load.image(Rooms.l_shape_room.builderButton.key, Rooms.l_shape_room.builderButton.image);
+        // Mob Buttons
+        game.phaser.load.image(Mobs.ant.builderButton.key, Mobs.ant.builderButton.image);
+        game.phaser.load.image(Mobs.bear.builderButton.key, Mobs.bear.builderButton.image);
         // Selector
         game.phaser.load.image('builder-button-selector', 'assets/buttons/selector.png');
 
@@ -40,7 +45,12 @@ var game = {
         game.phaser.load.atlas(Tilemaps.lava.tilemapKey, Tilemaps.lava.tilemapPath, 'assets/tilemaps/tilemap.json');
         game.phaser.load.atlas(Tilemaps.ghostRoom.placeable.tilemapKey, Tilemaps.ghostRoom.placeable.tilemapPath, 'assets/tilemaps/tilemap.json');
         game.phaser.load.atlas(Tilemaps.ghostRoom.nonplaceable.tilemapKey, Tilemaps.ghostRoom.nonplaceable.tilemapPath, 'assets/tilemaps/tilemap.json');
+        // Mobs
+        game.phaser.load.image(Mobs.ant.sprite.key, Mobs.ant.sprite.image);
+        game.phaser.load.image(Mobs.bear.sprite.key, Mobs.bear.sprite.image);
 
+        //Player
+        game.phaser.load.image(Player.sprite.key, Player.sprite.image);
     },
 
     create: function(){
@@ -76,6 +86,11 @@ var game = {
 
     // On render
     render: function(){
+        if(game.invalidated){
+            game.invalidated = false;
+
+            game.mapObject.render();
+        }
     },
 
     // On mouse press
@@ -103,12 +118,36 @@ var game = {
     },
 
     // Sends a message to the Unity client
-    sendMessage: function(objectId, xPos, yPos){
-        UnityClient.buildCommand(objectId, xPos, yPos);
+    sendMessage: function(messageType, data){
+        switch(messageType){
+            case 'create-mob':
+                UnityClient.spawnMobCommand(data.objectId, data.xPos, data.yPos, data.id);
+                break;
+            case 'create-room':
+                UnityClient.buildCommand(data.objectId, data.xPos, data.yPos);
+                break;
+        }
+
+    },
+
+    // Messages sent from the Unity client
+    worldStatusUpdate: function(msg){
+        game.mapObject.removeAllRooms();
+        for(var i=0; i<msg.length; i++){
+            game.mapObject.placeRoomAtTopLeft(msg[i].objectId, msg[i].xPos, msg[i].zPos, false);
+        }
+        game.mapObject.redrawEverything();
+    },
+
+    vrPositionUpdate: function(msg){
+        console.log("VR position update");
+        console.log("xPos: " + msg.xPos + ", zPos: " + msg.zPos);
+        game.mapObject.setPlayerPosition(msg);
     }
 };
 window.addEventListener('load', function(){
     game.start();
+    window.game = game;
 });
 
 //So... Phaser seems to have a dodge mouse-to-coordinate system - this corrects that
@@ -120,3 +159,10 @@ function getAccurateCoords(){
 function isPointWithinRect(point, rect){
     return ( point.x >= rect.x && point.y >= rect.y && point.x <= rect.x + rect.w && point.y <= rect.y + rect.h );
 }
+function isPointWithinBoundingBox(point, rect){
+    return ( point.x >= rect.x1 && point.y >= rect.y1 && point.x <= rect.x2 && point.y <= rect.y2 );
+}
+function isXYWithinBoundingBox(x, y, rect){
+    return ( x >= rect.x1 && y >= rect.y1 && x <= rect.x2 && y <= rect.y2 );
+}
+

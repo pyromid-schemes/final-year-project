@@ -24,7 +24,6 @@ public class CombatController : MonoBehaviour {
 
     void Attack()
     {
-        Debug.Log("left mouse down for fire");
         animator.Play("Attack");
     }
 }

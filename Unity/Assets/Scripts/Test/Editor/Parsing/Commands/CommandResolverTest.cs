@@ -51,7 +51,7 @@ namespace Test.Parsing.Commands
 			Assert.IsFalse (stubSp.WasCalled ());
 		}
 
-		private class StubSpawner : Spawn.ISpawner
+		private class StubSpawner : World.IWorldManager
 		{
 			private bool called = false;
 			
@@ -59,7 +59,7 @@ namespace Test.Parsing.Commands
 			private int expectedXPos;
 			private int expectedZPos;
 			
-			public void AddRoomPrefab (string objectId, int xPos, int zPos)
+			public void AddPrefab (string objectId, int xPos, int zPos)
 			{
 				called = true;
 

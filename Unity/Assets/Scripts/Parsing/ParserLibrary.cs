@@ -13,7 +13,8 @@ namespace Parsing
 		public ParserLibrary ()
 		{
 			parsers = new List<Parser> ();
-			parsers.Add (new BuildCommandParser());
+			parsers.Add (new BuildCommandParser ());
+			parsers.Add (new SpawnMobCommandParser ());
 		}
 
 		public Command Parse(string msg)
