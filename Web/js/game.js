@@ -120,8 +120,8 @@ var game = {
     // Sends a message to the Unity client
     sendMessage: function(messageType, data){
         switch(messageType){
-            case 'create-mob':
-                UnityClient.spawnMobCommand(data.objectId, data.xPos, data.yPos, data.id);
+            case 'create-mob': 
+                UnityClient.spawnMobCommand(data.objectId, data.xPos, data.zPos, data.id);
                 break;
             case 'create-room':
                 UnityClient.buildCommand(data.objectId, data.xPos, data.yPos);
@@ -134,14 +134,12 @@ var game = {
     worldStatusUpdate: function(msg){
         game.mapObject.removeAllRooms();
         for(var i=0; i<msg.length; i++){
-            game.mapObject.placeRoomAtTopLeft(msg[i].objectId, msg[i].xPos, msg[i].zPos, false);
+            game.mapObject.placeRoomAtBottomLeft(msg[i].objectId, msg[i].xPos, msg[i].zPos, false);
         }
         game.mapObject.redrawEverything();
     },
 
     vrPositionUpdate: function(msg){
-        console.log("VR position update");
-        console.log("xPos: " + msg.xPos + ", zPos: " + msg.zPos);
         game.mapObject.setPlayerPosition(msg);
     }
 };

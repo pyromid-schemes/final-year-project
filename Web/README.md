@@ -2,7 +2,7 @@
 
 ## Install 
 
-If npm is installed run the following from the root:
+If npm is installed run the following (anywhere in the directory):
 ```
 npm install
 ```
@@ -22,9 +22,15 @@ Run this command from anywhere in the directory:
 grunt build
 ```
 
+This will run the `uglify` command which will merge all the JS files together and then star the `watch` task.
+
+What this does is now whenever a JS file is changed in the project it will automatically re-uglify the files. 
+
+So you only have to run `grunt` at the start of opening the project and it will do everything for you.
+
 ## Run 
 
-If node is installed (and all changes have been compiled) run the following from the root:
+If node is installed (and all changes have been compiled) run the following from the root of the project:
 ```
 node Web/server.js
 ```
