@@ -8,7 +8,6 @@ namespace World
 		public PrefabMap prefabs;
 		public GameObject vrPlayer;
 
-		private bool queueActive; // remove in favour of queue.isempty()
 		private List<PositionalGameObject> objectSpawnQueue;
 		private List<Mob> mobSpawnQueue;
 
@@ -21,25 +20,21 @@ namespace World
 			mobSpawnQueue = new List<Mob> ();
 			gameWorld = new HashSet<PlacedPrefab> ();
 			mobs = new HashSet<PlacedMob> ();
-			queueActive = false;
 			AddPrefab ("room2", 0, 0);
 		}
 	
 		void Update ()
 		{
-			if (queueActive) {
-				for (int i = 0; i < objectSpawnQueue.Count; i++) {
-					var obj = (GameObject)Instantiate (objectSpawnQueue [i].gameObj, objectSpawnQueue[i].position, Quaternion.identity);
-					obj.SetActive (true);
-					objectSpawnQueue.RemoveAt (i);
-				}
-				for (int i = 0; i < mobSpawnQueue.Count; i++) {
-					var mob = (GameObject)Instantiate (mobSpawnQueue [i].pgo.gameObj, mobSpawnQueue[i].pgo.position, Quaternion.identity);
-					mob.SetActive (true);
-					mobSpawnQueue.RemoveAt (i);
-					mobs.Add (new PlacedMob (mobSpawnQueue [i].name, mobSpawnQueue [i].pgo.position, mobSpawnQueue [i].id, mob));
-				}
-				queueActive = false;
+			for (int i = 0; i < objectSpawnQueue.Count; i++) {
+				var obj = (GameObject)Instantiate (objectSpawnQueue [i].gameObj, objectSpawnQueue[i].position, Quaternion.identity);
+				obj.SetActive (true);
+				objectSpawnQueue.RemoveAt (i);
+			}
+			for (int i = 0; i < mobSpawnQueue.Count; i++) {
+				var mob = (GameObject)Instantiate (mobSpawnQueue [i].pgo.gameObj, mobSpawnQueue[i].pgo.position, Quaternion.identity);
+				mob.SetActive (true);
+				mobSpawnQueue.RemoveAt (i);
+				mobs.Add (new PlacedMob (mobSpawnQueue [i].name, mobSpawnQueue [i].pgo.position, mobSpawnQueue [i].id, mob));
 			}
 		}
 
@@ -51,7 +46,6 @@ namespace World
 				return;
 			}
 
-			queueActive = true;
 			Vector3 position = new Vector3 (xPos, 0, zPos);
 
 			objectSpawnQueue.Add(new PositionalGameObject (obj, position));
@@ -65,7 +59,6 @@ namespace World
 				return;
 			}
 
-			queueActive = true;
 			Vector3 position = new Vector3 (xPos, 0, zPos);
 			mobSpawnQueue.Add (new Mob (new PositionalGameObject (obj, position), id, objectId));
 		}
