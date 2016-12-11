@@ -25,7 +25,7 @@ GameObject:
   - 64: {fileID: 64000012093848510}
   m_Layer: 0
   m_Name: floor003
-  m_TagString: Untagged
+  m_TagString: Walkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
