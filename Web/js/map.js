@@ -36,20 +36,30 @@ var Map = {
     ghostRoomY: -1,
 
 
+    /** Player data **/
+    player: null,
+
+    /** Mob debug data **/
+    mobTypes: {},
+    mapMobs: [],
+
+    debug_mob_ant: null,
+
+
     /**
      * Constants
      * **/
 
     // How many tiles to show on the width and height
-    MAP_WIDTH: 32,
-    MAP_HEIGHT: 28,
+    MAP_WIDTH: 33,
+    MAP_HEIGHT: 30,
 
     // Each world tile is 16px x 16px
     TILE_SIZE: 16,
 
     // The offset to draw the map by
-    MAP_DRAW_OFFSET_X: 16,
-    MAP_DRAW_OFFSET_Y: 20,
+    MAP_DRAW_OFFSET_X: 10,
+    MAP_DRAW_OFFSET_Y: 10,
 
 
     create: function(GameObject) {
@@ -80,6 +90,20 @@ var Map = {
         this.addRoom(Rooms.chengy_room_5x3);
         this.addRoom(Rooms.chengy_room_door_up);
         this.addRoom(Rooms.l_shape_room);
+
+        // Setup mobs
+        this.addMob(Mobs.ant);
+        this.addMob(Mobs.bear);
+
+        // Setup the player
+        this.setupPlayer(Player);
+
+
+        this.mapScrollOffsetX += (17 * 16);
+        this.mapScrollOffsetY += (15 * 16);
+        this.placeRoomAtTopLeft(Rooms.chengy_room4doors.room_id, -1, -1, false);
+
+        this.game.invalidated = true;
     },
 
 
@@ -132,6 +156,20 @@ var Map = {
 
         // Now draw the empty grid on to the map
         this.renderEmptyTileBackground();
+    },
+
+    setupPlayer: function(player){
+        var sprite = game.phaser.make.sprite(0, 0, player.sprite.key);
+        this.player = {
+            sprite: sprite,
+            position: {
+                x: 0,
+                y: 0
+            },
+            size: player.sprite.size,
+            center: player.sprite.center,
+            is_visible: true
+        };
     },
 
 
@@ -191,6 +229,11 @@ var Map = {
         }
     },
 
+
+    addMob: function(mob){
+        this.mobTypes[mob.id] = {mob: mob, render: this.game.phaser.make.sprite(0, 0, mob.sprite.key)};
+    },
+
     // Creates a tilemap and the individual tile pieces [top-left => tl, bottom-middle => bm, etc...]
     createTilemap: function(tilemap_key){
         this.tileMapTypes[tilemap_key] = {};
@@ -215,7 +258,7 @@ var Map = {
         this.map.clear();
 
         // Get the map offset (mod TILE_SIZE)
-        var offset = this.getMAP_DRAW_OFFSET_XY();
+        var offset = this.getMapDrawOffset();
         // but offset it minus a tile size x/y as if it overlaps it will miss out the first row/column
         offset.x -= this.TILE_SIZE;
         offset.y -= this.TILE_SIZE;
@@ -244,7 +287,29 @@ var Map = {
 
         // So this references the main game object and then the builderObject to see if a tile is selected
         // ToDo: If anyone has any other idea how to check if a tile is selected - be my guest and tell me
-        if(this.game.builderObject.which_tile_to_place != -1) {
+        if(this.game.builderObject.which_tile_to_place != -1 && this.game.builderObject.typeOfTileToPlace == 'mob'){
+            var btn = this.game.builderObject.mobButtons[this.game.builderObject.which_tile_to_place];
+
+            var mob_id = btn.mob_id;
+            var mob = this.mobTypes[mob_id];
+
+            var tile = this.getTileFromMouseXY();
+            var mouse = getAccurateCoords();
+            mouse.x -= this.MAP_DRAW_OFFSET_X;
+            mouse.y -= this.MAP_DRAW_OFFSET_Y;
+
+            mouse.x -= 8;
+            mouse.y -= 8;
+
+            // console.log("renderGhostRoom ["+mouse.x+","+mouse.y+"]");
+            //
+            // var draw_x = (tile.x) * this.TILE_SIZE + this.mapScrollOffsetX;
+            // var draw_y = (tile.y) * this.TILE_SIZE + this.mapScrollOffsetY;
+
+            this.map.renderRawXY(mob.render, mouse.x, mouse.y);
+
+
+        }else if(this.game.builderObject.which_tile_to_place != -1 && this.game.builderObject.typeOfTileToPlace == 'room') {
             // Get which button is selected
             var btn = this.game.builderObject.buttons[this.game.builderObject.which_tile_to_place];
 
@@ -270,10 +335,35 @@ var Map = {
         }
     },
 
-    // You kill this function - nothing ever redraws onto the map
+    renderPlayer: function(){
+        var draw_x = this.player.position.x - this.player.center.x + this.mapScrollOffsetX;
+        var draw_y = this.player.position.y - this.player.center.y + this.mapScrollOffsetY;
+
+        this.map.renderRawXY(this.player.sprite, draw_x, draw_y);
+    },
+
+    renderMobs: function(){
+        for(var i = 0; i < this.mapMobs.length; i++){
+            var mob = this.mapMobs[i];
+
+            var render_x = mob.x + this.mapScrollOffsetX; // (mob.x) * this.TILE_SIZE + this.mapScrollOffsetX;
+            var render_y = mob.y + this.mapScrollOffsetY; // (mob.y) * this.TILE_SIZE + this.mapScrollOffsetY;
+
+            this.map.renderRawXY(mob.mob_type.render, render_x, render_y);
+        }
+    },
+
     redrawEverything: function(){
+        this.game.invalidated = true;
+        // this.render();
+    },
+
+    // You kill this function - nothing ever redraws onto the map
+    render: function(){
         this.renderEmptyTileBackground();
         this.renderAllRooms();
+        this.renderMobs();
+        this.renderPlayer();
         this.renderGhostRoom();
 
         // Debug to see how often things are redrawn..
@@ -290,7 +380,17 @@ var Map = {
         // If the mouse is inside the map when the user clicks?
         if(this.isMouseInsideMap()){
             // If there is a room-tile selected inside the [game.builderObject]
-            if(this.game.builderObject.which_tile_to_place != -1){
+            if(this.game.builderObject.isPlacingMob()){
+                var btn = this.game.builderObject.getActiveButton();
+                var mob = this.mobTypes[btn.mob_id];
+
+                // var tile = this.getTileFromMouseXY();
+                var pos = this.getMobPosXY(mob.mob.sprite.size);
+                if(this.canPlaceMob(btn.mob_id, pos)){
+                    this.placeMob(btn.mob_id, pos, true);
+                }
+
+            }else if(this.game.builderObject.isPlacingRoom()){
                 var btn = this.game.builderObject.buttons[this.game.builderObject.which_tile_to_place];
 
                 // Get the tile XY where the room should be placed
@@ -298,7 +398,7 @@ var Map = {
 
                 // If a room can be placed - then place it?
                 if(this.canPlaceRoom(btn.room_id, tile.x, tile.y)){
-                    this.placeRoom(btn.room_id, tile.x, tile.y);
+                    this.placeRoom(btn.room_id, tile.x, tile.y, true);
                 }
             }else {
                 // Can only navigate the map if you're not placing objects
@@ -350,15 +450,20 @@ var Map = {
 
                 // If it's inside the map
                 if(this.isMouseInsideMap()){
-                    var tile = this.getTileFromMouseXY();
 
-                    // If the ghostRoom draw XY has changed from last time
-                    if(this.ghostRoomX != tile.x || this.ghostRoomY != tile.y){
-                        this.ghostRoomX = tile.x;
-                        this.ghostRoomY = tile.y;
-
-                        // Redraw all the things!
+                    if(this.game.builderObject.typeOfTileToPlace == 'mob'){
                         this.redrawEverything();
+                    }else if(this.game.builderObject.typeOfTileToPlace == 'room') {
+                        var tile = this.getTileFromMouseXY();
+
+                        // If the ghostRoom draw XY has changed from last time
+                        if (this.ghostRoomX != tile.x || this.ghostRoomY != tile.y) {
+                            this.ghostRoomX = tile.x;
+                            this.ghostRoomY = tile.y;
+
+                            // Redraw all the things!
+                            this.redrawEverything();
+                        }
                     }
                 }else{
                     // If the mouse is not inside the map - we don't want to show the ghost room
@@ -382,6 +487,70 @@ var Map = {
       }
     },
 
+    /** Placing things on map functions **/
+    canPlaceMob: function(mob_id, position){
+        // var tile = this.getTileFromMouseXY();
+        // var mob = this.game.builderObject.getActiveButton();
+        var mob = this.mobTypes[mob_id];
+
+        for(var i = 0; i < this.mapRooms.length; i++) {
+            var r = this.mapRooms[i];
+
+            if(isXYWithinBoundingBox(position.x, position.y, r.abs_bb)){
+                // If there are no other mobs (or items)
+                return true;
+            }
+        }
+
+        //If we get here - it is outside of a room
+        return false;
+    },
+    placeMob: function(mob_id, position, send_message){
+        var mob_type = this.mobTypes[mob_id];
+        var map_mob_id = this.mapMobs.length;
+
+        console.log("placeMob");
+
+        var center = {
+            x: position.x + mob_type.mob.sprite.size.width / 2,
+            y: position.y + mob_type.mob.sprite.size.height / 2
+        };
+
+        var unity_position = {
+            x: center.x / this.TILE_SIZE,
+            y: center.y / this.TILE_SIZE
+        };
+
+        this.mapMobs[map_mob_id] = {
+            id: map_mob_id,
+            mob_id: mob_id,
+            x: position.x,
+            y: position.y,
+            center: center,
+            mob_type: mob_type,
+            unity_position: unity_position
+        };
+
+        console.log("Placed mob:");
+        console.log(this.mapMobs[map_mob_id]);
+
+        // Debug print info
+        console.log("Creating mob:\nType: "+mob_type.mob.sprite.key+"\nX: "+center.x+", Y: "+center.y+"\nUX: "+unity_position.x+", UY: "+unity_position.y);
+
+        if(send_message){
+            var data = {
+                "command": "spawnMob",
+                "options": {
+                    "objectId": mob_id,
+                    "xPos": unity_position.x,
+                    "zPos": unity_position.y,
+                    "id": map_mob_id
+                }
+            };
+            this.game.sendMessage('create-mob', data);
+        }
+    },
+
 
     /**
      * Room Functionality
@@ -403,14 +572,22 @@ var Map = {
         return true;
     },
 
-    placeRoom: function(room_id, x, y){
+
+    placeRoomAtTopLeft: function(room_id, x, y, send_message) {
+        var room = this.roomTypes[room_id];
+
+        this.placeRoom(room_id, x + room.dimensions.center.x, y + room.dimensions.center.y, send_message);
+    },
+    placeRoom: function(room_id, x, y, send_message){
         // Get the room data from the roomTypes array
         var room = this.roomTypes[room_id];
+
         // Basic way of getting the next index
         var map_room_id = this.mapRooms.length;
 
         // Get the bounding box from the current x/y and room data
         var bounding_box = this.getBoundingBoxForRoom(x, y, room);
+        var absolute_bb = this.getAbsBoundingBoxForRoom(x, y, room);
 
         // Add the room into the world room array
         // ToDo: Change what mapRooms[x] contains as I'm pretty sure some of this is unnecessary
@@ -421,23 +598,45 @@ var Map = {
             x2: x,
             y2: y,
             bb: bounding_box,
+            abs_bb: absolute_bb,
             room: room
         };
 
-        // Broadcast a message to the VR client
-        this.game.sendMessage(room_id, x - room.dimensions.center.x, y - room.dimensions.center.y);
+        // Should we send a message to the Unity client?
+        if(send_message) {
+            // Broadcast a message to the VR client
+            var data = {
+                objectId: room_id,
+                xPos: x - room.dimensions.center.x,
+                yPos: y - room.dimensions.center.y
+            };
+            this.game.sendMessage("create-room", data);
+        }
 
         // Repaint the world with the new room
         this.redrawEverything();
     },
 
+    setPlayerPosition: function(msg){
+        this.player.position.x = msg.xPos * this.TILE_SIZE;
+        this.player.position.y = msg.zPos * this.TILE_SIZE;
 
+        console.log("px="+this.player.position.x+", py="+this.player.position.y);
+
+        this.game.invalidated = true;
+    },
     /**
      * Helper Functions
      */
 
+    removeAllRooms: function(){
+        while(this.mapRooms.length){
+            this.mapRooms.pop();
+        }
+    },
+
     // This gets the current map scroll offset mod the TILE_SIZE - so it returns [0 -> (TILE_SIZE -1)] inclusive
-    getMAP_DRAW_OFFSET_XY: function(){
+    getMapDrawOffset: function(){
         var x = this.mapScrollOffsetX % this.TILE_SIZE;
         var y = this.mapScrollOffsetY % this.TILE_SIZE;
         return {
@@ -454,6 +653,13 @@ var Map = {
             x: Math.floor((mouse.x - this.MAP_DRAW_OFFSET_X - this.mapScrollOffsetX) / this.TILE_SIZE),
             y: Math.floor((mouse.y - this.MAP_DRAW_OFFSET_Y - this.mapScrollOffsetY) / this.TILE_SIZE)
         };
+    },
+
+    getMobPosXY: function(mob_size){
+        var mouse = getAccurateCoords();
+        mouse.x -= (this.MAP_DRAW_OFFSET_X + mob_size.width / 2) + this.mapScrollOffsetX;
+        mouse.y -= (this.MAP_DRAW_OFFSET_Y + mob_size.height / 2) + this.mapScrollOffsetY;
+        return mouse;
     },
 
     // Do two bounding boxes collide?
@@ -477,6 +683,14 @@ var Map = {
             x2: bottom_right_x,
             y2: bottom_right_y
         };
+    },
+    getAbsBoundingBoxForRoom: function(x, y, room) {
+        var bb = this.getBoundingBoxForRoom(x, y, room);
+        bb.x1 *= 16;
+        bb.y1 *= 16;
+        bb.x2 *= 16;
+        bb.y2 *= 16;
+        return bb;
     },
 
     // Returns true if the mouse is inside the map area (not the whole map viewport)
