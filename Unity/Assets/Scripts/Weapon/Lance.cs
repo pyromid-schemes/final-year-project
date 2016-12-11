@@ -4,4 +4,5 @@
     public Lance(): base(baseDamage)
     {
     }
+
 }
