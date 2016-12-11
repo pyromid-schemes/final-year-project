@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Websocket Testing</title>
+</head>
+<body>
+<div id="main">
+    <input id="url" type="text" value="localhost"/>
+    <input id="openWSButton" type="button" value="Open connection" onclick="openWebSocket(config);"/>
+    <input id="closeWSButton" type="button" value="Close connection" onclick="closeWebSocket();" disabled/>
+    <table>
+        <tr>
+            <th>command</th>
+            <th>data</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td>build</td>
+            <form id="buildForm">
+                <td>
+                    <input name="objectId" type="text" placeholder="objectId"/>
+                    <input name="xPos" type="text" placeholder="xPos"/>
+                    <input name="zPos" type="text" placeholder="zPos"/>
+                </td>
+                <td>
+                    <input type="button" value="Send" onclick="sendBuildCommand();">
+                </td>
+            </form>
+        </tr>
+        <tr>
+            <td>spawnMob</td>
+            <form id="spawnMobForm">
+                <td>
+                    <input name="objectId" type="text" placeholder="objectId"/>
+                    <input name="xPos" type="text" placeholder="xPos"/>
+                    <input name="zPos" type="text" placeholder="zPos"/>
+                    <input name="id" type="text" placeholder="id"/>
+                </td>
+                <td>
+                    <input type="button" value="Send" onclick="sendSpawnMobCommand();">
+                </td>
+            </form>
+        </tr>
+    </table>
+    <br>
+</div>
+<div id="footer">
+    <label for="showPlayerMovement">Show player movement in output</label>
+    <input id="showPlayerMovement" type="checkbox" onclick="setShowPlayerMovement();">
+    <br>
+    <div>
+        <input type="button" onclick="clearOutput();" value="Clear output"/>
+        <div id="output" style="border: 1px solid black;overflow: auto; height: 300px;"></div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script type="text/javascript" src="js/sockets/webSockets.js"></script>
+<script type="text/javascript" src="js/sockets/unityClient.js"></script>
+<script type="text/javascript" charset="UTF-8">
+    var showPlayerMovement = false;
+    var config = {
+        "onOpen": function () {
+            writeToOutput("WebSocket opened.");
+            document.getElementById("openWSButton").disabled = true;
+            document.getElementById("closeWSButton").disabled = false;
+        },
+        "onMessage": {
+            "worldStatus": function (msg) {
+                writeToOutput("Server sent worldStatus message:");
+                for (var i = 0; i < msg.length; i++) {
+                    writeToOutput("Room: " + msg[i].objectId + ", xPos: " + msg[i].xPos + ", zPos: " + msg[i].zPos);
+                }
+            },
+            "vrPosition": function (msg) {
+                // By default (defined in Unity) this will be called 30x a second
+                if (showPlayerMovement) {
+                    writeToOutput("Server sent vrPosition message:");
+                    writeToOutput("xPos: " + msg.xPos + ", zPos: " + msg.zPos);
+                }
+            }
+        },
+        "onClose": function () {
+            writeToOutput("WebSocket closed.");
+            document.getElementById("openWSButton").disabled = false;
+            document.getElementById("closeWSButton").disabled = true;
+        }
+    };
+
+    window.onload = function () {
+        if ("WebSocket" in window) {
+            writeToOutput("WebSockets are available!");
+        } else {
+            alert("WebSockets are not supported in this browser");
+        }
+    };
+
+    function sendBuildCommand() {
+        var buildForm = document.getElementById("buildForm").elements;
+        UnityClient.buildCommand(buildForm[0].value, buildForm[1].value, buildForm[2].value);
+    }
+
+    function sendSpawnMobCommand() {
+        var spawnMobForm = document.getElementById("spawnMobForm").elements;
+        UnityClient.spawnMobCommand(spawnMobForm[0].value, spawnMobForm[1].value, spawnMobForm[2].value, spawnMobForm[3].value);
+    }
+
+    function writeToOutput(text) {
+        var output = document.getElementById("output").innerHTML;
+
+        document.getElementById("output").innerHTML = text + "<br>" + output;
+    }
+
+    function clearOutput() {
+        document.getElementById("output").innerHTML = "<br>";
+    }
+
+    function setShowPlayerMovement() {
+        showPlayerMovement = document.getElementById("showPlayerMovement").checked;
+    }
+
+</script>
+</body>
+</html>
