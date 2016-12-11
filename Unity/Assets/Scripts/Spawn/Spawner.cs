@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using AI.Pathfinding;
 
 namespace Spawn
 {
 	public class Spawner : MonoBehaviour, ISpawner
 	{
 		public PrefabMap prefabs;
+	    public Grid grid;
 
 		private bool queueActive;
 		private List<PositionalGameObject> spawnQueue;
@@ -43,6 +45,7 @@ namespace Spawn
 			Vector3 position = new Vector3 (xPos, 0, zPos);
 
 			spawnQueue.Add(new PositionalGameObject (room, position));
+		    grid.AddNodes(room);
 			gameWorld.Add (new PlacedPrefab (objectId, position));
 		}
 

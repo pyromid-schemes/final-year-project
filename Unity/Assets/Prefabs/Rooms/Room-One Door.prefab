@@ -25,7 +25,7 @@ GameObject:
   - 64: {fileID: 64000010967024762}
   m_Layer: 0
   m_Name: floor003 (10)
-  m_TagString: Untagged
+  m_TagString: Walkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,7 +44,7 @@ GameObject:
   - 64: {fileID: 64000011576721568}
   m_Layer: 0
   m_Name: floor003 (7)
-  m_TagString: Untagged
+  m_TagString: Walkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -63,7 +63,7 @@ GameObject:
   - 64: {fileID: 64000010511244640}
   m_Layer: 0
   m_Name: floor003 (5)
-  m_TagString: Untagged
+  m_TagString: Walkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -82,7 +82,7 @@ GameObject:
   - 64: {fileID: 64000012948000052}
   m_Layer: 0
   m_Name: floor003 (6)
-  m_TagString: Untagged
+  m_TagString: Walkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -101,7 +101,7 @@ GameObject:
   - 64: {fileID: 64000013363165882}
   m_Layer: 0
   m_Name: floor003 (4)
-  m_TagString: Untagged
+  m_TagString: Walkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -120,7 +120,7 @@ GameObject:
   - 64: {fileID: 64000012054973840}
   m_Layer: 0
   m_Name: floor003
-  m_TagString: Untagged
+  m_TagString: Walkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -177,7 +177,7 @@ GameObject:
   - 64: {fileID: 64000012038325912}
   m_Layer: 0
   m_Name: floor003 (15)
-  m_TagString: Untagged
+  m_TagString: Walkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -367,7 +367,7 @@ GameObject:
   - 64: {fileID: 64000010241337868}
   m_Layer: 0
   m_Name: floor003 (8)
-  m_TagString: Untagged
+  m_TagString: Walkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -386,7 +386,7 @@ GameObject:
   - 64: {fileID: 64000013472246488}
   m_Layer: 0
   m_Name: floor003 (1)
-  m_TagString: Untagged
+  m_TagString: Walkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -420,7 +420,7 @@ GameObject:
   - 64: {fileID: 64000014029056530}
   m_Layer: 0
   m_Name: floor003 (14)
-  m_TagString: Untagged
+  m_TagString: Walkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -439,7 +439,7 @@ GameObject:
   - 64: {fileID: 64000011911721278}
   m_Layer: 0
   m_Name: floor003 (3)
-  m_TagString: Untagged
+  m_TagString: Walkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -458,7 +458,7 @@ GameObject:
   - 64: {fileID: 64000013718617640}
   m_Layer: 0
   m_Name: floor003 (12)
-  m_TagString: Untagged
+  m_TagString: Walkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -610,7 +610,7 @@ GameObject:
   - 64: {fileID: 64000012787696040}
   m_Layer: 0
   m_Name: floor003 (11)
-  m_TagString: Untagged
+  m_TagString: Walkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -629,7 +629,7 @@ GameObject:
   - 64: {fileID: 64000012646413352}
   m_Layer: 0
   m_Name: floor003 (13)
-  m_TagString: Untagged
+  m_TagString: Walkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -686,7 +686,7 @@ GameObject:
   - 64: {fileID: 64000013740127930}
   m_Layer: 0
   m_Name: floor003 (2)
-  m_TagString: Untagged
+  m_TagString: Walkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -705,7 +705,7 @@ GameObject:
   - 64: {fileID: 64000010100490910}
   m_Layer: 0
   m_Name: floor003 (9)
-  m_TagString: Untagged
+  m_TagString: Walkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
