@@ -43,7 +43,6 @@ namespace AI.States.PathfindingTest
             {
                 nextNode = path[1];
             }
-            Debug.Log("X: " + nextNode.X + ", Z: " + nextNode.Z);
             _mob.transform.position = Vector3.MoveTowards(_mob.transform.position,
                 new Vector3(nextNode.X, _mob.transform.position.y, nextNode.Z), 0.5f*Time.deltaTime);
         }
