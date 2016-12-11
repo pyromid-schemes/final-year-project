@@ -51,5 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f5fc54fe35254e369a5e25c69e4946a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  room1: {fileID: 0}
-  room2: {fileID: 0}
+  room1: {fileID: 1000012711715292, guid: 574960cfaab5fb347a172946a1b1b3a5, type: 2}
+  room2: {fileID: 1000010025925644, guid: b559e581d1309ea4daf5e45501d9a35b, type: 2}
+  mobKnight: {fileID: 1000012939565528, guid: cb510df9f35b420469fc36e6eac0db8a, type: 2}

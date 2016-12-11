@@ -30,10 +30,7 @@ namespace Parsing.Commands
 				break;
 			case CommandType.SPAWNMOB:
 				var spawnMobCommand = (SpawnMobCommand)command;
-				Debug.Log ("objID: " + spawnMobCommand.GetObjectId () + 
-					", xPos: " + spawnMobCommand.GetXPos () + 
-					", zPos: " + spawnMobCommand.GetZPos () + 
-					", id: " + spawnMobCommand.GetId ());
+				worldManager.SpawnMob (spawnMobCommand.GetObjectId (), spawnMobCommand.GetXPos (), spawnMobCommand.GetZPos (), spawnMobCommand.GetId ());
 				break;
 			}
 		}
