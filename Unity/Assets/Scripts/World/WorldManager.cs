@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using AI.Pathfinding;
 
 namespace World
 {
@@ -7,6 +8,7 @@ namespace World
 	{
 		public PrefabMap prefabs;
 		public GameObject vrPlayer;
+	    public Grid grid;
 
 		private bool queueActive;
 		private List<PositionalGameObject> spawnQueue;
@@ -44,6 +46,7 @@ namespace World
 			Vector3 position = new Vector3 (xPos, 0, zPos);
 
 			spawnQueue.Add(new PositionalGameObject (obj, position));
+		    grid.AddNodes(obj);
 			gameWorld.Add (new PlacedPrefab (objectId, position));
 		}
 

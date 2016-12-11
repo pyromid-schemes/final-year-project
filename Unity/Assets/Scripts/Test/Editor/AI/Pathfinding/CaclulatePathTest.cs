@@ -31,6 +31,25 @@ namespace Test.AI.Pathfinding
         }
 
         [Test]
+        public void GivenStartingNodeNextToDestinationNode_returnDestinationNode()
+        {
+            _startingNode = new PathfindingNode(0, 0);
+            _destinationNode = new PathfindingNode(0, 1);
+            _gridManager.AddNode(0, 0);
+            _gridManager.AddNode(0, 1);
+            AssertPathEquals(new List<PathfindingNode>() { new PathfindingNode(0,1)});
+        }
+
+        [Test]
+        public void GivenStartingNodeIsDestinationNode_returnDestinationNode()
+        {
+            _startingNode = new PathfindingNode(0, 0);
+            _destinationNode = _startingNode;
+            _gridManager.AddNode(0, 0);
+            AssertPathEquals(new List<PathfindingNode>() { new PathfindingNode(0, 0) });
+        }
+
+        [Test]
         public void TestSimpleCorridor()
         {
             _startingNode = new PathfindingNode(0,0);
@@ -45,6 +64,7 @@ namespace Test.AI.Pathfinding
                 new PathfindingNode(0, 1),
                 new PathfindingNode(0, 2),
                 new PathfindingNode(0, 3),
+                _destinationNode
             };
 
             AssertPathEquals(expectedPath);
@@ -86,6 +106,7 @@ namespace Test.AI.Pathfinding
                 new PathfindingNode(2, -2),
                 new PathfindingNode(3, -2),
                 new PathfindingNode(4, -2),
+                _destinationNode
             };
 
             AssertPathEquals(expectedPath);
