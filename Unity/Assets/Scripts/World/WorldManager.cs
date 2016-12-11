@@ -50,9 +50,8 @@ namespace World
 
 			Vector3 position = new Vector3 (xPos, 0, zPos);
 
-			spawnQueue.Add(new PositionalGameObject (obj, position));
-		    grid.AddNodes(obj);
 			objectSpawnQueue.Add(new PositionalGameObject (obj, position));
+		    grid.AddNodes(obj);
 			gameWorld.Add (new PlacedPrefab (objectId, position));
 		}
 
