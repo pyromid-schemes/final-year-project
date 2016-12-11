@@ -8,27 +8,33 @@ namespace World
 		public PrefabMap prefabs;
 		public GameObject vrPlayer;
 
-		private bool queueActive;
-		private List<PositionalGameObject> spawnQueue;
+		private List<PositionalGameObject> objectSpawnQueue;
+		private List<Mob> mobSpawnQueue;
+
 		private HashSet<PlacedPrefab> gameWorld;
+		private HashSet<PlacedMob> mobs;
 
 		void Start ()
 		{
-			spawnQueue = new List<PositionalGameObject> ();
+			objectSpawnQueue = new List<PositionalGameObject> ();
+			mobSpawnQueue = new List<Mob> ();
 			gameWorld = new HashSet<PlacedPrefab> ();
-			queueActive = false;
+			mobs = new HashSet<PlacedMob> ();
 			AddPrefab ("room2", 0, 0);
 		}
 	
 		void Update ()
 		{
-			if (queueActive) {
-				for (int i = 0; i < spawnQueue.Count; i++) {
-					var obj = (GameObject)Instantiate (spawnQueue [i].gameObj, spawnQueue[i].position, Quaternion.identity);
-					obj.SetActive (true);
-					spawnQueue.RemoveAt (i);
-				}
-				queueActive = false;
+			for (int i = 0; i < objectSpawnQueue.Count; i++) {
+				var obj = (GameObject)Instantiate (objectSpawnQueue [i].gameObj, objectSpawnQueue[i].position, Quaternion.identity);
+				obj.SetActive (true);
+				objectSpawnQueue.RemoveAt (i);
+			}
+			for (int i = 0; i < mobSpawnQueue.Count; i++) {
+				var mob = (GameObject)Instantiate (mobSpawnQueue [i].pgo.gameObj, mobSpawnQueue[i].pgo.position, Quaternion.identity);
+				mob.SetActive (true);
+				mobSpawnQueue.RemoveAt (i);
+				mobs.Add (new PlacedMob (mobSpawnQueue [i].name, mobSpawnQueue [i].pgo.position, mobSpawnQueue [i].id, mob));
 			}
 		}
 
@@ -40,11 +46,21 @@ namespace World
 				return;
 			}
 
-			queueActive = true;
 			Vector3 position = new Vector3 (xPos, 0, zPos);
 
-			spawnQueue.Add(new PositionalGameObject (obj, position));
+			objectSpawnQueue.Add(new PositionalGameObject (obj, position));
 			gameWorld.Add (new PlacedPrefab (objectId, position));
+		}
+
+		public void SpawnMob (string objectId, float xPos, float zPos, int id)
+		{
+			GameObject obj = prefabs.GetGameObject (objectId);
+			if (obj == null) {
+				return;
+			}
+
+			Vector3 position = new Vector3 (xPos, 0, zPos);
+			mobSpawnQueue.Add (new Mob (new PositionalGameObject (obj, position), id, objectId));
 		}
 
 		public HashSet<PlacedPrefab> GetGameWorld()
@@ -67,6 +83,20 @@ namespace World
 		{
 			gameObj = g;
 			position = p;
+		}
+	}
+
+	struct Mob
+	{
+		public PositionalGameObject pgo;
+		public int id;
+		public string name;
+
+		public Mob(PositionalGameObject p, int i, string n)
+		{
+			pgo = p;
+			id = i;
+			name = n;
 		}
 	}
 }
