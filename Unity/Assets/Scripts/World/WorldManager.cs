@@ -47,6 +47,11 @@ namespace World
 			gameWorld.Add (new PlacedPrefab (objectId, position));
 		}
 
+		public void SpawnMob (string objectId, float xPos, float zPos, int id)
+		{
+			return;
+		}
+
 		public HashSet<PlacedPrefab> GetGameWorld()
 		{
 			return gameWorld;

@@ -19,16 +19,29 @@ namespace Test.Parsing.Commands
 		}
 
 		[Test]
-		public void WhenReceivesParseableCorrectFormattedBuildCommandCallsAddRoomPrefab()
+		public void WhenReceivesParseableCorrectFormattedBuildCommandCallsAddPrefab()
 		{
 			string msg = BuildCommandBuilder.ADefaultBuildCommandBuilder ()
 				.Build ();
 
-			stubSp.SetExpected ("default", 0, 0);
+			stubSp.SetExpectedForAddPrefabCall ("default", 0, 0);
 
 			underTest.ResolveMessage (msg);
 
-			Assert.IsTrue (stubSp.WasCalled ());
+			Assert.IsTrue (stubSp.WasAddPrefabCalled ());
+		}
+
+		[Test]
+		public void WhenReceivesParseableCorrectFormattedSpawnMobCommandCallsSpawnMob()
+		{
+			string msg = SpawnMobCommandBuilder.ADefaultSpawnMobCommand ()
+				.Build ();
+
+			stubSp.SetExpectedForSpawnMobCall ("default", 0f, 0f, 0);
+
+			underTest.ResolveMessage (msg);
+
+			Assert.IsTrue (stubSp.WasSpawnMobCalled ());
 		}
 
 		[Test]
@@ -38,7 +51,7 @@ namespace Test.Parsing.Commands
 
 			underTest.ResolveMessage (msg);
 
-			Assert.IsFalse (stubSp.WasCalled ());
+			Assert.IsFalse (stubSp.WasAddPrefabCalled ());
 		}
 
 		[Test]
@@ -48,36 +61,64 @@ namespace Test.Parsing.Commands
 
 			underTest.ResolveMessage (msg);
 
-			Assert.IsFalse (stubSp.WasCalled ());
+			Assert.IsFalse (stubSp.WasAddPrefabCalled ());
 		}
 
 		private class StubSpawner : World.IWorldManager
 		{
-			private bool called = false;
-			
-			private string expectedObjectId;
-			private int expectedXPos;
-			private int expectedZPos;
+			private bool addPrefabCalled = false;
+			private string addPrefabExpectedObjectId;
+			private int addPrefabExpectedXPos;
+			private int addPrefabExpectedZPos;
+
+			private bool spawnMobCalled = false;
+			private string spawnMobExpectedObjectId;
+			private float spawnMobExpectedXPos;
+			private float spawnMobExpectedZPos;
+			private int spawnMobExpectedId;
 			
 			public void AddPrefab (string objectId, int xPos, int zPos)
 			{
-				called = true;
+				addPrefabCalled = true;
 
-				Assert.AreEqual (expectedObjectId, objectId);
-				Assert.AreEqual (expectedXPos, xPos);
-				Assert.AreEqual (expectedZPos, zPos);
+				Assert.AreEqual (addPrefabExpectedObjectId, objectId);
+				Assert.AreEqual (addPrefabExpectedXPos, xPos);
+				Assert.AreEqual (addPrefabExpectedZPos, zPos);
 			}
 
-			public void SetExpected (string objectId, int xPos, int zPos)
+			public void SetExpectedForAddPrefabCall (string objectId, int xPos, int zPos)
 			{
-				expectedObjectId = objectId;
-				expectedXPos = xPos;
-				expectedZPos = zPos;
+				addPrefabExpectedObjectId = objectId;
+				addPrefabExpectedXPos = xPos;
+				addPrefabExpectedZPos = zPos;
 			}
 
-			public bool WasCalled()
+			public bool WasAddPrefabCalled()
 			{
-				return called;
+				return addPrefabCalled;
+			}
+
+			public void SpawnMob (string objectId, float xPos, float zPos, int id)
+			{
+				spawnMobCalled = true;
+
+				Assert.AreEqual (spawnMobExpectedObjectId, objectId);
+				Assert.AreEqual (spawnMobExpectedXPos, xPos);
+				Assert.AreEqual (spawnMobExpectedZPos, zPos);
+				Assert.AreEqual (spawnMobExpectedId, id);
+			}
+
+			public void SetExpectedForSpawnMobCall (string objectId, float xPos, float zPos, int id)
+			{
+				spawnMobExpectedObjectId = objectId;
+				spawnMobExpectedXPos = xPos;
+				spawnMobExpectedZPos = zPos;
+				spawnMobExpectedId = id;
+			}
+
+			public bool WasSpawnMobCalled()
+			{
+				return spawnMobCalled;
 			}
 		}
 	}
