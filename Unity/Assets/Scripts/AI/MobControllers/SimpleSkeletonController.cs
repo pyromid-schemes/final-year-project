@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AI.Pathfinding;
 using AI.States;
 using AI.States.SimpleSkeleton;
 using UnityEngine;
@@ -17,8 +18,7 @@ namespace AI.MobControllers
             Attack
         }
 
-        [HideInInspector] public NavMeshAgent Agent;
-
+        [HideInInspector] public Grid Grid;
         public Transform Eyes;
         public float AttackCooldown = 2f;
         public float AttackRange = 2f;
@@ -57,8 +57,7 @@ namespace AI.MobControllers
         void Start()
         {
             Anim = GetComponent<Animator>();
-            Agent = GetComponent<NavMeshAgent>();
-
+            Grid = GameObject.Find("Grid").GetComponent<Grid>();
             InitialiseStates();
         }
 

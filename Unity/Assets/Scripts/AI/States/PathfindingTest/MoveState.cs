@@ -4,38 +4,32 @@ using AI.MobControllers;
 using AI.Pathfinding;
 using UnityEngine;
 
-namespace AI.States.SimpleSkeleton
+namespace AI.States.PathfindingTest
 {
-    class PursueState : IState
+    class MoveState : IState
     {
-        private SimpleSkeletonController _mob;
+        private PathfindingTestController _mob;
         private CalculatePath _pathCalculator;
-        private GameObject _player;
 
-        public PursueState(SimpleSkeletonController mob)
+        public MoveState(PathfindingTestController mob)
         {
             _mob = mob;
         }
 
         public void OnEnter()
         {
-            _mob.ToWalkingState();
-            _player = GameObject.Find("MockVRPlayer");
         }
 
         public void OnUpdate()
         {
-            if (Vector3.Distance(_mob.Eyes.position, _player.transform.position) < _mob.AttackRange)
-            {
-                _mob.ChangeState(SimpleSkeletonController.States.Defend);
-            }
         }
 
         public void OnFixedUpdate()
         {
             _pathCalculator = new CalculatePath(_mob.Grid.GetGrid());
+            Transform player = GameObject.Find("MockVRPlayer").transform;
             List<PathfindingNode> path = _pathCalculator.GetPathToDestination(_mob.transform.position.x,
-                _mob.transform.position.z, _player.transform.position.x, _player.transform.position.z);
+                _mob.transform.position.z, player.position.x, player.position.z);
             PathfindingNode nextNode;
             if (
                 (Math.Abs(_mob.transform.position.x - path[0].X) > .5f &&
@@ -51,7 +45,6 @@ namespace AI.States.SimpleSkeleton
             }
             _mob.transform.position = Vector3.MoveTowards(_mob.transform.position,
                 new Vector3(nextNode.X, _mob.transform.position.y, nextNode.Z), 0.5f*Time.deltaTime);
-            _mob.transform.LookAt(_player.transform);
         }
     }
 }

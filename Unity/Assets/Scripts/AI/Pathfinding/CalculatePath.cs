@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace AI.Pathfinding
 {
@@ -28,11 +29,18 @@ namespace AI.Pathfinding
             _startingNode = new PathfindingNode(closestStartingNode.x, closestStartingNode.z);
             _destinationNode = new PathfindingNode(closestDestinationNode.x, closestDestinationNode.z);
             _currentNode = _startingNode;
-            AddAdjacentNodesToOpenList();
+            if (_currentNode.Equals(_destinationNode))
+            {
+                return new List<PathfindingNode>() {_destinationNode};
+            }
             while (!_atDestination)
             {
-                GoToNextNode();
                 AddAdjacentNodesToOpenList();
+                GoToNextNode();
+                if (_currentNode.Equals(_destinationNode))
+                {
+                    _atDestination = true;
+                }
             }
             return GetPath();
         }
@@ -49,10 +57,6 @@ namespace AI.Pathfinding
 
             foreach (PathfindingNode possibleNode in possibleNodes)
             {
-                if (possibleNode.Equals(_destinationNode))
-                {
-                    _atDestination = true;
-                }
                 if (!possibleNode.Equals(_startingNode) && _grid.IsWalkable(possibleNode.X, possibleNode.Z) &&
                     !NodeInClosedList(possibleNode))
                 {

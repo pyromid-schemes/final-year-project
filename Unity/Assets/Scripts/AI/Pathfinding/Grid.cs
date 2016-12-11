@@ -9,7 +9,7 @@ namespace AI.Pathfinding
         private GridManager _gridManager;
         public static float _spaceBetween = 1f;
 
-        void Start()
+        void Awake()
         {
             _gridManager = new GridManager();
         }
