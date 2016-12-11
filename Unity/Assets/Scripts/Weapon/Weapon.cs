@@ -3,6 +3,7 @@
 public abstract class Weapon : MonoBehaviour
 {
     private int damage;
+    private bool blocked = false;
 
     public Weapon(int damage)
     {
@@ -14,23 +15,31 @@ public abstract class Weapon : MonoBehaviour
         return damage;
     }
 
-    void OnTriggerEnter(Collider other) {
-        bool blocked = false;
-
-        if (other.gameObject.tag.Equals("Shield"))
+    void OnTriggerEnter(Collider other)
+    {
+        string tag = other.gameObject.tag;
+        switch (tag)
         {
-            blocked = true;
+            case "Shield":
+                blocked = true;
+                break;
+            case "Monster":
+                ApplyDamageToMonster(other);
+                break;
+            default:
+                break;
         }
+    }
 
-        if (other.gameObject.tag.Equals("Monster"))
+    void ApplyDamageToMonster(Collider other)
+    {
+        if (blocked)
         {
-            int totalDamage = 0;
-            if (!blocked)
-            {
-                totalDamage += damage;
-            }
-            
-            other.gameObject.SendMessage("ApplyDamage",totalDamage);
+            blocked = false;
+        }
+        else
+        {
+            other.gameObject.SendMessage("ApplyDamage", damage);
         }
     }
 }
