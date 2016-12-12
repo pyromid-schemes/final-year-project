@@ -24,6 +24,7 @@ namespace VirtualReality
         SteamVR_TrackedObject TrackedOBJ;
         SteamVR_Controller.Device Device;
 
+        // Get this object
         void Awake()
         {
             TrackedOBJ = GetComponent<SteamVR_TrackedObject>();

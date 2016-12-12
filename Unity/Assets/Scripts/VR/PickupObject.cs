@@ -7,12 +7,13 @@ namespace VirtualReality
     [RequireComponent(typeof(SteamVR_TrackedObject))]
     public class PickupObject : MonoBehaviour
     {
-
+        public ItemMap itemMap;
         SteamVR_TrackedObject trackedOBJ;
         SteamVR_Controller.Device device;
 
-        //public Transform projectile;
+        GameObject equipedObject = null;
 
+        // Get this object
         void Awake()
         {
             trackedOBJ = GetComponent<SteamVR_TrackedObject>();
@@ -21,28 +22,45 @@ namespace VirtualReality
         void FixedUpdate()
         {
             device = SteamVR_Controller.Input((int)trackedOBJ.index);
-
-            //// Reset projectile to start location upon pressing the touchpad
-            //if (device.GetPressUp(SteamVR_Controller.ButtonMask.Touchpad))
-            //{
-            //    projectile.transform.position = new Vector3(4.25f, 0f, 1.5f);
-            //    projectile.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            //    projectile.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-            //}
+            if(equipedObject != null)
+            {
+                if (device.GetTouchUp(SteamVR_Controller.ButtonMask.Grip))
+                {
+                    equipedObject.transform.SetParent(null);
+                    equipedObject.GetComponent<Rigidbody>().isKinematic = false;
+                    TossObject(equipedObject.GetComponent<Rigidbody>());
+                    equipedObject = null;
+                }
+            }
         }
 
         // Called during collisions
         void OnTriggerStay(Collider col)
+        {
+            if (equipedObject == null)
+            {
+                ManipulateObject(col);
+            }
+        }
+
+        private void ManipulateObject(Collider col)
         {
             // Pickup
             if (device.GetTouch(SteamVR_Controller.ButtonMask.Trigger))
             {
                 col.attachedRigidbody.isKinematic = true;
                 col.gameObject.transform.SetParent(this.gameObject.transform);
+                if (col.CompareTag("Weapon"))
+                {
+                    equipedObject = col.gameObject;
+                    Transform test = itemMap.GetDefaultTransform(col.name);
+                    equipedObject.transform.localRotation = test.rotation;
+                    equipedObject.transform.localPosition = test.position;
+                }
             }
 
             // Let Go
-            if (device.GetTouchUp(SteamVR_Controller.ButtonMask.Trigger))
+            else if (device.GetTouchUp(SteamVR_Controller.ButtonMask.Trigger))
             {
                 col.gameObject.transform.SetParent(null);
                 col.attachedRigidbody.isKinematic = false;
@@ -51,7 +69,7 @@ namespace VirtualReality
             }
         }
 
-        // Apply correct forces
+        // Apply correct forces when letting go of objects
         private void TossObject(Rigidbody rigidbody)
         {
             Transform origin = trackedOBJ.origin ? trackedOBJ.origin : trackedOBJ.transform.parent;

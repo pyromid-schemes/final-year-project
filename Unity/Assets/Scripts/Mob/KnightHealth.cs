@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-public class KnightHealth : Damageable {
-
+public class KnightHealth : Damageable
+{
     private const int health = 2;
     private GameObject self;
 
@@ -14,14 +14,14 @@ public class KnightHealth : Damageable {
         self = this.gameObject;
     }
 
-    void OnTriggerEnter()
-    { 
+    void OnCollisionEnter()
+    {
         if (HealthIsZero())
         {
             OnDeath();
         }
     }
- 
+
     protected override void OnDeath()
     {
         GameObject.DestroyObject(self);

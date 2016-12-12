@@ -15,16 +15,16 @@ public abstract class Weapon : MonoBehaviour
         return damage;
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnCollisionEnter(Collision other)
     {
-        string tag = other.gameObject.tag;
+        string tag = other.collider.gameObject.tag;
         switch (tag)
         {
             case "Shield":
                 blocked = true;
                 break;
             case "Monster":
-                ApplyDamageToMonster(other);
+                ApplyDamageToMonster(other.collider);
                 break;
             default:
                 break;
