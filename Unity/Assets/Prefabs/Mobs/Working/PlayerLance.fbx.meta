@@ -1,27 +1,21 @@
 fileFormatVersion: 2
-guid: 1f6baf544b325864a9ceec465b1756ec
-timeCreated: 1481474463
+guid: 568a355f00ac2874bbd3a3aac0a09d20
+timeCreated: 1481559075
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: Armature
-    100002: Camera
-    100004: Lamp
-    100006: Lance
-    100008: Lance_Bone
-    100010: Lance_Bone_end
-    100012: //RootNode
-    400000: Armature
-    400002: Camera
-    400004: Lamp
-    400006: Lance
-    400008: Lance_Bone
-    400010: Lance_Bone_end
-    400012: //RootNode
+    100000: Camera
+    100002: Lamp
+    100004: Lance
+    100006: //RootNode
+    400000: Camera
+    400002: Lamp
+    400004: Lance
+    400006: //RootNode
+    2300000: Lance
+    3300000: Lance
     4300000: Lance
-    9500000: //RootNode
-    13700000: Lance
   materials:
     importMaterials: 1
     materialName: 0
@@ -80,7 +74,7 @@ ModelImporter:
     rootMotionBoneName: 
     hasTranslationDoF: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
