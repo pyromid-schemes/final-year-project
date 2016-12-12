@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public class KnightHealth : Damageable {
+public class KnightHealth : Damageable
+{
 
     private const int health = 2;
     private GameObject self;

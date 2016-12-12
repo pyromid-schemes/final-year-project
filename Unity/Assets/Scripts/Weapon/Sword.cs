@@ -5,5 +5,4 @@
     public Sword() : base(baseDamage)
     {
     }
-
 }

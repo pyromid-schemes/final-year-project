@@ -58,6 +58,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000011236920654}
   - 114: {fileID: 114000013181826604}
+  - 65: {fileID: 65000013497694118}
   m_Layer: 0
   m_Name: PlayerSword
   m_TagString: Weapon
@@ -232,6 +233,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65000013497694118
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012189939056}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.02, y: 1.01, z: 0.03}
+  m_Center: {x: 0, y: -0, z: 0}
 --- !u!114 &114000013181826604
 MonoBehaviour:
   m_ObjectHideFlags: 1

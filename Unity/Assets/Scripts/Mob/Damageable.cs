@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 
 
-public abstract class Damageable : MonoBehaviour {
+public abstract class Damageable : MonoBehaviour
+{
     private int health;
 
     public Damageable(int health)
