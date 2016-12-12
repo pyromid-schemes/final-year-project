@@ -6,8 +6,8 @@ namespace World
 	public class PlacedPrefab
 	{
 
-		protected string name;
-		protected Vector3 position;
+		private string name;
+		private Vector3 position;
 
 		public PlacedPrefab (string name, Vector3 position)
 		{
