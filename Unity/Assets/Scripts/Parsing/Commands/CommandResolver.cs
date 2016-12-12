@@ -26,11 +26,11 @@ namespace Parsing.Commands
 			switch (command.GetCommandType ()) {
 			case CommandType.BUILD:
 				var buildCommand = (BuildCommand)command;
-				worldManager.AddPrefab (buildCommand.GetObjectId (), buildCommand.GetXPos (), buildCommand.GetZPos ());
+				worldManager.AddPrefab (buildCommand.GetObjectId (), buildCommand.GetXPos (), AntiCorruption.FixHandedness(buildCommand.GetZPos ()));
 				break;
 			case CommandType.SPAWNMOB:
 				var spawnMobCommand = (SpawnMobCommand)command;
-				worldManager.SpawnMob (spawnMobCommand.GetObjectId (), spawnMobCommand.GetXPos (), spawnMobCommand.GetZPos (), spawnMobCommand.GetId ());
+				worldManager.SpawnMob (spawnMobCommand.GetObjectId (), spawnMobCommand.GetXPos (), AntiCorruption.FixHandedness(spawnMobCommand.GetZPos ()), spawnMobCommand.GetId ());
 				break;
 			}
 		}
