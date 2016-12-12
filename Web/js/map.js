@@ -102,9 +102,7 @@ var Map = {
         this.mapScrollOffsetX += (17 * 16);
         this.mapScrollOffsetY += (15 * 16);
         this.placeRoomAtBottomLeft(Rooms.chengy_room4doors.room_id, 0, 0, false);
-        this.placeRoomAtBottomLeft(Rooms.chengy_room4doors.room_id, 0, -4, false);
         this.setPlayerPosition({xPos: 2, zPos: -2});
-        this.placeMob(Mobs.ant.id, {x: 1.5 * this.TILE_SIZE, y: -6.5 * this.TILE_SIZE}, false);
 
         this.game.invalidated = true;
     },

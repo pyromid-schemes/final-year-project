@@ -53,7 +53,7 @@
             "onMessage": {
                 "worldStatus": game.worldStatusUpdate,
                 "vrPosition": game.vrPositionUpdate,
-                "mobPositions": function(mobs) { /* stuff */}
+                "mobPositions": game.mobsPositionUpdate
             },
             "onClose": function() {
                 console.log("WebSocket closed.");
