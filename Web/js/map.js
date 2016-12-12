@@ -642,8 +642,8 @@ var Map = {
         };
 
         var top_left = {
-            x: center.x - mob_type.mob.sprite.size.width / 2,
-            y: center.y - mob_type.mob.sprite.size.height / 2
+            x: mob.center.x - mob_type.mob.sprite.size.width / 2,
+            y: mob.center.y - mob_type.mob.sprite.size.height / 2
         };
         mob.x = top_left.x;
         mob.y = top_left.y;
@@ -652,6 +652,11 @@ var Map = {
         this.mapMobs[msg.id] = mob;
 
         this.game.invalidated = true;
+    },
+    updateMobsPosition: function(mobs){
+      for(var i=0; i<mobs.length; i++){
+          this.updateMobPosition(mobs[i]);
+      }
     },
     /**
      * Helper Functions

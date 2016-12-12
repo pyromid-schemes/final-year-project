@@ -143,8 +143,8 @@ var game = {
         game.mapObject.setPlayerPosition(msg);
     },
 
-    mobPositionUpdate: function(msg){
-        game.mapObject.updateMobPosition(msg);
+    mobsPositionUpdate: function(msg){
+        game.mapObject.updateMobsPosition(msg);
     }
 };
 window.addEventListener('load', function(){
