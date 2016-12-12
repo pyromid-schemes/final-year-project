@@ -14,14 +14,14 @@ namespace World
 		private List<Mob> mobSpawnQueue;
 
 		private HashSet<PlacedPrefab> gameWorld;
-//		private HashSet<PlacedMob> mobs;
+		private HashSet<PlacedMob> mobs;
 
 		void Start ()
 		{
 			objectSpawnQueue = new List<PositionalGameObject> ();
 			mobSpawnQueue = new List<Mob> ();
 			gameWorld = new HashSet<PlacedPrefab> ();
-//			mobs = new HashSet<PlacedMob> ();
+			mobs = new HashSet<PlacedMob> ();
 			AddPrefab ("room2", 0, 0);
 		}
 	
@@ -35,9 +35,8 @@ namespace World
 			for (int i = 0; i < mobSpawnQueue.Count; i++) {
 				var mob = (GameObject)Instantiate (mobSpawnQueue [i].pgo.gameObj, mobSpawnQueue[i].pgo.position, Quaternion.identity);
 				mob.SetActive (true);
-				Debug.Log ("spawned: " + mobSpawnQueue [i].name);
+				mobs.Add (new PlacedMob (mobSpawnQueue [i].name, mobSpawnQueue [i].pgo.position, mobSpawnQueue [i].id, mob));
 				mobSpawnQueue.RemoveAt (i);
-//				mobs.Add (new PlacedMob (mobSpawnQueue [i].name, mobSpawnQueue [i].pgo.position, mobSpawnQueue [i].id, mob));
 			}
 		}
 
@@ -62,7 +61,6 @@ namespace World
 			if (obj == null) {
 				return;
 			}
-
 			Vector3 position = new Vector3 (xPos, 0, zPos);
 			mobSpawnQueue.Add (new Mob (new PositionalGameObject (obj, position), id, objectId));
 		}
@@ -75,6 +73,11 @@ namespace World
 		public Vector3 GetVRPosition()
 		{
 			return vrPlayer.transform.position;
+		}
+
+		public HashSet<PlacedMob> GetMobs()
+		{
+			return mobs;
 		}
 	}
 

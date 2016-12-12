@@ -21,8 +21,9 @@ function openWebSocket(config) {
 					case "worldStatus":
 						config.onMessage.worldStatus(msg.objects);
 						break;
-					case "vrPosition":
-						config.onMessage.vrPosition(msg.position);
+					case "positions":
+						config.onMessage.vrPosition(msg.vrPosition);
+						config.onMessage.mobPositions(msg.mobs);
 						break;
 				}
 			}

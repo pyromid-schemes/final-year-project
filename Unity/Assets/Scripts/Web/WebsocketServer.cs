@@ -94,17 +94,17 @@ namespace Web
 			if (wsClient != null) {
 				if (nextUpdate == 0) {
 					nextUpdate = Time.time + (1.0f / updatesPerSecond);
-					SendVRPosition ();
+					SendPositions ();
 				} else if (Time.time > nextUpdate) {
 					nextUpdate += (1.0f / updatesPerSecond);
-					SendVRPosition ();
+					SendPositions ();
 				}
 			}
 		}
 
-		void SendVRPosition()
+		void SendPositions()
 		{
-			byte[] position = ToByteArray(FormatVRPositionAsJson(worldManager.GetVRPosition ()));
+			byte[] position = ToByteArray(FormatPositionsAsJson (worldManager.GetVRPosition (), worldManager.GetMobs ()));
 			byte error;
 
 			NetworkTransport.Send (wsClient.GetHostId(), wsClient.GetConnectionId(), wsClient.GetChannelId(), position, position.Length, out error);
@@ -130,15 +130,29 @@ namespace Web
 			return sb.ToString ();
 		}
 
-		private string FormatVRPositionAsJson(Vector3 position)
+		private string FormatPositionsAsJson(Vector3 position, HashSet<PlacedMob> mobs)
 		{
 			StringBuilder sb = new StringBuilder ();
 			sb.Append ("{");
-			sb.Append ("\"command\":\"vrPosition\",");
-			sb.Append ("\"position\": {");
+			sb.Append ("\"command\":\"positions\",");
+			sb.Append ("\"vrPosition\": {");
 			sb.Append (string.Format("\"xPos\":{0},", position.x));
 			sb.Append (string.Format("\"zPos\":{0}",AntiCorruption.FixHandedness(position.z)));
-			sb.Append ("}}");
+			sb.Append ("},");
+			sb.Append ("\"mobs\":[");
+
+			foreach (PlacedMob m in mobs) {
+				sb.Append ("{");
+				sb.Append (string.Format("\"objectId\":\"{0}\",", m.GetName ()));
+				sb.Append (string.Format("\"xPos\":{0},", m.GetPosition ().x));
+				sb.Append (string.Format("\"zPos\":{0},", AntiCorruption.FixHandedness(m.GetPosition().z)));
+				sb.Append (string.Format("\"id\":{0}", m.GetId ()));
+				sb.Append ("},");
+			}
+			if (mobs.Count > 0) {
+				sb.Remove (sb.Length - 1, 1);
+			}
+			sb.Append ("]}");
 
 			return sb.ToString ();
 		}
