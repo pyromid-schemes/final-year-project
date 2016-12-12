@@ -16,6 +16,6 @@ namespace Parsing
 	}
 
 	public enum CommandType {
-		BUILD, TYPE_NOT_FOUND
+		BUILD, SPAWNMOB, TYPE_NOT_FOUND
 	}
 }

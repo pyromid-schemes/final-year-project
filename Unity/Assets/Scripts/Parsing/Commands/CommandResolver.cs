@@ -1,19 +1,19 @@
 ﻿using Parsing.Commands;
 using UnityEngine;
 using System;
-using Spawn;
+using World;
 
 namespace Parsing.Commands
 {
 	public class CommandResolver
 	{
-		private ISpawner spawner;
+		private IWorldManager worldManager;
 		private ParserLibrary parserLibrary;
 
-		public CommandResolver (ISpawner spawner)
+		public CommandResolver (IWorldManager spawner)
 		{
 			parserLibrary = new ParserLibrary ();
-			this.spawner = spawner;
+			this.worldManager = spawner;
 		}
 
 		public void ResolveMessage(string msg)
@@ -26,7 +26,11 @@ namespace Parsing.Commands
 			switch (command.GetCommandType ()) {
 			case CommandType.BUILD:
 				var buildCommand = (BuildCommand)command;
-				spawner.AddPrefab (buildCommand.GetObjectId (), buildCommand.GetXPos (), buildCommand.GetZPos ());
+				worldManager.AddPrefab (buildCommand.GetObjectId (), buildCommand.GetXPos (), AntiCorruption.FixHandedness(buildCommand.GetZPos ()));
+				break;
+			case CommandType.SPAWNMOB:
+				var spawnMobCommand = (SpawnMobCommand)command;
+				worldManager.SpawnMob (spawnMobCommand.GetObjectId (), spawnMobCommand.GetXPos (), AntiCorruption.FixHandedness(spawnMobCommand.GetZPos ()), spawnMobCommand.GetId ());
 				break;
 			}
 		}

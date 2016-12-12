@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Web Client Test</title>
     <link rel="stylesheet" type="text/css" href="css/styles.css"/>
+    <link rel="icon" href="favicon.ico">
 </head>
 <body>
     <!-- Nav bar -->
@@ -21,11 +22,9 @@
             <p>Please enter the host you are connecting to and open the websocket before you send a message.</p>
             <p>When you are finished, please close the WebSocket.</p>
             <p>Make sure you check the console for now so that you can see what is going on.</p>
-            <input id="url" type="text" value="localhost">
-            <input id="message" type="text" value="some-text">
-            <a href="javascript:open()">Open WebSocket</a>
-            <a href="javascript:send()">Send Message</a>
-            <a href="javascript:close()">Close WebSocket</a>
+            <input id="url" type="text" value="localhost"/>
+            <input id="openWSButton" type="button" value="Open connection" onclick="openWebSocket(config);"/>
+            <input id="closeWSButton" type="button" value="Close connection" onclick="closeWebSocket();" disabled/>
         </div>
     </section>
 
@@ -38,33 +37,27 @@
     <!-- Include JS scripts after page DOM has loaded -->
     <script src="js/phaser/phaser.min.js"></script>
 
-    <!-- ToDo: Compile these into one file? -->
-    <script src="js/data/tilemaps.js"></script>
-    <script src="js/data/rooms.js"></script>
-    <script src="js/game.js"></script>
-    <script src="js/map.js"></script>
-    <script src="js/builder.js"></script>
-    <script src="js/property.js"></script>
+    <!-- Game minified -->
+    <script src="js/bin/game.min.js"></script>
 
 
-    <!-- Jamie's WebSockets script -->
-    <script type="text/javascript" src="js/sockets/unityClient.js"></script>
-    <script type="text/javascript" src="js/sockets/webSockets.js"></script>
+    <!-- Jamie's WebSockets scripts minified -->
+    <script src="js/bin/networking.min.js"></script>
     <script type="text/javascript" charset="UTF-8">
         var config = {
             "onOpen": function() {
                 console.log("WebSocket opened.");
+                document.getElementById("openWSButton").disabled = true;
+                document.getElementById("closeWSButton").disabled = false;
             },
             "onMessage": {
-                "worldStatus": function(msg) {
-                    console.log("Server sent worldStatus message:");
-                    for (var i = 0; i<msg.length;i++) {
-                        console.log("Room: " + msg[i].objectId + ", xPos: " + msg[i].xPos + ", zPos: " + msg[i].zPos);
-                    }
-                }
+                "worldStatus": game.worldStatusUpdate,
+                "vrPosition": game.vrPositionUpdate
             },
             "onClose": function() {
                 console.log("WebSocket closed.");
+                document.getElementById("openWSButton").disabled = false;
+                document.getElementById("closeWSButton").disabled = true;
             }
         };
 
@@ -76,19 +69,6 @@
             }
         };
 
-        function buildCommand() {
-            var objectName = document.getElementById("buildCommandObjectName").value;
-            UnityClient.buildCommand(objectName);
-        }
-
-        function open() {
-            var url = document.getElementById("url");
-            openWebSocket(url.value, config);
-        }
-
-        function close() {
-            closeWebSocket();
-        }
     </script>
 </body>
 </html>

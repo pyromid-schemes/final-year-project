@@ -25,7 +25,6 @@ namespace AI.States.SimpleSkeleton
             _mob.ToDefendingState();
             _player = GameObject.Find("Player");
             _timeSinceLastAttack = 0f;
-            _mob.Agent.Stop();
         }
 
         public void OnUpdate()

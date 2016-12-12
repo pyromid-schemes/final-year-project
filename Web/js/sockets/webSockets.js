@@ -5,7 +5,8 @@ var readyToSend = false;
 * @config Object that contains the onOpen, onMessage and onClose functions
 * that will be used for this WebSocket.
 */
-function openWebSocket(ipAddress, config) {
+function openWebSocket(config) {
+    var ipAddress = document.getElementById("url").value;
 	ws = new WebSocket("ws://" + ipAddress + ":9998");
 	ws.onopen = function() {
 		readyToSend = true;
@@ -20,13 +21,16 @@ function openWebSocket(ipAddress, config) {
 					case "worldStatus":
 						config.onMessage.worldStatus(msg.objects);
 						break;
+					case "vrPosition":
+						config.onMessage.vrPosition(msg.position);
+						break;
 				}
 			}
 		});
 		reader.readAsText(evt.data);
 	};
-	ws.onclose = function(onClose) {
-		readyToSend = false;
+    ws.onclose = function () {
+        readyToSend = false;
 		config.onClose();
 	};
 }

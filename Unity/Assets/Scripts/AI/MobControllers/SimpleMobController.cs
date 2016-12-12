@@ -1,7 +1,7 @@
 ﻿using AI.States;
 using UnityEngine;
 
-namespace AI.MobControllers
+namespace AI.MobControllers 
 {
     abstract class SimpleMobController : MonoBehaviour
     {

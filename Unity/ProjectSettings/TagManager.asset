@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Monster
   - Weapon
+  - Walkable
   layers:
   - Default
   - TransparentFX
