@@ -52,7 +52,8 @@
             },
             "onMessage": {
                 "worldStatus": game.worldStatusUpdate,
-                "vrPosition": game.vrPositionUpdate
+                "vrPosition": game.vrPositionUpdate,
+                "mobPositions": game.mobsPositionUpdate
             },
             "onClose": function() {
                 console.log("WebSocket closed.");

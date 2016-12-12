@@ -3,16 +3,20 @@ using UnityEngine;
 
 namespace World
 {
-	public class PlacedMob : PlacedPrefab
+	public class PlacedMob
 	{
 
 		private GameObject gameObj;
 		private int id;
+		private string name;
+		private Vector3 position;
 
-		public PlacedMob (string name, Vector3 position, int id, GameObject gameObj) : base(name, position)
+		public PlacedMob (string name, Vector3 position, int id, GameObject gameObj)
 		{
 			this.gameObj = gameObj;
 			this.id = id;
+			this.name = name;
+			this.position = position;
 		}
 
 		public override bool Equals(object value)
@@ -50,6 +54,16 @@ namespace World
 		public GameObject GetGameObject()
 		{
 			return gameObj;
+		}
+
+		public string GetName()
+		{
+			return name;
+		}
+
+		public Vector3 GetPosition()
+		{
+			return position;
 		}
 
 	}

@@ -46,8 +46,8 @@
     <br>
 </div>
 <div id="footer">
-    <label for="showPlayerMovement">Show player movement in output</label>
-    <input id="showPlayerMovement" type="checkbox" onclick="setShowPlayerMovement();">
+    <label for="showMovement">Show movement in output</label>
+    <input id="showMovement" type="checkbox" onclick="setShowMovement();">
     <br>
     <div>
         <input type="button" onclick="clearOutput();" value="Clear output"/>
@@ -59,7 +59,7 @@
 <script type="text/javascript" src="js/sockets/webSockets.js"></script>
 <script type="text/javascript" src="js/sockets/unityClient.js"></script>
 <script type="text/javascript" charset="UTF-8">
-    var showPlayerMovement = false;
+    var showMovement = false;
     var config = {
         "onOpen": function () {
             writeToOutput("WebSocket opened.");
@@ -75,9 +75,17 @@
             },
             "vrPosition": function (msg) {
                 // By default (defined in Unity) this will be called 30x a second
-                if (showPlayerMovement) {
+                if (showMovement) {
                     writeToOutput("Server sent vrPosition message:");
                     writeToOutput("xPos: " + msg.xPos + ", zPos: " + msg.zPos);
+                }
+            },
+            "mobPositions": function (msg) {
+                if (showMovement) {
+                    writeToOutput("Server sent mobPositions message:");
+                    for (var i = 0; i < msg.length; i++) {
+                        writeToOutput("Mob: " + msg[i].objectId + ", xPos: " + msg[i].xPos + ", zPos: " + msg[i].zPos + ", id: " + msg[i].id);
+                    }
                 }
             }
         },
@@ -116,8 +124,8 @@
         document.getElementById("output").innerHTML = "<br>";
     }
 
-    function setShowPlayerMovement() {
-        showPlayerMovement = document.getElementById("showPlayerMovement").checked;
+    function setShowMovement() {
+        showMovement = document.getElementById("showMovement").checked;
     }
 
 </script>

@@ -38,3 +38,5 @@ sysinfo.txt
 
 node_modules/
 /Web/.idea/
+
+/Web/js/bin/
