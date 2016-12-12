@@ -1,6 +1,6 @@
 var Mobs = {
     ant: {
-        id: 'ant',
+        id: 'mobKnight',
         sprite: {
             key: 'mobs-ant',
             image: 'assets/mobs/ant.png',

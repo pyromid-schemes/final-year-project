@@ -101,7 +101,8 @@ var Map = {
 
         this.mapScrollOffsetX += (17 * 16);
         this.mapScrollOffsetY += (15 * 16);
-        this.placeRoomAtTopLeft(Rooms.chengy_room4doors.room_id, -1, -1, false);
+        this.placeRoomAtBottomLeft(Rooms.chengy_room4doors.room_id, 0, 0, false);
+        this.setPlayerPosition({xPos: 1, zPos: -1});
 
         this.game.invalidated = true;
     },
@@ -509,8 +510,6 @@ var Map = {
         var mob_type = this.mobTypes[mob_id];
         var map_mob_id = this.mapMobs.length;
 
-        console.log("placeMob");
-
         var center = {
             x: position.x + mob_type.mob.sprite.size.width / 2,
             y: position.y + mob_type.mob.sprite.size.height / 2
@@ -531,21 +530,12 @@ var Map = {
             unity_position: unity_position
         };
 
-        console.log("Placed mob:");
-        console.log(this.mapMobs[map_mob_id]);
-
-        // Debug print info
-        console.log("Creating mob:\nType: "+mob_type.mob.sprite.key+"\nX: "+center.x+", Y: "+center.y+"\nUX: "+unity_position.x+", UY: "+unity_position.y);
-
         if(send_message){
             var data = {
-                "command": "spawnMob",
-                "options": {
-                    "objectId": mob_id,
-                    "xPos": unity_position.x,
-                    "zPos": unity_position.y,
-                    "id": map_mob_id
-                }
+                "objectId": mob_id,
+                "xPos": unity_position.x,
+                "zPos": unity_position.y,
+                "id": map_mob_id
             };
             this.game.sendMessage('create-mob', data);
         }
@@ -575,9 +565,14 @@ var Map = {
 
     placeRoomAtTopLeft: function(room_id, x, y, send_message) {
         var room = this.roomTypes[room_id];
-
         this.placeRoom(room_id, x + room.dimensions.center.x, y + room.dimensions.center.y, send_message);
     },
+    placeRoomAtBottomLeft: function(room_id, x, y, send_message) {
+        var room = this.roomTypes[room_id];
+        this.placeRoomAtTopLeft(room_id, x, y - room.dimensions.h, send_message);
+    },
+
+
     placeRoom: function(room_id, x, y, send_message){
         // Get the room data from the roomTypes array
         var room = this.roomTypes[room_id];
@@ -608,7 +603,7 @@ var Map = {
             var data = {
                 objectId: room_id,
                 xPos: x - room.dimensions.center.x,
-                yPos: y - room.dimensions.center.y
+                yPos: y - room.dimensions.center.y + room.dimensions.h // <---- here [place at bottom left]
             };
             this.game.sendMessage("create-room", data);
         }
@@ -620,8 +615,6 @@ var Map = {
     setPlayerPosition: function(msg){
         this.player.position.x = msg.xPos * this.TILE_SIZE;
         this.player.position.y = msg.zPos * this.TILE_SIZE;
-
-        console.log("px="+this.player.position.x+", py="+this.player.position.y);
 
         this.game.invalidated = true;
     },
