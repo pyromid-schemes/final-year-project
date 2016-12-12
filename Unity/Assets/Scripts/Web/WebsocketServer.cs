@@ -121,7 +121,7 @@ namespace Web
 				sb.Append ("{");
 				sb.Append (string.Format("\"objectId\":\"{0}\",", p.GetName()));
 				sb.Append (string.Format("\"xPos\":{0},", p.GetPosition().x));
-				sb.Append (string.Format("\"zPos\":{0}", p.GetPosition().z));
+				sb.Append (string.Format("\"zPos\":{0}", AntiCorruption.FixHandedness(p.GetPosition().z)));
 				sb.Append ("},");
 			}
 			sb.Remove (sb.Length - 1, 1);
@@ -137,7 +137,7 @@ namespace Web
 			sb.Append ("\"command\":\"vrPosition\",");
 			sb.Append ("\"position\": {");
 			sb.Append (string.Format("\"xPos\":{0},", position.x));
-			sb.Append (string.Format("\"zPos\":{0}", position.z));
+			sb.Append (string.Format("\"zPos\":{0}",AntiCorruption.FixHandedness(position.z)));
 			sb.Append ("}}");
 
 			return sb.ToString ();

@@ -139,6 +139,11 @@ Prefab:
       propertyPath: vrPlayer
       value: 
       objectReference: {fileID: 1607810663}
+    - target: {fileID: 114000013165029404, guid: 5deddcdb49dfa4de2ba39fd4f0884e88,
+        type: 2}
+      propertyPath: grid
+      value: 
+      objectReference: {fileID: 214181898}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5deddcdb49dfa4de2ba39fd4f0884e88, type: 2}
   m_IsPrefabParent: 0
@@ -184,6 +189,46 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4b6e87ee2f14743f7b489a545e8bd0cd, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &214181897
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 214181899}
+  - 114: {fileID: 214181898}
+  m_Layer: 0
+  m_Name: Grid
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &214181898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 214181897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 747a994f9a134a34baa306f385c0c108, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &214181899
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 214181897}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.289784, y: -10.878391, z: 6.510046}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
 --- !u!114 &1057224738 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114000012332729108, guid: 4b6e87ee2f14743f7b489a545e8bd0cd,
