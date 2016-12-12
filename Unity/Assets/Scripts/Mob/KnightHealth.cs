@@ -24,6 +24,7 @@ public class KnightHealth : Damageable
 
     protected override void OnDeath()
     {
-        GameObject.DestroyObject(self);
+        //GameObject.DestroyObject(self);
+        self.SetActive(false);
     }
 }
