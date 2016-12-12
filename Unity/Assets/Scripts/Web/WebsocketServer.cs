@@ -144,8 +144,8 @@ namespace Web
 			foreach (PlacedMob m in mobs) {
 				sb.Append ("{");
 				sb.Append (string.Format("\"objectId\":\"{0}\",", m.GetName ()));
-				sb.Append (string.Format("\"xPos\":{0},", m.GetPosition ().x));
-				sb.Append (string.Format("\"zPos\":{0},", AntiCorruption.FixHandedness(m.GetPosition().z)));
+				sb.Append (string.Format("\"xPos\":{0},", m.GetGameObject().transform.position.x));
+				sb.Append (string.Format("\"zPos\":{0},", AntiCorruption.FixHandedness(m.GetGameObject ().transform.position.z)));
 				sb.Append (string.Format("\"id\":{0}", m.GetId ()));
 				sb.Append ("},");
 			}
