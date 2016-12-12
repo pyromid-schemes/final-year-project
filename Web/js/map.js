@@ -102,7 +102,9 @@ var Map = {
         this.mapScrollOffsetX += (17 * 16);
         this.mapScrollOffsetY += (15 * 16);
         this.placeRoomAtBottomLeft(Rooms.chengy_room4doors.room_id, 0, 0, false);
-        this.setPlayerPosition({xPos: 1, zPos: -1});
+        this.placeRoomAtBottomLeft(Rooms.chengy_room4doors.room_id, 0, -4, false);
+        this.setPlayerPosition({xPos: 2, zPos: -2});
+        this.placeMob(Mobs.ant.id, {x: 1.5 * this.TILE_SIZE, y: -6.5 * this.TILE_SIZE}, false);
 
         this.game.invalidated = true;
     },
@@ -385,6 +387,9 @@ var Map = {
                 var btn = this.game.builderObject.getActiveButton();
                 var mob = this.mobTypes[btn.mob_id];
 
+                console.log("place mob");
+                console.log(btn.mob_id);
+
                 // var tile = this.getTileFromMouseXY();
                 var pos = this.getMobPosXY(mob.mob.sprite.size);
                 if(this.canPlaceMob(btn.mob_id, pos)){
@@ -609,12 +614,42 @@ var Map = {
         }
 
         // Repaint the world with the new room
-        this.redrawEverything();
+        this.game.invalidated = true;
     },
 
     setPlayerPosition: function(msg){
         this.player.position.x = msg.xPos * this.TILE_SIZE;
         this.player.position.y = msg.zPos * this.TILE_SIZE;
+
+        this.game.invalidated = true;
+    },
+
+    updateMobPosition: function(msg){
+        console.log("updateMobPosition:");
+        console.log(msg);
+
+        var mob = this.mapMobs[msg.id];
+        var mob_type = this.mobTypes[mob.mob_id];
+
+        mob.unity_position = {
+            x: msg.xPos,
+            y: msg.zPos
+        };
+
+        mob.center = {
+            x: msg.xPos * this.TILE_SIZE,
+            y: msg.zPos * this.TILE_SIZE
+        };
+
+        var top_left = {
+            x: center.x - mob_type.mob.sprite.size.width / 2,
+            y: center.y - mob_type.mob.sprite.size.height / 2
+        };
+        mob.x = top_left.x;
+        mob.y = top_left.y;
+
+
+        this.mapMobs[msg.id] = mob;
 
         this.game.invalidated = true;
     },
@@ -687,8 +722,12 @@ var Map = {
     },
 
     // Returns true if the mouse is inside the map area (not the whole map viewport)
-    isMouseInsideMap: function(){
+    isMouseInsideMap: function() {
         var mouse = getAccurateCoords();
         return isPointWithinRect(mouse, this.mapDimensions);
+    },
+
+    unityToWorldCoords: function(unityCoord){
+        return unityCoord * this.TILE_SIZE;
     }
 };

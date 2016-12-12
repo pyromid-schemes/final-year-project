@@ -141,6 +141,10 @@ var game = {
 
     vrPositionUpdate: function(msg){
         game.mapObject.setPlayerPosition(msg);
+    },
+
+    mobPositionUpdate: function(msg){
+        game.mapObject.updateMobPosition(msg);
     }
 };
 window.addEventListener('load', function(){
