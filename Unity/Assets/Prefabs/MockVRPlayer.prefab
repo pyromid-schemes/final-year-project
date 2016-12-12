@@ -244,7 +244,7 @@ GameObject:
   - 4: {fileID: 4000014282895104}
   m_Layer: 0
   m_Name: LanceArmature
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -273,9 +273,10 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000013165759446}
   - 65: {fileID: 65000013468596020}
+  - 114: {fileID: 114000010792172100}
   m_Layer: 0
   m_Name: Bone_0
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -553,7 +554,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011417705008}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.9, y: 0.29, z: -9.21}
+  m_LocalPosition: {x: 1.941189, y: 4.83, z: -3.034919}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -1010,6 +1011,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ce20c7129cb01b429c8d78386b9a498, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114000010792172100
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011901765774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d2f529c1941936479fcd02a35df3ebd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114000011289772676
