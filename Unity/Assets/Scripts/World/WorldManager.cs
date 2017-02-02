@@ -43,7 +43,6 @@ namespace World
 
 		public void AddPrefab (string objectId, int xPos, int zPos)
 		{
-			// TODO change where the name of the room is resolved
 			GameObject obj = prefabs.GetGameObject (objectId);
 			if (obj == null) {
 				return;
@@ -62,7 +61,9 @@ namespace World
 			if (obj == null) {
 				return;
 			}
+
 			Vector3 position = new Vector3 (xPos, 0, zPos);
+
 			mobSpawnQueue.Add (new Mob (obj, position, id, objectId));
 		}
 

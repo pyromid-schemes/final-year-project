@@ -46,6 +46,7 @@
     <br>
 </div>
 <div id="footer">
+    Update frequency: <span id="updateFrequency"></span><br>
     <label for="showMovement">Show movement in output</label>
     <input id="showMovement" type="checkbox" onclick="setShowMovement();">
     <br>
@@ -60,6 +61,8 @@
 <script type="text/javascript" src="js/sockets/unityClient.js"></script>
 <script type="text/javascript" charset="UTF-8">
     var showMovement = false;
+    var updateFrequency = 0;
+
     var config = {
         "onOpen": function () {
             writeToOutput("WebSocket opened.");
@@ -75,6 +78,7 @@
             },
             "vrPosition": function (msg) {
                 // By default (defined in Unity) this will be called 30x a second
+                updateFrequency++;
                 if (showMovement) {
                     writeToOutput("Server sent vrPosition message:");
                     writeToOutput("xPos: " + msg.xPos + ", zPos: " + msg.zPos);
@@ -103,6 +107,11 @@
             alert("WebSockets are not supported in this browser");
         }
     };
+
+    setInterval(function() {
+        document.getElementById("updateFrequency").innerHTML = updateFrequency;
+        updateFrequency = 0;
+    }, 1000);
 
     function sendBuildCommand() {
         var buildForm = document.getElementById("buildForm").elements;
