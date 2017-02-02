@@ -21,7 +21,6 @@ public abstract class Weapon : MonoBehaviour
         {
             case "Shield":
                 blocked = true;
-                Debug.Log("Block");
                 break;
             case "Monster":
                 ApplyDamageToMonster(other.collider);
@@ -40,7 +39,6 @@ public abstract class Weapon : MonoBehaviour
         else
         {
             other.gameObject.SendMessage("ApplyDamage", damage);
-            Debug.Log("Hit");
         }
 
 
