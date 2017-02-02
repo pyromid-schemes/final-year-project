@@ -112,7 +112,7 @@ namespace Web
 			NetworkTransport.Send (wsClient.GetHostId(), wsClient.GetConnectionId(), wsClient.GetChannelId(), position, position.Length, out error);
 		}
 
-		private string FormatGameWorldAsJson(HashSet<PlacedPrefab> gameWorld)
+		private string FormatGameWorldAsJson(List<PlacedPrefab> gameWorld)
 		{
 			StringBuilder sb = new StringBuilder ();
 			sb.Append ("{");
@@ -132,7 +132,7 @@ namespace Web
 			return sb.ToString ();
 		}
 
-		private string FormatPositionsAsJson(Vector3 position, HashSet<PlacedMob> mobs)
+		private string FormatPositionsAsJson(Vector3 position, List<PlacedMob> mobs)
 		{
 			StringBuilder sb = new StringBuilder ();
 			sb.Append ("{");

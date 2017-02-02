@@ -13,15 +13,15 @@ namespace World
 		private List<Room> roomSpawnQueue;
 		private List<Mob> mobSpawnQueue;
 
-		private HashSet<PlacedPrefab> gameWorld;
-		private HashSet<PlacedMob> mobs;
+		private List<PlacedPrefab> gameWorld;
+		private List<PlacedMob> mobs;
 
 		void Start ()
 		{
 			roomSpawnQueue = new List<Room> ();
 			mobSpawnQueue = new List<Mob> ();
-			gameWorld = new HashSet<PlacedPrefab> ();
-			mobs = new HashSet<PlacedMob> ();
+			gameWorld = new List<PlacedPrefab> ();
+			mobs = new List<PlacedMob> ();
 			AddPrefab ("room2", 0, 0);
 		}
 	
@@ -67,7 +67,7 @@ namespace World
 			mobSpawnQueue.Add (new Mob (obj, position, id, objectId));
 		}
 
-		public HashSet<PlacedPrefab> GetGameWorld()
+		public List<PlacedPrefab> GetGameWorld()
 		{
 			return gameWorld;
 		}
@@ -77,7 +77,7 @@ namespace World
 			return vrPlayer.transform.position;
 		}
 
-		public HashSet<PlacedMob> GetMobs()
+		public List<PlacedMob> GetMobs()
 		{
 			return mobs;
 		}
