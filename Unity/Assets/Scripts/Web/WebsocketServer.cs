@@ -19,8 +19,10 @@ namespace Web
 		private CommandResolver commandResolver;
 		private WebsocketClient wsClient = null;
 
-		private float updatesPerSecond = 30.0f;
-		private float nextUpdate = 0f;
+		private static float updatesPerSecond = 30.0f;
+		private float TIMER_TICK = (1.0f / updatesPerSecond);
+		private float newTime = 0f;
+
 
 		void Start ()
 		{
@@ -92,11 +94,11 @@ namespace Web
 		void FixedUpdate()
 		{
 			if (wsClient != null) {
-				if (nextUpdate == 0) {
-					nextUpdate = Time.time + (1.0f / updatesPerSecond);
-					SendPositions ();
-				} else if (Time.time > nextUpdate) {
-					nextUpdate += (1.0f / updatesPerSecond);
+				newTime += Time.deltaTime;
+
+				if (newTime >= TIMER_TICK) {
+					newTime -= TIMER_TICK;
+
 					SendPositions ();
 				}
 			}
@@ -110,7 +112,7 @@ namespace Web
 			NetworkTransport.Send (wsClient.GetHostId(), wsClient.GetConnectionId(), wsClient.GetChannelId(), position, position.Length, out error);
 		}
 
-		private string FormatGameWorldAsJson(HashSet<PlacedPrefab> gameWorld)
+		private string FormatGameWorldAsJson(List<PlacedPrefab> gameWorld)
 		{
 			StringBuilder sb = new StringBuilder ();
 			sb.Append ("{");
@@ -130,7 +132,7 @@ namespace Web
 			return sb.ToString ();
 		}
 
-		private string FormatPositionsAsJson(Vector3 position, HashSet<PlacedMob> mobs)
+		private string FormatPositionsAsJson(Vector3 position, List<PlacedMob> mobs)
 		{
 			StringBuilder sb = new StringBuilder ();
 			sb.Append ("{");

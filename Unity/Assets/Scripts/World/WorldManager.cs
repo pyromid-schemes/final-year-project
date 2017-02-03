@@ -10,39 +10,39 @@ namespace World
 		public GameObject vrPlayer;
 	    public Grid grid;
 
-		private List<PositionalGameObject> objectSpawnQueue;
+		private List<Room> roomSpawnQueue;
 		private List<Mob> mobSpawnQueue;
 
-		private HashSet<PlacedPrefab> gameWorld;
-		private HashSet<PlacedMob> mobs;
+		private List<PlacedPrefab> gameWorld;
+		private List<PlacedMob> mobs;
 
 		void Start ()
 		{
-			objectSpawnQueue = new List<PositionalGameObject> ();
+			roomSpawnQueue = new List<Room> ();
 			mobSpawnQueue = new List<Mob> ();
-			gameWorld = new HashSet<PlacedPrefab> ();
-			mobs = new HashSet<PlacedMob> ();
+			gameWorld = new List<PlacedPrefab> ();
+			mobs = new List<PlacedMob> ();
 			AddPrefab ("room2", 0, 0);
 		}
 	
 		void Update ()
 		{
-			for (int i = 0; i < objectSpawnQueue.Count; i++) {
-				var obj = (GameObject)Instantiate (objectSpawnQueue [i].gameObj, objectSpawnQueue[i].position, Quaternion.identity);
+			for (int i = 0; i < roomSpawnQueue.Count; i++) {
+				var obj = (GameObject)Instantiate (roomSpawnQueue [i].gameObj, roomSpawnQueue[i].position, Quaternion.identity);
 				obj.SetActive (true);
-				objectSpawnQueue.RemoveAt (i);
+				roomSpawnQueue.RemoveAt (i);
 			}
+
 			for (int i = 0; i < mobSpawnQueue.Count; i++) {
-				var mob = (GameObject)Instantiate (mobSpawnQueue [i].pgo.gameObj, mobSpawnQueue[i].pgo.position, Quaternion.identity);
+				var mob = (GameObject)Instantiate (mobSpawnQueue [i].gameObj, mobSpawnQueue[i].position, Quaternion.identity);
 				mob.SetActive (true);
-				mobs.Add (new PlacedMob (mobSpawnQueue [i].name, mobSpawnQueue [i].pgo.position, mobSpawnQueue [i].id, mob));
+				mobs.Add (new PlacedMob (mobSpawnQueue [i].name, mobSpawnQueue [i].position, mobSpawnQueue [i].id, mob));
 				mobSpawnQueue.RemoveAt (i);
 			}
 		}
 
 		public void AddPrefab (string objectId, int xPos, int zPos)
 		{
-			// TODO change where the name of the room is resolved
 			GameObject obj = prefabs.GetGameObject (objectId);
 			if (obj == null) {
 				return;
@@ -50,7 +50,7 @@ namespace World
 
 			Vector3 position = new Vector3 (xPos, 0, zPos);
 
-			objectSpawnQueue.Add(new PositionalGameObject (obj, position));
+			roomSpawnQueue.Add(new Room (obj, position));
 		    grid.AddNodes(obj);
 			gameWorld.Add (new PlacedPrefab (objectId, position));
 		}
@@ -61,11 +61,13 @@ namespace World
 			if (obj == null) {
 				return;
 			}
+
 			Vector3 position = new Vector3 (xPos, 0, zPos);
-			mobSpawnQueue.Add (new Mob (new PositionalGameObject (obj, position), id, objectId));
+
+			mobSpawnQueue.Add (new Mob (obj, position, id, objectId));
 		}
 
-		public HashSet<PlacedPrefab> GetGameWorld()
+		public List<PlacedPrefab> GetGameWorld()
 		{
 			return gameWorld;
 		}
@@ -75,18 +77,18 @@ namespace World
 			return vrPlayer.transform.position;
 		}
 
-		public HashSet<PlacedMob> GetMobs()
+		public List<PlacedMob> GetMobs()
 		{
 			return mobs;
 		}
 	}
 
-	struct PositionalGameObject
+	struct Room
 	{
 		public GameObject gameObj;
 		public Vector3 position;
 
-		public PositionalGameObject(GameObject g, Vector3 p)
+		public Room(GameObject g, Vector3 p)
 		{
 			gameObj = g;
 			position = p;
@@ -95,13 +97,15 @@ namespace World
 
 	struct Mob
 	{
-		public PositionalGameObject pgo;
+		public GameObject gameObj;
+		public Vector3 position;
 		public int id;
 		public string name;
 
-		public Mob(PositionalGameObject p, int i, string n)
+		public Mob(GameObject g, Vector3 p, int i, string n)
 		{
-			pgo = p;
+			gameObj = g;
+			position = p;
 			id = i;
 			name = n;
 		}

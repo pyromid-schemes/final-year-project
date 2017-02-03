@@ -3,6 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Websocket Testing</title>
+    <style>
+        .lines, .lines th, .lines td {
+            border: 1px solid black;
+        }
+
+        .lines {
+            border-collapse: collapse;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        .lines td div {
+            overflow-y: scroll;
+            height: 300px;
+            text-align: left;
+            vertical-align: top;
+            display: block;
+        }
+    </style>
 </head>
 <body>
 <div id="main">
@@ -46,12 +65,26 @@
     <br>
 </div>
 <div id="footer">
+    Update frequency: <span id="updateFrequency"></span><br>
     <label for="showMovement">Show movement in output</label>
     <input id="showMovement" type="checkbox" onclick="setShowMovement();">
     <br>
     <div>
         <input type="button" onclick="clearOutput();" value="Clear output"/>
-        <div id="output" style="border: 1px solid black;overflow: auto; height: 300px;"></div>
+        <table class="lines">
+            <tr>
+                <th>websocket</th>
+                <th>worldStatus</th>
+                <th>vrPosition</th>
+                <th>mobPosition</th>
+            </tr>
+            <tr>
+                <td><div id="wsUpdates"></div></td>
+                <td><div id="worldStatusUpdates"></div></td>
+                <td><div id="vrPositionUpdates"></div></td>
+                <td><div id="mobPositionUpdates"></div></td>
+            </tr>
+        </table>
     </div>
 </div>
 
@@ -60,37 +93,37 @@
 <script type="text/javascript" src="js/sockets/unityClient.js"></script>
 <script type="text/javascript" charset="UTF-8">
     var showMovement = false;
+    var updateFrequency = 0;
+
     var config = {
         "onOpen": function () {
-            writeToOutput("WebSocket opened.");
+            writeToOutput("WebSocket opened.", "wsUpdates");
             document.getElementById("openWSButton").disabled = true;
             document.getElementById("closeWSButton").disabled = false;
         },
         "onMessage": {
             "worldStatus": function (msg) {
-                writeToOutput("Server sent worldStatus message:");
                 for (var i = 0; i < msg.length; i++) {
-                    writeToOutput("Room: " + msg[i].objectId + ", xPos: " + msg[i].xPos + ", zPos: " + msg[i].zPos);
+                    writeToOutput("Room: " + msg[i].objectId + ", xPos: " + msg[i].xPos + ", zPos: " + msg[i].zPos, "worldStatusUpdates");
                 }
             },
             "vrPosition": function (msg) {
                 // By default (defined in Unity) this will be called 30x a second
+                updateFrequency++;
                 if (showMovement) {
-                    writeToOutput("Server sent vrPosition message:");
-                    writeToOutput("xPos: " + msg.xPos + ", zPos: " + msg.zPos);
+                    writeToOutput("xPos: " + msg.xPos + ", zPos: " + msg.zPos, "vrPositionUpdates");
                 }
             },
             "mobPositions": function (msg) {
                 if (showMovement) {
-                    writeToOutput("Server sent mobPositions message:");
                     for (var i = 0; i < msg.length; i++) {
-                        writeToOutput("Mob: " + msg[i].objectId + ", xPos: " + msg[i].xPos + ", zPos: " + msg[i].zPos + ", id: " + msg[i].id);
+                        writeToOutput("Mob: " + msg[i].objectId + ", xPos: " + msg[i].xPos + ", zPos: " + msg[i].zPos + ", id: " + msg[i].id, "mobPositionUpdates");
                     }
                 }
             }
         },
         "onClose": function () {
-            writeToOutput("WebSocket closed.");
+            writeToOutput("WebSocket closed.", "wsUpdates");
             document.getElementById("openWSButton").disabled = false;
             document.getElementById("closeWSButton").disabled = true;
         }
@@ -98,11 +131,16 @@
 
     window.onload = function () {
         if ("WebSocket" in window) {
-            writeToOutput("WebSockets are available!");
+            writeToOutput("WebSockets are available!", "wsUpdates");
         } else {
             alert("WebSockets are not supported in this browser");
         }
     };
+
+    setInterval(function() {
+        document.getElementById("updateFrequency").innerHTML = updateFrequency;
+        updateFrequency = 0;
+    }, 1000);
 
     function sendBuildCommand() {
         var buildForm = document.getElementById("buildForm").elements;
@@ -114,14 +152,17 @@
         UnityClient.spawnMobCommand(spawnMobForm[0].value, spawnMobForm[1].value, spawnMobForm[2].value, spawnMobForm[3].value);
     }
 
-    function writeToOutput(text) {
-        var output = document.getElementById("output").innerHTML;
+    function writeToOutput(text, id) {
+        var output = document.getElementById(id).innerHTML;
 
-        document.getElementById("output").innerHTML = text + "<br>" + output;
+        document.getElementById(id).innerHTML = text + "<br>" + output;
     }
 
     function clearOutput() {
-        document.getElementById("output").innerHTML = "<br>";
+        document.getElementById("wsUpdates").innerHTML = "<br>";
+        document.getElementById("worldStatusUpdates").innerHTML = "<br>";
+        document.getElementById("vrPositionUpdates").innerHTML = "<br>";
+        document.getElementById("mobPositionUpdates").innerHTML = "<br>";
     }
 
     function setShowMovement() {
