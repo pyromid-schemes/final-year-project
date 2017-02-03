@@ -11,11 +11,12 @@ public class KnightHealth : Damageable
 
     void Start()
     {
+        Debug.Log("hello knight");
         self = this.gameObject;
     }
 
     void OnCollisionEnter()
-    {
+    {  
         if (HealthIsZero())
         {
             OnDeath();

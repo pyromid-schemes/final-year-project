@@ -4,7 +4,6 @@ public abstract class Weapon : MonoBehaviour
 {
     private int damage;
     private bool blocked = false;
-
     public Weapon(int damage)
     {
         this.damage = damage;
@@ -41,5 +40,7 @@ public abstract class Weapon : MonoBehaviour
         {
             other.gameObject.SendMessage("ApplyDamage", damage);
         }
+
+
     }
 }
