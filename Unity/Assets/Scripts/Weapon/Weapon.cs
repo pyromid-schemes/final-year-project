@@ -3,10 +3,12 @@
 public abstract class Weapon : MonoBehaviour
 {
     private int damage;
-    private bool blocked = false;
+    private bool blocked;
+
     public Weapon(int damage)
     {
         this.damage = damage;
+        blocked = false;
     }
 
     public int GetDamage()
@@ -16,8 +18,7 @@ public abstract class Weapon : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        string tag = other.collider.gameObject.tag;
-        switch (tag)
+        switch (other.collider.gameObject.tag)
         {
             case "Shield":
                 blocked = true;
@@ -40,7 +41,5 @@ public abstract class Weapon : MonoBehaviour
         {
             other.gameObject.SendMessage("ApplyDamage", damage);
         }
-
-
     }
 }
