@@ -10,6 +10,7 @@ namespace World
 		private int id;
 		private string name;
 		private Vector3 position;
+		private bool killed;
 
 		public PlacedMob (string name, Vector3 position, int id, GameObject gameObj)
 		{
@@ -17,6 +18,7 @@ namespace World
 			this.id = id;
 			this.name = name;
 			this.position = position;
+			killed = false;
 		}
 
 		public int GetId()
@@ -37,6 +39,16 @@ namespace World
 		public Vector3 GetPosition()
 		{
 			return position;
+		}
+
+		public bool HasBeenKilled()
+		{
+			return killed;
+		}
+
+		public void KillMob ()
+		{
+			killed = true;
 		}
 	}
 }

@@ -38,7 +38,11 @@
             <td>build</td>
             <form id="buildForm">
                 <td>
-                    <input name="objectId" type="text" placeholder="objectId"/>
+                    <input name="objectId" type="text" placeholder="objectId" list="buildFormObjectIds"/>
+                    <datalist id="buildFormObjectIds">
+                        <option>room1</option>
+                        <option>room2</option>
+                    </datalist>
                     <input name="xPos" type="text" placeholder="xPos"/>
                     <input name="zPos" type="text" placeholder="zPos"/>
                 </td>
@@ -51,7 +55,10 @@
             <td>spawnMob</td>
             <form id="spawnMobForm">
                 <td>
-                    <input name="objectId" type="text" placeholder="objectId"/>
+                    <input name="objectId" type="text" placeholder="objectId" list="spawnMobFormObjectIds"/>
+                    <datalist id="spawnMobFormObjectIds">
+                        <option>mobKnight</option>
+                    </datalist>
                     <input name="xPos" type="text" placeholder="xPos"/>
                     <input name="zPos" type="text" placeholder="zPos"/>
                     <input name="id" type="text" placeholder="id"/>
@@ -117,7 +124,7 @@
             "mobPositions": function (msg) {
                 if (showMovement) {
                     for (var i = 0; i < msg.length; i++) {
-                        writeToOutput("Mob: " + msg[i].objectId + ", xPos: " + msg[i].xPos + ", zPos: " + msg[i].zPos + ", id: " + msg[i].id, "mobPositionUpdates");
+                        writeToOutput("Mob: " + msg[i].objectId + ", xPos: " + msg[i].xPos + ", zPos: " + msg[i].zPos + ", id: " + msg[i].id + ", dead: " + msg[i].dead, "mobPositionUpdates");
                     }
                 }
             }
