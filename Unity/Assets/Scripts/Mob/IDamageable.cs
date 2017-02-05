@@ -4,5 +4,7 @@
 
     bool HealthIsZero();
 
-    void OnDeath();
+    void OnZeroHealth();
+
+    bool IsDead();
 }

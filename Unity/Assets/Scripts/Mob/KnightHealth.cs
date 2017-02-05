@@ -5,10 +5,12 @@ public class KnightHealth : MonoBehaviour, IDamageable
 {
     private int health;
     private GameObject self;
+    private bool isDead;
 
     public KnightHealth()
     {
         health = 3;
+        isDead = false;
     }
 
     void Start()
@@ -21,7 +23,7 @@ public class KnightHealth : MonoBehaviour, IDamageable
         Debug.Log(health);
         if (HealthIsZero())
         {
-            OnDeath();
+            OnZeroHealth();
         }
     }
 
@@ -35,8 +37,14 @@ public class KnightHealth : MonoBehaviour, IDamageable
         return health == 0;
     }
 
-    public void OnDeath()
+    public void OnZeroHealth()
     {
         self.SetActive(false);
+        isDead = true;
+    }
+
+    public bool IsDead()
+    {
+        return isDead;
     }
 }
