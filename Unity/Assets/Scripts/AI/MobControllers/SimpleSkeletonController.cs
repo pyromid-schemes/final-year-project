@@ -23,6 +23,7 @@ namespace AI.MobControllers
         public float AttackCooldown = 2f;
         public float AttackRange = 2f;
         public float RotateSpeed = 10f;
+        public float FOV = 180f;
 
         private void InitialiseStates()
         {
