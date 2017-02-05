@@ -18,13 +18,7 @@ namespace AI.MobControllers
             Attack
         }
 
-        [HideInInspector] public Grid Grid;
-        public Transform Eyes;
-        public float AttackCooldown = 2f;
-        public float AttackRange = 2f;
-        public float RotateSpeed = 10f;
-
-        private void InitialiseStates()
+        protected override void InitialiseStates()
         {
             StateManager = new StateManager();
 
@@ -52,13 +46,6 @@ namespace AI.MobControllers
             StateManager.AddTransition((int) States.Defend, (int) States.Pursue);
 
             StateManager.AddTransition((int) States.Attack, (int) States.Defend);
-        }
-
-        void Start()
-        {
-            Anim = GetComponent<Animator>();
-            Grid = GameObject.Find("Grid").GetComponent<Grid>();
-            InitialiseStates();
         }
 
         public void ChangeState(States nextState)
