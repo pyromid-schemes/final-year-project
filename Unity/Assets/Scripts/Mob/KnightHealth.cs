@@ -1,31 +1,42 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-public class KnightHealth : Damageable
+public class KnightHealth : MonoBehaviour, IDamageable
 {
-    private const int health = 2;
+    private int health;
     private GameObject self;
 
-    public KnightHealth() : base(health)
+    public KnightHealth()
     {
+        health = 3;
     }
 
     void Start()
     {
-        Debug.Log("hello knight");
         self = this.gameObject;
     }
 
     void OnCollisionEnter()
-    {  
+    {
+        Debug.Log(health);
         if (HealthIsZero())
         {
             OnDeath();
         }
     }
 
-    protected override void OnDeath()
+    public void ApplyDamage(int damage)
     {
-        //GameObject.DestroyObject(self);
+        health -= damage;
+    }
+
+    public bool HealthIsZero()
+    {
+        return health == 0;
+    }
+
+    public void OnDeath()
+    {
         self.SetActive(false);
     }
 }
