@@ -10,7 +10,7 @@ namespace AI.MobControllers
         public Grid Grid;
 
         // Use this for initialization
-        void Start()
+        protected override void InitialiseStates()
         {
             StateManager = new StateManager();
             StateManager.AddState(1, new MoveState(this));
