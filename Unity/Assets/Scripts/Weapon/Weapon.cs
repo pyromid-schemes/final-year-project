@@ -4,11 +4,13 @@ public abstract class Weapon : MonoBehaviour
 {
     private int damage;
     private bool blocked;
+    private bool isColliding;
 
     public Weapon(int damage)
     {
         this.damage = damage;
         blocked = false;
+        isColliding = false;
     }
 
     public int GetDamage()
@@ -18,6 +20,9 @@ public abstract class Weapon : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
+        if (isColliding) return;
+        isColliding = true;
+
         switch (other.collider.gameObject.tag)
         {
             case "Shield":
@@ -41,5 +46,10 @@ public abstract class Weapon : MonoBehaviour
         {
             other.gameObject.SendMessage("ApplyDamage", damage);
         }
+    }
+
+    void Update()
+    {
+        isColliding = false;
     }
 }
