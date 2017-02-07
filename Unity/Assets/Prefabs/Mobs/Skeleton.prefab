@@ -231,8 +231,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000010083165718}
   - 95: {fileID: 95000013055987344}
-  - 54: {fileID: 54000013607801390}
-  - 65: {fileID: 65000012408828772}
+  - 136: {fileID: 136000012293107156}
+  - 114: {fileID: 114000012425578510}
   m_Layer: 0
   m_Name: Skeleton
   m_TagString: Monster
@@ -398,9 +398,12 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000010523952680}
+  - 65: {fileID: 65000010050931878}
+  - 114: {fileID: 114000012643698126}
+  - 54: {fileID: 54000013571091328}
   m_Layer: 0
   m_Name: Bip001 Prop1
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -609,7 +612,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000011469898076}
   - 137: {fileID: 137000013568363630}
-  - 65: {fileID: 65000013049735654}
   - 54: {fileID: 54000012296719594}
   m_Layer: 0
   m_Name: Object01
@@ -625,7 +627,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011574630884}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.4, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 15, y: 15, z: 15}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -1197,45 +1199,33 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!54 &54000013607801390
+--- !u!54 &54000013571091328
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011574630884}
+  m_GameObject: {fileID: 1000012546743712}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &65000012408828772
+--- !u!65 &65000010050931878
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011574630884}
+  m_GameObject: {fileID: 1000012546743712}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.045698613, y: 0.13984545, z: -0.031084064}
-  m_Center: {x: -0.00079143845, y: 0.08511192, z: 0.0036307645}
---- !u!65 &65000013049735654
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000014262604572}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.011056893, y: 0.11352981, z: 0.024313884}
-  m_Center: {x: -0.0011769794, y: -0.03881319, z: 0.0045547523}
+  m_Size: {x: 0.013430004, y: 0.009725924, z: 0.08372918}
+  m_Center: {x: -0.0004987644, y: -0.0000074414465, z: 0.053584546}
 --- !u!95 &95000013055987344
 Animator:
   serializedVersion: 3
@@ -1253,6 +1243,41 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114000012425578510
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011574630884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 622bbc387fa56c242a4adc4a5ad8801d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114000012643698126
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012546743712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ace5c31dd7b4fd641a31275fc35470b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!136 &136000012293107156
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011574630884}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.021721594
+  m_Height: 0.154989
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.08, z: 0}
 --- !u!137 &137000011671219700
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
