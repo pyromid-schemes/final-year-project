@@ -55,7 +55,7 @@ namespace World
 
 			roomSpawnQueue.Add(new Room (obj, position, rotation));
 		    grid.AddNodes(obj);
-			gameWorld.Add (new PlacedPrefab (objectId, position));
+			gameWorld.Add (new PlacedPrefab (objectId, position, rotation));
 		}
 
 		public void SpawnMob (string objectId, float xPos, float zPos, int id)

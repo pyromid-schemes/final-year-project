@@ -112,7 +112,7 @@
         "onMessage": {
             "worldStatus": function (msg) {
                 for (var i = 0; i < msg.length; i++) {
-                    writeToOutput("Room: " + msg[i].objectId + ", xPos: " + msg[i].xPos + ", zPos: " + msg[i].zPos, "worldStatusUpdates");
+                    writeToOutput("Room: " + msg[i].objectId + ", xPos: " + msg[i].xPos + ", zPos: " + msg[i].zPos + ", rot: " + msg[i].rot, "worldStatusUpdates");
                 }
             },
             "vrPosition": function (msg) {

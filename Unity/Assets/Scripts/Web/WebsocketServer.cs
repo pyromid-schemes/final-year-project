@@ -126,7 +126,8 @@ namespace Web
 				sb.Append ("{");
 				sb.Append (string.Format("\"objectId\":\"{0}\",", p.GetName()));
 				sb.Append (string.Format("\"xPos\":{0},", p.GetPosition().x));
-				sb.Append (string.Format("\"zPos\":{0}", AntiCorruption.FixHandedness(p.GetPosition().z)));
+				sb.Append (string.Format("\"zPos\":{0},", AntiCorruption.FixHandedness(p.GetPosition().z)));
+				sb.Append (string.Format("\"rot\":{0}", Mathf.RoundToInt(p.GetRotation().eulerAngles.y)));
 				sb.Append ("},");
 			}
 			sb.Remove (sb.Length - 1, 1);
