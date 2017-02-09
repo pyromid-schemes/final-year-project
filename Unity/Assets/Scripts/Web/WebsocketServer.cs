@@ -148,6 +148,14 @@ namespace Web
 				sb.Append (string.Format("\"objectId\":\"{0}\",", m.GetName ()));
 				sb.Append (string.Format("\"xPos\":{0},", m.GetGameObject().transform.position.x));
 				sb.Append (string.Format("\"zPos\":{0},", AntiCorruption.FixHandedness(m.GetGameObject ().transform.position.z)));
+
+				bool killMob = ((IDamageable)m.GetGameObject ().GetComponent (typeof(IDamageable))).IsDead ();
+
+				if (killMob) {
+					m.KillMob ();
+				}
+
+				sb.Append (string.Format("\"dead\":{0},", killMob ? "true" : "false"));
 				sb.Append (string.Format("\"id\":{0}", m.GetId ()));
 				sb.Append ("},");
 			}

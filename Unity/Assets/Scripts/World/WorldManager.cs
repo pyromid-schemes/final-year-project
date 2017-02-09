@@ -33,6 +33,8 @@ namespace World
 				roomSpawnQueue.RemoveAt (i);
 			}
 
+			mobs.RemoveAll (mob => mob.HasBeenKilled ());
+
 			for (int i = 0; i < mobSpawnQueue.Count; i++) {
 				var mob = (GameObject)Instantiate (mobSpawnQueue [i].gameObj, mobSpawnQueue[i].position, Quaternion.identity);
 				mob.SetActive (true);
