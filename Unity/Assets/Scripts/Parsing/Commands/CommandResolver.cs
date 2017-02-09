@@ -26,7 +26,7 @@ namespace Parsing.Commands
 			switch (command.GetCommandType ()) {
 			case CommandType.BUILD:
 				var buildCommand = (BuildCommand)command;
-				worldManager.AddPrefab (buildCommand.GetObjectId (), buildCommand.GetXPos (), AntiCorruption.FixHandedness(buildCommand.GetZPos ()));
+				worldManager.AddPrefab (buildCommand.GetObjectId (), buildCommand.GetXPos (), AntiCorruption.FixHandedness(buildCommand.GetZPos ()), buildCommand.GetRot ());
 				break;
 			case CommandType.SPAWNMOB:
 				var spawnMobCommand = (SpawnMobCommand)command;

@@ -22,13 +22,13 @@ namespace World
 			mobSpawnQueue = new List<Mob> ();
 			gameWorld = new List<PlacedPrefab> ();
 			mobs = new List<PlacedMob> ();
-			AddPrefab ("room2", 0, 0);
+			AddPrefab ("room2", 0, 0, 0);
 		}
 	
 		void Update ()
 		{
 			for (int i = 0; i < roomSpawnQueue.Count; i++) {
-				var obj = (GameObject)Instantiate (roomSpawnQueue [i].gameObj, roomSpawnQueue[i].position, Quaternion.identity);
+				var obj = (GameObject)Instantiate (roomSpawnQueue [i].gameObj, roomSpawnQueue[i].position, roomSpawnQueue [i].rotation);
 				obj.SetActive (true);
 				roomSpawnQueue.RemoveAt (i);
 			}
@@ -43,7 +43,7 @@ namespace World
 			}
 		}
 
-		public void AddPrefab (string objectId, int xPos, int zPos)
+		public void AddPrefab (string objectId, int xPos, int zPos, int rot)
 		{
 			GameObject obj = prefabs.GetGameObject (objectId);
 			if (obj == null) {
@@ -51,8 +51,9 @@ namespace World
 			}
 
 			Vector3 position = new Vector3 (xPos, 0, zPos);
+			Quaternion rotation = Quaternion.Euler (0, rot, 0);
 
-			roomSpawnQueue.Add(new Room (obj, position));
+			roomSpawnQueue.Add(new Room (obj, position, rotation));
 		    grid.AddNodes(obj);
 			gameWorld.Add (new PlacedPrefab (objectId, position));
 		}
@@ -89,11 +90,13 @@ namespace World
 	{
 		public GameObject gameObj;
 		public Vector3 position;
+		public Quaternion rotation;
 
-		public Room(GameObject g, Vector3 p)
+		public Room(GameObject g, Vector3 p, Quaternion r)
 		{
 			gameObj = g;
 			position = p;
+			rotation = r;
 		}
 	}
 

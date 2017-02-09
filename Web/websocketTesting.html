@@ -45,6 +45,7 @@
                     </datalist>
                     <input name="xPos" type="text" placeholder="xPos"/>
                     <input name="zPos" type="text" placeholder="zPos"/>
+                    <input name="rot" type="text" placeholder="rotation"/>
                 </td>
                 <td>
                     <input type="button" value="Send" onclick="sendBuildCommand();">
@@ -151,7 +152,7 @@
 
     function sendBuildCommand() {
         var buildForm = document.getElementById("buildForm").elements;
-        UnityClient.buildCommand(buildForm[0].value, buildForm[1].value, buildForm[2].value);
+        UnityClient.buildCommand(buildForm[0].value, buildForm[1].value, buildForm[2].value, buildForm[3].value);
     }
 
     function sendSpawnMobCommand() {

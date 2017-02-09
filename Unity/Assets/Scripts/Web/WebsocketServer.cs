@@ -75,8 +75,11 @@ namespace Web
 					break;
 
 				case NetworkEventType.DataEvent:
+					string data = FromByteArray(buffer);
+					Debug.Log (data);
+
 					if (recHostId == clientSocket) {
-						commandResolver.ResolveMessage(FromByteArray (buffer));
+						commandResolver.ResolveMessage(data);
 					}
 					break;
 
