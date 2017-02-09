@@ -1310,7 +1310,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000010769256738}
   m_Layer: 0
-  m_Name: Quad Junction (Voxel)
+  m_Name: Room-One Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
