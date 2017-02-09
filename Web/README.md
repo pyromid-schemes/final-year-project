@@ -10,23 +10,25 @@ npm install
 This should install socket io, express and a bunch of gruntfile components
 
 ## Make changes to the code
-You may need to install the Grunt command line interface to run the grunt tasks (Only run this if `grunt build` doesn't work)
+~~You may need to install the Grunt command line interface to run the grunt tasks (Only run this if `grunt build` doesn't work)~~
 ```
 npm install -g grunt-cli
 ```
 
-If you make a change to a JS file inside Web you will need to recompile the `/bin/game.min.js`  
+~~If you make a change to a JS file inside Web you will need to recompile the `/bin/game.min.js`~~
 
-Run this command from anywhere in the directory:
+~~Run this command from anywhere in the directory:~~
 ```
 grunt build
 ```
 
-This will run the `uglify` command which will merge all the JS files together and then star the `watch` task.
+~~This will run the `uglify` command which will merge all the JS files together and then star the `watch` task.~~
 
-What this does is now whenever a JS file is changed in the project it will automatically re-uglify the files. 
+~~What this does is now whenever a JS file is changed in the project it will automatically re-uglify the files.~~ 
 
-So you only have to run `grunt` at the start of opening the project and it will do everything for you.
+~~So you only have to run `grunt` at the start of opening the project and it will do everything for you.~~
+
+__GRUNT DOES NOT CURRENTLY WORK__
 
 ## Run 
 

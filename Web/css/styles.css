@@ -1,0 +1,33 @@
+/* http://stackoverflow.com/questions/12046315/prevent-overscrolling-of-web-page */
+
+html, body{
+    margin: 0;
+    padding: 0;
+}
+html {
+    overflow: hidden;
+    height: 100%;
+}
+body{
+    background-color: #e6e7ff;
+    height: 100%;
+    overflow: auto;
+}
+
+section{
+    width: 100%;
+    padding: 2px;
+    box-sizing: border-box;
+}
+#game canvas{
+    margin: auto;
+    background: #39f;
+}
+
+.container{ width: 800px; margin: auto; }
+
+
+/** Utility Styles **/
+.align--center{ text-align: center; }
+.background--purps{ background-color: #7070c5; }
+.color--white{ color: #fff; }
