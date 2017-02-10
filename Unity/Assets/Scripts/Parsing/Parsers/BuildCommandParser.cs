@@ -32,6 +32,10 @@ namespace Parsing.Parsers
 				return false;
 			}
 
+			if (options ["rot"] == null || !Int32.TryParse (options ["rot"].ToString (), out result)) {
+				return false;
+			}
+
 			return CommandTypeExtensions.Parse (obj ["command"].ToString ()) == CommandType.BUILD;
 		}
 
@@ -42,7 +46,8 @@ namespace Parsing.Parsers
 
 			return new BuildCommand (options["objectId"].ToString(), 
 				Int32.Parse(options["xPos"].ToString()), 
-				Int32.Parse(options["zPos"].ToString()));
+				Int32.Parse(options["zPos"].ToString()),
+				Int32.Parse(options["rot"].ToString()));
 		}
 	}
 }

@@ -9,25 +9,28 @@ namespace Test.Builders
 			"\"options\":{{" +
 				"\"objectId\":\"{0}\"," +
 				"\"xPos\":{1}," +
-				"\"zPos\":{2}" +
+				"\"zPos\":{2}," +
+				"\"rot\": {3}" +
 			"}}" +
 			"}}";
 		
 		private string objectId;
 		private int xPos;
 		private int zPos;
+		private int rot;
 
 		public static BuildCommandBuilder ADefaultBuildCommandBuilder()
 		{
 			return new BuildCommandBuilder ()
 				.WithObjectId ("default")
 				.WithXPos (0)
-				.WithZPos (0);
+				.WithZPos (0)
+				.WithRot (0);
 		}
 
 		public string Build()
 		{
-			return String.Format (template, objectId, xPos, zPos);
+			return String.Format (template, objectId, xPos, zPos, rot);
 		}
 
 		public BuildCommandBuilder WithObjectId(string objectId)
@@ -45,6 +48,12 @@ namespace Test.Builders
 		public BuildCommandBuilder WithZPos(int zPos)
 		{
 			this.zPos = zPos;
+			return this;
+		}
+
+		public BuildCommandBuilder WithRot(int rot)
+		{
+			this.rot = rot;
 			return this;
 		}
 	}
