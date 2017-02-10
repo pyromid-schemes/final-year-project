@@ -2,15 +2,17 @@ var Player = {
     id: 'player',
     sprite: {
         key: 'player-key',
-        image: 'assets/player/player.png',
+        image: 'assets/players/player.png',
         size: {
-            width: 16,
-            height: 16
+            width: 88,
+            height: 102,
+            half_w: 44,
+            half_h: 51
         },
         // Center is the rotation point of the player
         center: {
-            x: 8,
-            y: 10
+            x: 44,
+            y: 51
         }
     }
 };

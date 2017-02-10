@@ -15,7 +15,7 @@ var Mobs = {
         }
     },
     bear: {
-        id: 'bear',
+        id: 'mobBear',
         sprite: {
             key: 'mobs-bear',
             image: 'assets/mobs/bear.png',

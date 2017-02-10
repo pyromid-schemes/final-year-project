@@ -1,170 +1,512 @@
 
-var game = {
-    phaser: null,
-    start: function() {
-        this.phaser = new Phaser.Game(800, 600, Phaser.AUTO, 'game', {
-            preload: this.preload,
-            create: this.create,
-            update: this.update,
-            render: this.render
-        });
+/** CONSTANTS **/
+var MAP_DRAW_OFFSET_X = 0;
+var MAP_DRAW_OFFSET_Y = 0;
+
+var SCROLL_SPEED = 0.022;
+var SCROLL_MIN = 1;
+var SCROLL_MAX = 3;
+
+var Main = function(game){
+};
+
+Main.prototype = {
+    builder: null,
+
+    game_zoom: 1,
+    map_group: null,
+    game_data: null,
+    map_draw_offset: null,
+    map_scroll_offset: {x: 0, y: 0},
+    map_dimensions: null,
+    empty_background: null,
+
+    is_dragging: false,
+    drag_current: {x: 0, y: 0},
+
+    /** GHOST ROOM STUFF **/
+    currently_selected_tile_type: null,
+    ghost_room: null,
+    can_place_ghost_room: false,
+
+    /** GHOST MOB **/
+    ghost_mob: null,
+
+    TILE_SIZE: 16,
+
+    /* Room data */
+    room_types: [],
+    rooms: [],
+
+    /* Mob data */
+    mob_types: [],
+    mobs: [],
+
+    preload: function(){
+        this.game.load.image('empty-tile', 'assets/empty-tile.png');
+        this.game.load.image('empty-tile64', 'assets/empty-tile64.png');
+        this.game.load.image('builder-button-selector', 'assets/selector.png');
+
+        this.preload_room(Rooms.room1);
+        this.preload_room(Rooms.room2);
+        this.preload_room(Rooms.room3);
+
+        this.preload_mob(Mobs.ant);
+        this.preload_mob(Mobs.bear);
+
+        this.game.load.image(Player.sprite.key, Player.sprite.image);
     },
-
-    mapObject: null,
-    builderObject: null,
-    propertyObject: null,
-
-    mapView: null,
-    builderView: null,
-    propertyView: null,
-
-    invalidated: false,
-
-    redraws: 0, /// DEBUG 
-
-    preload: function() {
-        /** Builder view section */
-        // Room Buttons
-        game.phaser.load.image(Rooms.chengy_room.builderButton.key, Rooms.chengy_room.builderButton.image);
-        game.phaser.load.image(Rooms.chengy_room4doors.builderButton.key, Rooms.chengy_room4doors.builderButton.image);
-        game.phaser.load.image(Rooms.chengy_room_5x3.builderButton.key, Rooms.chengy_room_5x3.builderButton.image);
-        game.phaser.load.image(Rooms.chengy_room_door_up.builderButton.key, Rooms.chengy_room_door_up.builderButton.image);
-        game.phaser.load.image(Rooms.l_shape_room.builderButton.key, Rooms.l_shape_room.builderButton.image);
-        // Mob Buttons
-        game.phaser.load.image(Mobs.ant.builderButton.key, Mobs.ant.builderButton.image);
-        game.phaser.load.image(Mobs.bear.builderButton.key, Mobs.bear.builderButton.image);
-        // Selector
-        game.phaser.load.image('builder-button-selector', 'assets/buttons/selector.png');
-
-
-        /** World view section */
-        // Tiles
-        game.phaser.load.image('tile-empty-16', 'assets/buttons/empty-tile-16.png');
-        // TileMaps
-        game.phaser.load.atlas(Tilemaps.chengy.tilemapKey, Tilemaps.chengy.tilemapPath, 'assets/tilemaps/tilemap.json');
-        game.phaser.load.atlas(Tilemaps.lava.tilemapKey, Tilemaps.lava.tilemapPath, 'assets/tilemaps/tilemap.json');
-        game.phaser.load.atlas(Tilemaps.ghostRoom.placeable.tilemapKey, Tilemaps.ghostRoom.placeable.tilemapPath, 'assets/tilemaps/tilemap.json');
-        game.phaser.load.atlas(Tilemaps.ghostRoom.nonplaceable.tilemapKey, Tilemaps.ghostRoom.nonplaceable.tilemapPath, 'assets/tilemaps/tilemap.json');
-        // Mobs
-        game.phaser.load.image(Mobs.ant.sprite.key, Mobs.ant.sprite.image);
-        game.phaser.load.image(Mobs.bear.sprite.key, Mobs.bear.sprite.image);
-
-        //Player
-        game.phaser.load.image(Player.sprite.key, Player.sprite.image);
+    preload_room: function(room){
+        this.game.load.image(room.assets.normal.key, room.assets.normal.path);
+        this.game.load.image(room.assets.green.key, room.assets.green.path);
+        this.game.load.image(room.assets.red.key, room.assets.red.path);
+    },
+    preload_mob: function(mob){
+        this.game.load.image(mob.sprite.key, mob.sprite.image);
+        this.game.load.image(mob.builderButton.key, mob.builderButton.image);
     },
 
     create: function(){
-        // Initialize the graphics object for drawing things
-        var graphics = game.phaser.add.graphics(0, 0);
-        window.graphics = graphics;
-        game.graphics = graphics;
+        var graphics = this.game.add.graphics(0, 0);
+        graphics.beginFill(0xccccff, 1);
+        graphics.drawRect(0, 0, 800, 600);
+        graphics.endFill();
 
-        // Setup separate viewports
-        game.mapView = {x: 0, y: 0, w: 550, h: 500};
-        game.builderView = {x: 550, y: 0, w: 250, h: 600};
-        game.propertyView = {x:0, y: 500, w: 550, h: 100};
+        this.create_tiled_background();
 
-        // Setup object classes
-        game.mapObject = Map; game.mapObject.create(game);
-        game.builderObject = Builder; game.builderObject.create(game);
-        game.propertyObject = Property; game.propertyObject.create(game);
+        /** DEBUG **/
+        this.game_data = document.getElementById('data');
+        this.gd2 = document.getElementById('data2');
+        this.gd3 = document.getElementById('data3');
 
-        // Input callbacks
-        game.phaser.input.onDown.add(game.onDown, this);
-        game.phaser.input.onUp.add(game.onUp, this);
-        game.phaser.input.addMoveCallback(game.onMove, this);
-        game.phaser.input.addMoveCallback(game.onMove, this);
-        game.phaser.input.keyboard.onDownCallback = game.keyOnDown;
+        this.game.input.onDown.add(this.onDown, this);
+        this.game.input.onUp.add(this.onUp, this);
+        this.game.input.addMoveCallback(this.onMove, this);
 
-        // Prevents right clicks from opening the context menu
-        game.phaser.canvas.oncontextmenu = function (e) { e.preventDefault(); };
+        var self = this;
+        this.game.input.keyboard.onDownCallback = function(e){
+            self.keyOnDown(e, self);
+        };
+        document.getElementById('game').addEventListener("mousewheel", function(e){
+            self.mouseWheel(e);
+        }, false);
+
+        // Create the builder object
+        this.builder = new Builder(this.game, this); this.builder.create();
+
+        /** Creating the types **/
+        this.addRoomType(Rooms.room1);
+        this.addRoomType(Rooms.room2);
+        this.addRoomType(Rooms.room3);
+
+        this.addMobType(Mobs.ant);
+        this.addMobType(Mobs.bear);
+
+
+        // Move the map to the center
+        this.scrollMap({x: -18 * 16, y: -18 * 16});
+        // Create a dummy room
+        this.place_room('room2', 0, 0, false);
+
+
+        this.setupPlayer(Player);
+        this.setPlayerPosition({xPos: 0, zPos: 0});
+
+
+        window.mainScene = this;
     },
 
-    // On update
-    update: function() {
+    /** Creation of rooms **/
+    addRoomType: function(room_data){
+        this.room_types[room_data.room_id] = room_data;
+    },
+    addMobType: function(mob_data){
+        this.mob_types[mob_data.id] = mob_data;
+        console.log(this.mob_types);
     },
 
-    // On render
-    render: function(){
-        if(game.invalidated){
-            game.invalidated = false;
+    update: function(){
+        var tile = this.get_tile_xy();
 
-            game.mapObject.render();
+        // If a ghost room is active - try to update the room position
+        if(this.ghost_room != null) {
+            var tx16 = tile.x * 16;
+            var ty16 = tile.y * 16;
+            var rotation = this.ghost_room.rotation;
+
+
+            var bb = this.get_bounding_box_from_room(tx16,ty16, this.currently_selected_tile_type);
+
+            this.can_place_ghost_room = true;
+            for(var i=0; i<this.rooms.length; i++){
+                var room = this.rooms[i];
+                var bb2 = this.get_bounding_box_from_room(room.x, room.y, room.room_id);
+
+                if(this.doesBoundingBoxesCollide(bb, bb2)){
+                    this.can_place_ghost_room = false;
+                    this.room_selected(this.currently_selected_tile_type, false);
+                    break;
+                }
+            }
+
+            if(this.can_place_ghost_room){
+                this.room_selected(this.currently_selected_tile_type, true);
+            }
+
+
+            this.ghost_room.x = tx16;
+            this.ghost_room.y = ty16;
+            this.ghost_room.rotation = rotation;
+        }else if(this.ghost_mob != null){
+            tile = this.get_world_xy();
+
+            this.ghost_mob.x = tile.x;
+            this.ghost_mob.y = tile.y;
         }
     },
 
-    // On mouse press
     onDown: function(e){
-        var mouseCoords = getAccurateCoords();
+        if(this.isMouseInsideMap()){
+            if(!window.builderScene.is_tile_selected()){
+                this.is_dragging = true;
+                this.drag_current = {x: this.game.input.activePointer.x, y: this.game.input.activePointer.y};
+            }
 
-        // If the click is within the mapView - delegate to the Map object
-        if(isPointWithinRect(mouseCoords, game.mapView)){
-            game.mapObject.onDown(e);
+            // If the map is not dragging - TRY to place a room
+            if(!this.is_dragging){
+                if(this.ghost_room != null){
+                    var tile = this.get_tile_xy();
+
+                    if(this.can_place_ghost_room) {
+                        this.place_room(this.currently_selected_tile_type, tile.x * 16, tile.y * 16, true);
+                    }
+                }else if(this.ghost_mob != null){
+                    var world = this.get_world_xy();
+                    this.place_mob(this.currently_selected_tile_type, world.x, world.y, true);
+                }
+            }
         }
     },
-    // On mouse press released
     onUp: function(e){
-        game.mapObject.onUp(e);
+        this.is_dragging = false;
     },
-    // On mouse moved
     onMove: function(e){
-        game.mapObject.onMove(e);
+        if(this.is_dragging){
+            var pointer = this.game.input.activePointer;
+            var diff = {x: this.drag_current.x - pointer.x, y: this.drag_current.y - pointer.y};
+
+            this.drag_current.x = pointer.x;
+            this.drag_current.y = pointer.y;
+
+            this.scrollMap(diff);
+
+        }
     },
 
-    // When a keyboard press happens
-    keyOnDown: function(e){
-        game.mapObject.keyOnDown(e);
-        game.builderObject.keyOnDown(e);
+    // ToDo: remove magic numbers
+    scrollMap: function(diff){
+        this.map_group.pivot.x += diff.x / this.game_zoom;
+        this.map_group.pivot.y += diff.y / this.game_zoom;
+
+        var diff2 = {x: this.map_group.pivot.x - 288, y: this.map_group.pivot.y - 256};
+        var diff3 = {x: Math.floor(diff2.x / 16), y: Math.floor(diff2.y / 16)};
+
+        this.empty_background.pivot.x = 288 - diff3.x*16;
+        this.empty_background.pivot.y = 256 - diff3.y*16;
     },
 
-    // Sends a message to the Unity client
-    sendMessage: function(messageType, data){
-        switch(messageType){
-            case 'create-mob': 
-                UnityClient.spawnMobCommand(data.objectId, data.xPos, data.zPos, data.id);
-                break;
-            case 'create-room':
-                UnityClient.buildCommand(data.objectId, data.xPos, data.yPos);
-                break;
+    mouseWheel: function(e){
+        var delta = this.game.input.mouse.wheelDelta * -SCROLL_SPEED;
+        this.game_zoom = Math.min(SCROLL_MAX, Math.max(SCROLL_MIN, this.game_zoom + delta));
+
+        // Set the 'zoom' on the map
+        this.map_group.scale.set(this.game_zoom);
+    },
+
+    keyOnDown: function(e, self){
+        if(this.ghost_room != null && e.keyCode == Phaser.Keyboard.R){
+            // Funky rotation?
+            this.ghost_room.rotation = self.ghost_room.rotation + Math.PI/2;
+        }
+    },
+
+    /* Initial setup */
+    create_tiled_background: function() {
+        var map_w = 36;
+        var map_h = 32;
+        var empty_tile = this.game.make.sprite(0, 0, 'empty-tile');
+
+
+        this.map_draw_offset = {x: MAP_DRAW_OFFSET_X, y: MAP_DRAW_OFFSET_Y};
+        this.map_dimensions = {x: this.map_draw_offset.x, y: this.map_draw_offset.y, w: map_w * 16, h: map_h * 16};
+
+        this.map_group = this.game.add.group();
+
+        var background = this.game.make.renderTexture((map_w + 1) * 16, (map_h + 1) * 16, 'empty-background');
+        for (var x = 0; x < map_w + 1; x++) {
+            for (var y = 0; y < map_h + 1; y++) {
+                background.renderRawXY(empty_tile, x * 16, y * 16);
+            }
         }
 
+
+        var mask = this.game.add.graphics(this.map_draw_offset.x, this.map_draw_offset.y);
+        mask.beginFill(0xffffff);
+        mask.drawRect(0, 0, map_w * 16, map_h * 16);
+        this.map_group.mask = mask;
+
+        var world_center = {x: this.map_dimensions.w / 2, y: this.map_dimensions.h / 2};
+        this.empty_background = this.game.add.image(world_center.x, world_center.y, background, null, this.map_group);
+        this.empty_background.pivot.x = world_center.x;
+        this.empty_background.pivot.y = world_center.y;
+
+        this.game_zoom = 1;
+        this.map_group.scale.set(1);
+
+        var pivot = {x: this.map_dimensions.w/2, y: this.map_dimensions.h/2};
+
+        this.map_group.x = this.map_draw_offset.x + pivot.x;
+        this.map_group.y = this.map_draw_offset.y + pivot.y;
+        this.map_group.pivot.x = pivot.x;
+        this.map_group.pivot.y = pivot.y;
     },
 
-    // Messages sent from the Unity client
-    worldStatusUpdate: function(msg){
-        game.mapObject.removeAllRooms();
-        for(var i=0; i<msg.length; i++){
-            game.mapObject.placeRoomAtBottomLeft(msg[i].objectId, msg[i].xPos, msg[i].zPos, false);
+
+    /** Room placing */
+    room_selected: function(room_key, placeable){
+        this.room_unselected();
+
+        this.currently_selected_tile_type = room_key;
+
+        var placeable_suffix = (placeable ? '-green' : '-red');
+
+        this.ghost_room = this.game.add.image(0, 0, room_key + placeable_suffix, null, this.map_group);
+        this.ghost_room.scale.setTo(0.5);
+        this.ghost_room.pivot.x = 64;
+        this.ghost_room.pivot.y = 64;
+    },
+    room_unselected: function(){
+        if(this.ghost_room != null){
+            this.ghost_room.destroy();
+            this.ghost_room = null;
+            this.currently_selected_tile_type = null;
         }
-        game.mapObject.redrawEverything();
+    },
+    can_place_room: function(room_id, x, y){
+        var room = this.room_types[room_id];
+        var bb = this.get_bounding_box_from_room(x, y, room);
+    },
+    place_room: function(room_id, x, y, send_message){
+        var room_data = this.room_types[room_id];
+
+        if(room_data == null) throw new Error("Cannot place room with id: "+room_id);
+
+
+        var img = this.game.add.image(x, y, room_id, null, this.map_group);
+        img.scale.setTo(0.5, 0.5);
+        img.pivot.x = room_data.center.x;
+        img.pivot.y = room_data.center.y;
+
+        if(this.ghost_room != null) {
+            img.rotation = this.ghost_room.rotation;
+
+            this.room_selected(this.currently_selected_tile_type, false);
+            this.ghost_room.rotation = img.rotation;
+        }
+
+        var id = this.rooms.length;
+
+        this.rooms[id] = {
+            room_id: room_id,
+            x: x,
+            y: y,
+            room_type: room_data,
+            room: img
+        };
+
+        if(send_message){
+            Messages.send.buildRoom({objectId: room_id, xPos: x / 16, zPos: y / 16});
+        }
+
+        this.redrawPlayer();
     },
 
-    vrPositionUpdate: function(msg){
-        game.mapObject.setPlayerPosition(msg);
+    // ToDo: Fix the rooms id and array bug...
+    removeAllRooms: function(){
+        for(var i=0; i<this.rooms.length; i++) this.rooms[i].room.destroy();
     },
 
-    mobsPositionUpdate: function(msg){
-        game.mapObject.updateMobsPosition(msg);
+    /** MOB PLACING **/
+    mob_selected: function(mob, placeable){
+        this.mob_unselected();
+
+        this.currently_selected_tile_type = mob.id;
+
+        this.ghost_mob = this.game.add.image(0, 0, mob.sprite.key, null, this.map_group);
+        this.ghost_mob.pivot.x = 8;
+        this.ghost_mob.pivot.y = 8;
+    },
+    mob_unselected: function(){
+        if(this.ghost_mob != null){
+            this.ghost_mob.destroy();
+            this.ghost_mob = null;
+            this.currently_selected_tile_type = null;
+        }
+    },
+    place_mob: function(mob_id, x, y){
+        var mob_data = this.mob_types[mob_id];
+        if(mob_data == null) throw new Error("No mob data for ["+mob_id+"]");
+
+        var mob = this.game.add.image(x, y, mob_data.sprite.key, null, this.map_group);
+        mob.pivot.x = 8;
+        mob.pivot.y = 8;
+
+    },
+
+    /** PLAYER **/
+    setupPlayer: function(player){
+        var sprite = this.game.add.sprite(0, 0, player.sprite.key, null, this.map_group);
+        sprite.pivot.x = player.sprite.size.half_w;
+        sprite.pivot.y = player.sprite.size.half_h;
+        sprite.scale.setTo(16/player.sprite.size.height);
+        this.player = {
+            sprite: sprite,
+            position: {
+                x: 0,
+                y: 0
+            },
+            size: player.sprite.size,
+            center: player.sprite.center,
+            is_visible: true
+        };
+    },
+    setPlayerPosition: function(msg) {
+        this.player.position.x = msg.xPos * this.TILE_SIZE;
+        this.player.position.y = msg.zPos * this.TILE_SIZE;
+
+        this.player.sprite.position.x = this.player.position.x;
+        this.player.sprite.position.y = this.player.position.y;
+    },
+
+    // ToDo: Should refactor this and the two above to be nicer...
+    redrawPlayer: function(){
+        if(this.player == null) return;
+
+        var player_key = this.player.sprite.key;
+        this.player.sprite.destroy();
+        this.player.sprite = this.game.add.image(0, 0, player_key, null, this.map_group);
+        this.player.sprite.pivot.x = this.player.size.half_w;
+        this.player.sprite.pivot.y = this.player.size.half_h;
+        this.player.sprite.position.x = this.player.position.x;
+        this.player.sprite.position.y = this.player.position.y;
+        this.player.sprite.scale.setTo(16/this.player.size.height);
+    },
+
+    /**
+     * UTILITY
+     * **/
+
+    get_bounding_box_from_room: function(x, y, room_id){
+        var room_type = this.room_types[room_id];
+        return {
+            x1: x - room_type.scaled.cx,
+            y1: y - room_type.scaled.cy,
+            x2: x + (room_type.scaled.w - room_type.scaled.cx),
+            y2: y + (room_type.scaled.h - room_type.scaled.cy)
+        };
+    },
+    // Do two bounding boxes collide?
+    doesBoundingBoxesCollide: function(bb1, bb2){
+        return !((bb2.x1 >= bb1.x2) || (bb2.x2 <= bb1.x1) || (bb2.y1 >= bb1.y2) || (bb2.y2 <= bb1.y1));
+    },
+
+    isMouseInsideMap: function() {
+        var mouse = this.getAccurateCoords();
+        return isPointWithinRect(mouse, this.map_dimensions);
+    },
+    getAccurateCoords: function(){
+        var pointer = this.game.input.activePointer;
+        return {x: pointer.x - 1, y: pointer.y - 2};
+    },
+
+    // ToDo: make this nicer/more descriptive?
+    get_tile_xy: function() {
+        var mouse = this.getAccurateCoords();
+
+        /** Actual usable code **/
+        var map_relative = {x: mouse.x - this.map_draw_offset.x, y: mouse.y - this.map_draw_offset.y};
+        var mr_percent = {x: map_relative.x / this.map_dimensions.w , y: map_relative.y / this.map_dimensions.h };
+        var mrp_true = {x: mr_percent.x - 0.50, y: mr_percent.y - 0.50};
+
+
+        var cur_map_dim = this.get_cur_map_dim();
+
+        var tile_new = {x: this.map_group.pivot.x + (mrp_true.x * cur_map_dim.w), y: this.map_group.pivot.y + (mrp_true.y * cur_map_dim.h)};
+        var tile_xy = {x: Math.floor(tile_new.x / 16) , y: Math.floor(tile_new.y / 16)};
+
+        /** DEBUG **/
+        this.gd2.innerHTML = "Tile Global XY["+tile_new.x+","+tile_new.y+"]";
+        this.gd3.innerHTML = "mgx/mgy:"+this.map_group.x+","+this.map_group.y+"   mgpx/mgpy:"+this.map_group.pivot.x+","+this.map_group.pivot.y;
+
+
+        return tile_xy;
+    },
+
+    get_world_xy: function(){
+        var mouse = this.getAccurateCoords();
+
+        var map_relative = {x: mouse.x - this.map_draw_offset.x, y: mouse.y - this.map_draw_offset.y};
+        var mr_percent = {x: map_relative.x / this.map_dimensions.w , y: map_relative.y / this.map_dimensions.h };
+        var mrp_true = {x: mr_percent.x - 0.50, y: mr_percent.y - 0.50};
+
+        var cur_map_dim = this.get_cur_map_dim();
+
+        var tile_new = {x: this.map_group.pivot.x + (mrp_true.x * cur_map_dim.w), y: this.map_group.pivot.y + (mrp_true.y * cur_map_dim.h)};
+
+        return tile_new;
+    },
+
+    get_cur_map_dim: function(){
+        return {w: this.map_dimensions.w / this.game_zoom, h: this.map_dimensions.h / this.game_zoom};
+    },
+
+    worldStatus: function(data){
+        this.removeAllRooms();
+        for(var i=0; i<data.length; i++){
+            this.place_room(data[i].objectId, data[i].xPos, data[i].zPos, false);
+        }
+        this.redrawPlayer();
     }
 };
-window.addEventListener('load', function(){
-    game.start();
-    window.game = game;
-});
 
-//So... Phaser seems to have a dodge mouse-to-coordinate system - this corrects that
-function getAccurateCoords(){
-    var pointer = game.phaser.input.activePointer;
-    return {x: pointer.x - 1, y: pointer.y - 2};
-}
-//This checks whether a point is within a rect
 function isPointWithinRect(point, rect){
     return ( point.x >= rect.x && point.y >= rect.y && point.x <= rect.x + rect.w && point.y <= rect.y + rect.h );
 }
-function isPointWithinBoundingBox(point, rect){
-    return ( point.x >= rect.x1 && point.y >= rect.y1 && point.x <= rect.x2 && point.y <= rect.y2 );
-}
-function isXYWithinBoundingBox(x, y, rect){
-    return ( x >= rect.x1 && y >= rect.y1 && x <= rect.x2 && y <= rect.y2 );
-}
 
+
+
+/**
+ * Message sending
+ * **/
+var Messages = {
+    receive: {
+        worldStatus: function(data){
+            window.mainScene.worldStatus(data);
+        },
+        vrPositionUpdate: function(data){
+            window.mainScene.setPlayerPosition(data);
+        },
+        mobPositions: function(data){
+            // console.log("mob positions");
+            // console.log(data);
+        }
+    },
+    send: {
+        buildRoom: function(data){
+            UnityClient.buildCommand(data.objectId, data.xPos, data.zPos);
+        },
+        placeMob: function(data){
+            UnityClient.spawnMobCommand(data.objectId, data.xPos, data.zPos, data.id);
+        }
+    }
+};

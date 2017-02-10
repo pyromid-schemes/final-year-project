@@ -1,128 +1,70 @@
 var Rooms = {
-    chengy_room: {
+    room1: {
         room_id: 'room1',
-        w: 4,
-        h: 4,
-        center: {x: 1, y: 1},
-        data: [
-            [1, 1, 1, 1],
-            [1, 1, 1, 1],
-            [1, 1, 1, 1],
-            [1, 1, 1, 1]
+        w: 128,
+        h: 128,
+        center: {
+            x: 64,
+            y: 64
+        },
+
+        scaled: {
+            w: 64,
+            h: 64,
+            cx: 32,
+            cy: 32
+        },
+
+        tile_data: [
+            [1,1,1,1],
+            [1,1,1,1],
+            [1,1,1,1],
+            [1,1,1,1]
         ],
-        data2: [
-            ['tl', 'tm', 'tm', 'tr'],
-            ['ml', 'mm', 'mm', 'mr'],
-            ['ml', 'mm', 'mm', 'mr'],
-            ['bl', 'bm', 'bm', 'br']
-        ],
-        tilemap: Tilemaps.chengy,
-        builderButton: {
-            image: 'assets/buttons/button4.png',
-            key: 'builder-button-chengy'
+        collision: {
+            low: {x: -2, y: -2},
+            high: {x: 2, y: 2}
+        },
+
+        assets: {
+            normal: {
+                key: 'room1',
+                path: 'assets/rooms/room1/normal.png'
+            },
+            green: {
+                key: 'room1-green',
+                path: 'assets/rooms/room1/green.png',
+            },
+            red: {
+                key: 'room1-red',
+                path: 'assets/rooms/room1/red.png'
+            }
         }
     },
-    chengy_room_5x3: {
-        room_id: 'room3',
-        w: 5,
-        h: 3,
-        center: {x: 2, y: 1},
-        data: [
-            [1, 1, 1, 1, 1],
-            [2, 1, 1, 1, 2],
-            [1, 1, 1, 1, 1]
-        ],
-        data2: [
-            ['tl', 'tm', 'tm', 'tm', 'tr'],
-            ['mm', 'mm', 'mm', 'mm', 'mm'],
-            ['bl', 'bm', 'bm', 'bm', 'br']
-        ],
-        tilemap: Tilemaps.lava,
-        builderButton: {
-            image: 'assets/buttons/lava-5x3.png',
-            key: 'builder-button-lava5x3'
-        }
-    },
-    chengy_room4doors: {
+    room2: {
         room_id: 'room2',
-        w: 4,
-        h: 4,
-        center: {x: 1, y: 1},
-        data: [
-            [1, 2, 2, 1],
-            [2, 1, 1, 2],
-            [2, 1, 1, 2],
-            [1, 2, 2, 1]
-        ],
-        data2: [
-            ['tl', 'mm', 'mm', 'tr'],
-            ['mm', 'mm', 'mm', 'mm'],
-            ['mm', 'mm', 'mm', 'mm'],
-            ['bl', 'mm', 'mm', 'br']
-        ],
-        tilemap: Tilemaps.chengy,
-        builderButton: {
-            image: 'assets/buttons/chengy-room-4doors.png',
-            key: 'builder-button-chengy4doors'
+        w: 128,
+        h: 128,
+        center: { x: 64, y: 64 },
+        scaled: { w: 64, h: 64, cx: 32, cy: 32},
+        tile_data: [[1,1,1,1], [1,1,1,1], [1,1,1,1], [1,1,1,1]],
+        assets: {
+            normal: { key: 'room2', path: 'assets/rooms/room2/normal.png' },
+            green: { key: 'room2-green', path: 'assets/rooms/room2/green.png' },
+            red: { key: 'room2-red', path: 'assets/rooms/room2/red.png' }
         }
     },
-    chengy_room_door_up: {
-        room_id: 'room4',
-        w: 4,
-        h: 4,
-        center: {x: 1, y: 1},
-        data: [
-            [1, 2, 2, 1],
-            [1, 1, 1, 1],
-            [1, 1, 1, 1],
-            [1, 1, 1, 1]
-        ],
-        data2: [
-            ['tl', 'mm', 'mm', 'tr'],
-            ['ml', 'mm', 'mm', 'mr'],
-            ['ml', 'mm', 'mm', 'mr'],
-            ['bl', 'bm', 'bm', 'br']
-        ],
-        tilemap: Tilemaps.chengy,
-        builderButton: {
-            image: 'assets/buttons/chengy-room-door-up.png',
-            key: 'builder-button-chengy-door-up'
+    room3: {
+        room_id: 'room3',
+        w: 128,
+        h: 128,
+        center: { x: 64, y: 64 },
+        scaled: { w: 64, h: 64, cx: 32, cy: 32},
+        tile_data: [[1,1,1,1], [1,1,1,1], [1,1,1,1], [1,1,1,1]],
+        assets: {
+            normal: { key: 'room3', path: 'assets/rooms/room3/normal.png' },
+            green: { key: 'room3-green', path: 'assets/rooms/room3/green.png' },
+            red: { key: 'room3-red', path: 'assets/rooms/room3/red.png' }
         }
-    },
-    l_shape_room: {
-        room_id: 'room5',
-        w: 4,
-        h: 4,
-        center: {x: 1, y: 1},
-        data: [
-            [1, 1, 1, 1],
-            [1, 1, 1, 2],
-            [1, 1, 0, 0],
-            [1, 2, 0, 0]
-        ],
-        data2: [
-            ['tl', 'tm', 'tm', 'tr'],
-            ['ml', 'mm', 'bm', 'bm'],
-            ['ml', 'mr', '', ''],
-            ['bl', 'mr', '', '']
-        ],
-        tilemap: Tilemaps.chengy,
-        builderButton: {
-            image: 'assets/buttons/l-room.png',
-            key: 'builder-button-l-room'
-        }
-    },
-    room_6by6: {
-        w: 6,
-        h: 6,
-        center: {x: 2, y: 2},
-        data: [
-            [1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1]
-        ]
     }
 };
