@@ -13,6 +13,11 @@ public abstract class Weapon : MonoBehaviour
         isColliding = false;
     }
 
+    void Start()
+    {
+        GetComponent<BoxCollider>().enabled = false;
+    }
+
     public int GetDamage()
     {
         return damage;
@@ -51,5 +56,10 @@ public abstract class Weapon : MonoBehaviour
     void Update()
     {
         isColliding = false;
+    }
+
+    public void setWeaponIsActive(bool isActive)
+    {
+        GetComponent<BoxCollider>().enabled = isActive;
     }
 }
