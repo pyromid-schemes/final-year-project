@@ -10,7 +10,7 @@ namespace World
 		private int id;
 		private string name;
 		private bool killed;
-		private bool readyForKilling;
+		private bool killMobOnWeb;
 
 		public PlacedMob (string name, int id, GameObject gameObj)
 		{
@@ -18,7 +18,7 @@ namespace World
 			this.id = id;
 			this.name = name;
 			killed = false;
-			readyForKilling = false;
+			killMobOnWeb = false;
 		}
 
 		public int GetId()
@@ -41,15 +41,15 @@ namespace World
 			return killed;
 		}
 
-		public bool IsReadyForKilling()
+		public bool ShouldKillMobOnWeb()
 		{
-			return readyForKilling;
+			return killMobOnWeb;
 		}
 
 		public void KillMob ()
 		{
-			if (!readyForKilling) {
-				readyForKilling = true;
+			if (!killMobOnWeb) {
+				killMobOnWeb = true;
 			} else {
 				killed = true;
 			}

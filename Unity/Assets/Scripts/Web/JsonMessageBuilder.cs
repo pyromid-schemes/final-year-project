@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Text;
 using World;
+using System.Collections.Generic;
 
 namespace Web
 {
@@ -27,6 +28,45 @@ namespace Web
 			"\"rot\":{3}" +
 			"}}";
 
+		private static readonly string WORLD_STATUS_TEMPLATE = "{{" +
+			"\"command\":\"worldStatus\"," +
+			"\"objects\":[{0}]" +
+			"}}";
+
+		private static readonly string POSITIONS_TEMPLATE = "{{" +
+			"\"command\":\"positions\"," +
+			"{0}," +
+			"\"mobs\":[{1}]" +
+			"}}";
+
+		public static string FormatWorldStatusMessage (List<PlacedPrefab> rooms)
+		{
+			StringBuilder jsonRooms = new StringBuilder ();
+			for (int i = 0; i < rooms.Count; i++) {
+				jsonRooms.Append (FormatRoom (rooms [i]));
+				if (i != rooms.Count - 1) {
+					jsonRooms.Append (",");
+				}
+			}
+
+			return string.Format (WORLD_STATUS_TEMPLATE,
+				jsonRooms.ToString ());
+		}
+
+		public static string FormatPositionsMessage (Vector3 vrPosition, List<PlacedMob> mobs) {
+			StringBuilder jsonMobs = new StringBuilder ();
+			for (int i = 0; i < mobs.Count; i++) {
+				jsonMobs.Append (FormatMob (mobs [i]));
+				if (i != mobs.Count - 1) {
+					jsonMobs.Append (",");
+				}
+			}
+
+			return string.Format (POSITIONS_TEMPLATE,
+				FormatVRPosition (vrPosition),
+				jsonMobs.ToString ());
+		}
+
 		public static string FormatVRPosition(Vector3 position)
 		{
 			return string.Format (VR_POSITION_TEMPLATE, 
@@ -41,7 +81,7 @@ namespace Web
 				mob.GetGameObject ().transform.position.x,
 				AntiCorruption.FixHandedness (mob.GetGameObject ().transform.position.z),
 				mob.GetId (),
-				mob.IsReadyForKilling () ? "true" : "false");
+				mob.ShouldKillMobOnWeb () ? "true" : "false");
 		}
 
 		public static string FormatRoom (PlacedPrefab room)

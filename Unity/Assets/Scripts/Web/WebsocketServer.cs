@@ -64,11 +64,12 @@ namespace Web
 				switch (networkEvent) {
 				case NetworkEventType.Nothing:
 					break;
+
 				case NetworkEventType.ConnectEvent:
 					if (recHostId == clientSocket) {
 						Debug.Log ("Client connected to " + connectionId.ToString () + "!");
 
-						byte[] gameWorld = ToByteArray(FormatGameWorldAsJson(worldManager.GetGameWorld()));
+						byte[] gameWorld = ToByteArray(JsonMessageBuilder.FormatWorldStatusMessage(worldManager.GetGameWorld()));
 						NetworkTransport.Send(recHostId, connectionId, channelId, gameWorld, gameWorld.Length, out error); 
 						wsClient = new WebsocketClient(recHostId, connectionId, channelId);
 					}
@@ -109,48 +110,10 @@ namespace Web
 
 		void SendPositions()
 		{
-			byte[] position = ToByteArray(FormatPositionsAsJson (worldManager.GetVRPosition (), worldManager.GetMobs ()));
+			byte[] position = ToByteArray(JsonMessageBuilder.FormatPositionsMessage (worldManager.GetVRPosition (), worldManager.GetMobs ()));
 			byte error;
 
 			NetworkTransport.Send (wsClient.GetHostId(), wsClient.GetConnectionId(), wsClient.GetChannelId(), position, position.Length, out error);
-		}
-
-		private string FormatGameWorldAsJson(List<PlacedPrefab> gameWorld)
-		{
-			StringBuilder sb = new StringBuilder ();
-			sb.Append ("{");
-			sb.Append ("\"command\":\"worldStatus\",");
-			sb.Append ("\"objects\":[");
-
-			foreach (PlacedPrefab p in gameWorld) {
-				sb.Append (JsonMessageBuilder.FormatRoom (p));
-				sb.Append (",");
-			}
-			sb.Remove (sb.Length - 1, 1);
-			sb.Append ("]}");
-
-			return sb.ToString ();
-		}
-
-		private string FormatPositionsAsJson(Vector3 position, List<PlacedMob> mobs)
-		{
-			StringBuilder sb = new StringBuilder ();
-			sb.Append ("{");
-			sb.Append ("\"command\":\"positions\",");
-			sb.Append (JsonMessageBuilder.FormatVRPosition (position));
-			sb.Append (",");
-			sb.Append ("\"mobs\":[");
-
-			foreach (PlacedMob m in mobs) {
-				sb.Append (JsonMessageBuilder.FormatMob (m));
-				sb.Append (",");
-			}
-			if (mobs.Count > 0) {
-				sb.Remove (sb.Length - 1, 1);
-			}
-			sb.Append ("]}");
-
-			return sb.ToString ();
 		}
 
 		private byte[] ToByteArray(string s)
