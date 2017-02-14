@@ -123,12 +123,8 @@ namespace Web
 			sb.Append ("\"objects\":[");
 
 			foreach (PlacedPrefab p in gameWorld) {
-				sb.Append ("{");
-				sb.Append (string.Format("\"objectId\":\"{0}\",", p.GetName()));
-				sb.Append (string.Format("\"xPos\":{0},", p.GetPosition().x));
-				sb.Append (string.Format("\"zPos\":{0},", AntiCorruption.FixHandedness(p.GetPosition().z)));
-				sb.Append (string.Format("\"rot\":{0}", Mathf.RoundToInt(p.GetRotation().eulerAngles.y)));
-				sb.Append ("},");
+				sb.Append (JsonMessageBuilder.FormatRoom (p));
+				sb.Append (",");
 			}
 			sb.Remove (sb.Length - 1, 1);
 			sb.Append ("]}");
@@ -141,27 +137,16 @@ namespace Web
 			StringBuilder sb = new StringBuilder ();
 			sb.Append ("{");
 			sb.Append ("\"command\":\"positions\",");
-			sb.Append ("\"vrPosition\": {");
-			sb.Append (string.Format("\"xPos\":{0},", position.x));
-			sb.Append (string.Format("\"zPos\":{0}",AntiCorruption.FixHandedness(position.z)));
-			sb.Append ("},");
+			sb.Append (JsonMessageBuilder.FormatVRPosition (position));
+			sb.Append (",");
 			sb.Append ("\"mobs\":[");
 
 			foreach (PlacedMob m in mobs) {
-				sb.Append ("{");
-				sb.Append (string.Format("\"objectId\":\"{0}\",", m.GetName ()));
-				sb.Append (string.Format("\"xPos\":{0},", m.GetGameObject().transform.position.x));
-				sb.Append (string.Format("\"zPos\":{0},", AntiCorruption.FixHandedness(m.GetGameObject ().transform.position.z)));
-
-				bool killMob = ((IDamageable)m.GetGameObject ().GetComponent (typeof(IDamageable))).IsDead ();
-
-				if (killMob) {
+				if (((IDamageable)m.GetGameObject ().GetComponent (typeof(IDamageable))).IsDead ()) {
 					m.KillMob ();
 				}
-
-				sb.Append (string.Format("\"dead\":{0},", killMob ? "true" : "false"));
-				sb.Append (string.Format("\"id\":{0}", m.GetId ()));
-				sb.Append ("},");
+				sb.Append (JsonMessageBuilder.FormatMob (m));
+				sb.Append (",");
 			}
 			if (mobs.Count > 0) {
 				sb.Remove (sb.Length - 1, 1);

@@ -41,7 +41,7 @@ namespace Web
 				mob.GetGameObject ().transform.position.x,
 				AntiCorruption.FixHandedness (mob.GetGameObject ().transform.position.z),
 				mob.GetId (),
-				mob.HasBeenKilled ());
+				mob.HasBeenKilled () ? "true" : "false");
 		}
 
 		public static string FormatRoom (PlacedPrefab room)
