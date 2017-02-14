@@ -33,6 +33,12 @@ namespace World
 				roomSpawnQueue.RemoveAt (i);
 			}
 
+			for (int i = 0; i < mobs.Count; i++) {
+				if (((IDamageable)mobs[i].GetGameObject ().GetComponent (typeof(IDamageable))).IsDead ()) {
+					mobs [i].KillMob ();
+				}
+			}
+
 			mobs.RemoveAll (mob => mob.HasBeenKilled ());
 
 			for (int i = 0; i < mobSpawnQueue.Count; i++) {

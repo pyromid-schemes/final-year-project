@@ -142,9 +142,6 @@ namespace Web
 			sb.Append ("\"mobs\":[");
 
 			foreach (PlacedMob m in mobs) {
-				if (((IDamageable)m.GetGameObject ().GetComponent (typeof(IDamageable))).IsDead ()) {
-					m.KillMob ();
-				}
 				sb.Append (JsonMessageBuilder.FormatMob (m));
 				sb.Append (",");
 			}
