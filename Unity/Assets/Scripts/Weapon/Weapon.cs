@@ -13,9 +13,12 @@ public abstract class Weapon : MonoBehaviour
         isColliding = false;
     }
 
+
+    //TODO: set to false once AI and VR player has implemented the ability to toggle weapon hit boxes
+    // Kept to true to for compatability issues until earlier statement is resolved
     void Start()
     {
-        GetComponent<BoxCollider>().enabled = false;
+        setWeaponIsActive(true);
     }
 
     public int GetDamage()
