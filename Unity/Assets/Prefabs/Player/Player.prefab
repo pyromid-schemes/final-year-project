@@ -410,6 +410,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 1000013919393970}
   PlayerHead: {fileID: 1000013362071776}
+  ChosenMovement: 5
 --- !u!114 &114000010451928056
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -440,6 +441,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 1000013919393970}
   PlayerHead: {fileID: 1000013362071776}
+  ChosenMovement: 5
 --- !u!114 &114000010511687658
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -471,7 +473,7 @@ MonoBehaviour:
   borderThickness: 0.15
   wireframeHeight: 2
   drawWireframeWhenSelectedOnly: 0
-  drawInGame: 0
+  drawInGame: 1
   size: 0
   color: {r: 0, g: 1, b: 1, a: 1}
   vertices:
