@@ -8,12 +8,14 @@ namespace Parsing.Commands
 		private string objectId;
 		private int xPos;
 		private int zPos;
+		private int rot;
 
-		public BuildCommand (string objectId, int xPos, int zPos)
+		public BuildCommand (string objectId, int xPos, int zPos, int rot)
 		{
 			this.objectId = objectId;
 			this.xPos = xPos;
 			this.zPos = zPos;
+			this.rot = rot;
 		}
 
 		public string GetObjectId ()
@@ -29,6 +31,11 @@ namespace Parsing.Commands
 		public int GetZPos()
 		{
 			return zPos;
+		}
+
+		public int GetRot()
+		{
+			return rot;
 		}
 
 		public CommandType GetCommandType()

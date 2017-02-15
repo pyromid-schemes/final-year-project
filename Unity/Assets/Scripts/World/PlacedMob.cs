@@ -9,14 +9,16 @@ namespace World
 		private GameObject gameObj;
 		private int id;
 		private string name;
-		private Vector3 position;
+		private bool killed;
+		private bool killMobOnWeb;
 
-		public PlacedMob (string name, Vector3 position, int id, GameObject gameObj)
+		public PlacedMob (string name, int id, GameObject gameObj)
 		{
 			this.gameObj = gameObj;
 			this.id = id;
 			this.name = name;
-			this.position = position;
+			killed = false;
+			killMobOnWeb = false;
 		}
 
 		public int GetId()
@@ -34,9 +36,23 @@ namespace World
 			return name;
 		}
 
-		public Vector3 GetPosition()
+		public bool HasBeenKilled()
 		{
-			return position;
+			return killed;
+		}
+
+		public bool ShouldKillMobOnWeb()
+		{
+			return killMobOnWeb;
+		}
+
+		public void KillMob ()
+		{
+			if (!killMobOnWeb) {
+				killMobOnWeb = true;
+			} else {
+				killed = true;
+			}
 		}
 	}
 }

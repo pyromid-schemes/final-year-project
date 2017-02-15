@@ -22,26 +22,35 @@ namespace World
 			mobSpawnQueue = new List<Mob> ();
 			gameWorld = new List<PlacedPrefab> ();
 			mobs = new List<PlacedMob> ();
-			AddPrefab ("room2", 0, 0);
+			AddPrefab ("room2", 0, 0, 0);
 		}
 	
 		void Update ()
 		{
 			for (int i = 0; i < roomSpawnQueue.Count; i++) {
-				var obj = (GameObject)Instantiate (roomSpawnQueue [i].gameObj, roomSpawnQueue[i].position, Quaternion.identity);
+				var obj = (GameObject)Instantiate (roomSpawnQueue [i].gameObj, roomSpawnQueue[i].position, roomSpawnQueue [i].rotation);
 				obj.SetActive (true);
-				roomSpawnQueue.RemoveAt (i);
+                grid.AddNodes(obj);
+                roomSpawnQueue.RemoveAt (i);
 			}
+
+			for (int i = 0; i < mobs.Count; i++) {
+				if (((IDamageable)mobs[i].GetGameObject ().GetComponent (typeof(IDamageable))).IsDead ()) {
+					mobs [i].KillMob ();
+				}
+			}
+
+			mobs.RemoveAll (mob => mob.HasBeenKilled ());
 
 			for (int i = 0; i < mobSpawnQueue.Count; i++) {
 				var mob = (GameObject)Instantiate (mobSpawnQueue [i].gameObj, mobSpawnQueue[i].position, Quaternion.identity);
 				mob.SetActive (true);
-				mobs.Add (new PlacedMob (mobSpawnQueue [i].name, mobSpawnQueue [i].position, mobSpawnQueue [i].id, mob));
+				mobs.Add (new PlacedMob (mobSpawnQueue [i].name, mobSpawnQueue [i].id, mob));
 				mobSpawnQueue.RemoveAt (i);
 			}
 		}
 
-		public void AddPrefab (string objectId, int xPos, int zPos)
+		public void AddPrefab (string objectId, int xPos, int zPos, int rot)
 		{
 			GameObject obj = prefabs.GetGameObject (objectId);
 			if (obj == null) {
@@ -49,10 +58,10 @@ namespace World
 			}
 
 			Vector3 position = new Vector3 (xPos, 0, zPos);
+			Quaternion rotation = Quaternion.Euler (0, rot, 0);
 
-			roomSpawnQueue.Add(new Room (obj, position));
-		    grid.AddNodes(obj);
-			gameWorld.Add (new PlacedPrefab (objectId, position));
+			roomSpawnQueue.Add(new Room (obj, position, rotation));
+			gameWorld.Add (new PlacedPrefab (objectId, position, rotation));
 		}
 
 		public void SpawnMob (string objectId, float xPos, float zPos, int id)
@@ -87,11 +96,13 @@ namespace World
 	{
 		public GameObject gameObj;
 		public Vector3 position;
+		public Quaternion rotation;
 
-		public Room(GameObject g, Vector3 p)
+		public Room(GameObject g, Vector3 p, Quaternion r)
 		{
 			gameObj = g;
 			position = p;
+			rotation = r;
 		}
 	}
 

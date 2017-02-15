@@ -38,9 +38,14 @@
             <td>build</td>
             <form id="buildForm">
                 <td>
-                    <input name="objectId" type="text" placeholder="objectId"/>
+                    <input name="objectId" type="text" placeholder="objectId" list="buildFormObjectIds"/>
+                    <datalist id="buildFormObjectIds">
+                        <option>room1</option>
+                        <option>room2</option>
+                    </datalist>
                     <input name="xPos" type="text" placeholder="xPos"/>
                     <input name="zPos" type="text" placeholder="zPos"/>
+                    <input name="rot" type="text" placeholder="rotation"/>
                 </td>
                 <td>
                     <input type="button" value="Send" onclick="sendBuildCommand();">
@@ -51,7 +56,10 @@
             <td>spawnMob</td>
             <form id="spawnMobForm">
                 <td>
-                    <input name="objectId" type="text" placeholder="objectId"/>
+                    <input name="objectId" type="text" placeholder="objectId" list="spawnMobFormObjectIds"/>
+                    <datalist id="spawnMobFormObjectIds">
+                        <option>mobKnight</option>
+                    </datalist>
                     <input name="xPos" type="text" placeholder="xPos"/>
                     <input name="zPos" type="text" placeholder="zPos"/>
                     <input name="id" type="text" placeholder="id"/>
@@ -104,7 +112,7 @@
         "onMessage": {
             "worldStatus": function (msg) {
                 for (var i = 0; i < msg.length; i++) {
-                    writeToOutput("Room: " + msg[i].objectId + ", xPos: " + msg[i].xPos + ", zPos: " + msg[i].zPos, "worldStatusUpdates");
+                    writeToOutput("Room: " + msg[i].objectId + ", xPos: " + msg[i].xPos + ", zPos: " + msg[i].zPos + ", rot: " + msg[i].rot, "worldStatusUpdates");
                 }
             },
             "vrPosition": function (msg) {
@@ -117,7 +125,7 @@
             "mobPositions": function (msg) {
                 if (showMovement) {
                     for (var i = 0; i < msg.length; i++) {
-                        writeToOutput("Mob: " + msg[i].objectId + ", xPos: " + msg[i].xPos + ", zPos: " + msg[i].zPos + ", id: " + msg[i].id, "mobPositionUpdates");
+                        writeToOutput("Mob: " + msg[i].objectId + ", xPos: " + msg[i].xPos + ", zPos: " + msg[i].zPos + ", id: " + msg[i].id + ", dead: " + msg[i].dead, "mobPositionUpdates");
                     }
                 }
             }
@@ -144,7 +152,7 @@
 
     function sendBuildCommand() {
         var buildForm = document.getElementById("buildForm").elements;
-        UnityClient.buildCommand(buildForm[0].value, buildForm[1].value, buildForm[2].value);
+        UnityClient.buildCommand(buildForm[0].value, buildForm[1].value, buildForm[2].value, buildForm[3].value);
     }
 
     function sendSpawnMobCommand() {

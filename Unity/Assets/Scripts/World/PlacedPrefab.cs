@@ -8,11 +8,13 @@ namespace World
 
 		private string name;
 		private Vector3 position;
+		private Quaternion rotation;
 
-		public PlacedPrefab (string name, Vector3 position)
+		public PlacedPrefab (string name, Vector3 position, Quaternion rotation)
 		{
 			this.name = name;
 			this.position = position;
+			this.rotation = rotation;
 		}
 
 		public string GetName()
@@ -23,6 +25,11 @@ namespace World
 		public Vector3 GetPosition()
 		{
 			return position;
+		}
+
+		public Quaternion GetRotation()
+		{
+			return rotation;
 		}
 
 	}

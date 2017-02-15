@@ -7,42 +7,54 @@
     <link rel="icon" href="favicon.ico">
 </head>
 <body>
-    <!-- Nav bar -->
-    <!--<section id="header" class="align&#45;&#45;center background&#45;&#45;purps color&#45;&#45;white">-->
-        <!--This is the nav bar-->
-    <!--</section>-->
-
-    <!-- Game canvas -->
     <section id="game-section">
         <div id="game"></div>
+    </section>
 
-        <div id="sse">
-            <!-- just debug for amount of times everything is redrawn -->
-            <div id="redraws">Amount of redraws: <span id="redraw-count">0</span></div>
-            <p>Please enter the host you are connecting to and open the websocket before you send a message.</p>
-            <p>When you are finished, please close the WebSocket.</p>
-            <p>Make sure you check the console for now so that you can see what is going on.</p>
+    <section id="debug">
+        <div class="container">
+
             <input id="url" type="text" value="localhost"/>
             <input id="openWSButton" type="button" value="Open connection" onclick="openWebSocket(config);"/>
             <input id="closeWSButton" type="button" value="Close connection" onclick="closeWebSocket();" disabled/>
+
+            <div>
+                <span id="data">d1</span>
+                <span id="data2">d2</span>
+                <span id="data3">d3</span>
+            </div>
         </div>
     </section>
-
-    <!-- Footer -->
-    <section id="footer" class="align--center background--purps color--white">
-        This is the footer
-    </section>
-
 
     <!-- Include JS scripts after page DOM has loaded -->
     <script src="js/phaser/phaser.min.js"></script>
 
-    <!-- Game minified -->
-    <script src="js/bin/game.min.js"></script>
+    <!-- Data files -->
+    <script src="js/utility.js"></script>
+    <script src="js/messages.js"></script>
+
+    <script src="js/data/player.js"></script>
+    <script src="js/data/mobs.js"></script>
+    <script src="js/data/rooms.js"></script>
+
+    <!-- Scenes -->
+    <script src="js/splash.js"></script>
+    <script src="js/builder.js"></script>
+    <script src="js/game.js"></script>
+
+    <script>
+        (function(){
+            var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game');
+            game.state.add('Main', Main);
+            game.state.add('Splash', Splash);
+            game.state.start('Splash');
+        })();
+    </script>
 
 
-    <!-- Jamie's WebSockets scripts minified -->
-    <script src="js/bin/networking.min.js"></script>
+    <script src="js/sockets/unityClient.js"></script>
+    <script src="js/sockets/webSockets.js"></script>
+
     <script type="text/javascript" charset="UTF-8">
         var config = {
             "onOpen": function() {
@@ -51,9 +63,9 @@
                 document.getElementById("closeWSButton").disabled = false;
             },
             "onMessage": {
-                "worldStatus": game.worldStatusUpdate,
-                "vrPosition": game.vrPositionUpdate,
-                "mobPositions": game.mobsPositionUpdate
+                "worldStatus": Messages.receive.worldStatus,
+                "vrPosition": Messages.receive.vrPositionUpdate,
+                "mobPositions": Messages.receive.mobPositions
             },
             "onClose": function() {
                 console.log("WebSocket closed.");
