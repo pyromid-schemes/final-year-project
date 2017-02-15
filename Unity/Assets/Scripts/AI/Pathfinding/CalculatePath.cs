@@ -14,14 +14,12 @@ namespace AI.Pathfinding
         private PathfindingNode _startingNode;
         private PathfindingNode _destinationNode;
         private PathfindingNode _currentNode;
-        private HashSet<string> lookedAt;
 
         public CalculatePath(GridManager grid)
         {
             _grid = grid;
             _openList = new List<PathfindingNode>();
             _closedList = new List<PathfindingNode>();
-            lookedAt = new HashSet<string>();
         }
 
         public List<PathfindingNode> GetPathToDestination(float startingX, float startingZ, float destinationX,
@@ -62,7 +60,6 @@ namespace AI.Pathfinding
 
             foreach (PathfindingNode possibleNode in possibleNodes)
             {
-                lookedAt.Add("(" + possibleNode.X + "," + possibleNode.Z + ")");
                 if (!possibleNode.Equals(_startingNode) && _grid.IsWalkable(possibleNode.X, possibleNode.Z) &&
                     !NodeInClosedList(possibleNode))
                 {
