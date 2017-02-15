@@ -5,7 +5,7 @@ namespace VirtualReality.MovementMethods
 {
 	public class MovementUtil
 	{
-		public static float speedMultiplier; // TODO needs initialisation
+        public static float speedMultiplier = 2f;
 
 		public static Vector2 YRotationAsVector2(float angle)
 		{

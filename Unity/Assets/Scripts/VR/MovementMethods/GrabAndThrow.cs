@@ -9,7 +9,7 @@ namespace VirtualReality.MovementMethods
 		Vector3 GrabbedWorldPosition;
 		Vector3 RelativeHeadPosition;
 		Vector3 ThrowVelocity = Vector3.zero;
-		float FrictionMultiplier; // TODO needs initialisation
+        float FrictionMultiplier = 0.97f;
 
 		public bool BeginMovement (SteamVR_Controller.Device controller)
 		{
