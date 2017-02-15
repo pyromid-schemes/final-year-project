@@ -4,17 +4,13 @@ public abstract class Weapon : MonoBehaviour
 {
     private int damage;
     private bool blocked;
-<<<<<<< HEAD
     private bool isColliding;
-=======
-    private bool isActive;
->>>>>>> master
+
 
     public Weapon(int damage)
     {
         this.damage = damage;
         blocked = false;
-<<<<<<< HEAD
         isColliding = false;
     }
 
@@ -24,9 +20,6 @@ public abstract class Weapon : MonoBehaviour
     void Start()
     {
         setWeaponIsActive(true);
-=======
-        isActive = false;
->>>>>>> master
     }
 
     public int GetDamage()
@@ -36,13 +29,8 @@ public abstract class Weapon : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-<<<<<<< HEAD
         if (isColliding) return;
         isColliding = true;
-=======
-        if (isActive) return;
-        isActive = true;
->>>>>>> master
 
         switch (other.collider.gameObject.tag)
         {
@@ -71,15 +59,11 @@ public abstract class Weapon : MonoBehaviour
 
     void Update()
     {
-<<<<<<< HEAD
         isColliding = false;
     }
 
     public void setWeaponIsActive(bool isActive)
     {
         GetComponent<BoxCollider>().enabled = isActive;
-=======
-        isActive = false;
->>>>>>> master
     }
 }
