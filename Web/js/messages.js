@@ -10,8 +10,8 @@ var Messages = {
             window.mainScene.setPlayerPosition(data);
         },
         mobPositions: function(data){
-            // console.log("mob positions");
-            // console.log(data);
+            Utility.debug("mob positions", data);
+            main.mobPositions(data);
         }
     },
     send: {
