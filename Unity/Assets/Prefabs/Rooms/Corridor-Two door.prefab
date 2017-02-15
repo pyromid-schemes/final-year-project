@@ -1280,7 +1280,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000010577799504}
   m_Layer: 0
-  m_Name: Corridor-Two door (Voxel)
+  m_Name: Corridor-Two door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
