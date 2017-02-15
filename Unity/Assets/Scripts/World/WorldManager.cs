@@ -23,8 +23,6 @@ namespace World
 			gameWorld = new List<PlacedPrefab> ();
 			mobs = new List<PlacedMob> ();
 			AddPrefab ("room2", 0, 0, 0);
-            AddPrefab ("room2", 0, 4, 0);
-            AddPrefab ("room2", 4, 0, 0);
 		}
 	
 		void Update ()
