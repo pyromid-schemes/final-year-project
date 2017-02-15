@@ -34,12 +34,18 @@ namespace World
                 roomSpawnQueue.RemoveAt (i);
 			}
 
+			for (int i = 0; i < mobs.Count; i++) {
+				if (((IDamageable)mobs[i].GetGameObject ().GetComponent (typeof(IDamageable))).IsDead ()) {
+					mobs [i].KillMob ();
+				}
+			}
+
 			mobs.RemoveAll (mob => mob.HasBeenKilled ());
 
 			for (int i = 0; i < mobSpawnQueue.Count; i++) {
 				var mob = (GameObject)Instantiate (mobSpawnQueue [i].gameObj, mobSpawnQueue[i].position, Quaternion.identity);
 				mob.SetActive (true);
-				mobs.Add (new PlacedMob (mobSpawnQueue [i].name, mobSpawnQueue [i].position, mobSpawnQueue [i].id, mob));
+				mobs.Add (new PlacedMob (mobSpawnQueue [i].name, mobSpawnQueue [i].id, mob));
 				mobSpawnQueue.RemoveAt (i);
 			}
 		}
