@@ -7,6 +7,8 @@ var SCROLL_SPEED = 0.022;
 var SCROLL_MIN = 1;
 var SCROLL_MAX = 3;
 
+var TILE_SIZE = 16;
+
 var Main = function(game){
 };
 
@@ -32,8 +34,6 @@ Main.prototype = {
     /** GHOST MOB **/
     ghost_mob: null,
 
-    TILE_SIZE: 16,
-
     /* Room data */
     room_types: [],
     rooms: [],
@@ -41,6 +41,7 @@ Main.prototype = {
     /* Mob data */
     mob_types: [],
     mobs: [],
+    mob_id_count: 0,
 
     preload: function(){
         this.game.load.image('empty-tile', 'assets/empty-tile.png');
@@ -109,6 +110,7 @@ Main.prototype = {
         this.place_room('room2', 0, 0, false);
 
 
+        // Setup and move the player to [0,0]
         this.setupPlayer(Player);
         this.setPlayerPosition({xPos: 0, zPos: 0});
 
@@ -135,14 +137,14 @@ Main.prototype = {
             var rotation = this.ghost_room.rotation;
 
 
-            var bb = this.get_bounding_box_from_room(tx16,ty16, this.currently_selected_tile_type);
+            var bb = Utility.get_bounding_box_from_room(tx16,ty16, this.currently_selected_tile_type);
 
             this.can_place_ghost_room = true;
             for(var i=0; i<this.rooms.length; i++){
                 var room = this.rooms[i];
-                var bb2 = this.get_bounding_box_from_room(room.x, room.y, room.room_id);
+                var bb2 = Utility.get_bounding_box_from_room(room.x, room.y, room.room_id);
 
-                if(this.doesBoundingBoxesCollide(bb, bb2)){
+                if(Utility.doBoundingBoxesCollide(bb, bb2)){
                     this.can_place_ghost_room = false;
                     this.room_selected(this.currently_selected_tile_type, false);
                     break;
@@ -178,7 +180,7 @@ Main.prototype = {
                     var tile = this.get_tile_xy();
 
                     if(this.can_place_ghost_room) {
-                        this.place_room(this.currently_selected_tile_type, tile.x * 16, tile.y * 16, true);
+                        this.place_room(this.currently_selected_tile_type, tile.x * 16, tile.y * 16, this.ghost_room.rotation, true);
                     }
                 }else if(this.ghost_mob != null){
                     var world = this.get_world_xy();
@@ -294,9 +296,9 @@ Main.prototype = {
     },
     can_place_room: function(room_id, x, y){
         var room = this.room_types[room_id];
-        var bb = this.get_bounding_box_from_room(x, y, room);
+        var bb = Utility.get_bounding_box_from_room(x, y, room);
     },
-    place_room: function(room_id, x, y, send_message){
+    place_room: function(room_id, x, y, rot, send_message){
         var room_data = this.room_types[room_id];
 
         if(room_data == null) throw new Error("Cannot place room with id: "+room_id);
@@ -307,25 +309,26 @@ Main.prototype = {
         img.pivot.x = room_data.center.x;
         img.pivot.y = room_data.center.y;
 
+        img.rotation = rot;
         if(this.ghost_room != null) {
-            img.rotation = this.ghost_room.rotation;
-
             this.room_selected(this.currently_selected_tile_type, false);
-            this.ghost_room.rotation = img.rotation;
+            this.ghost_room.rotation = rot;
         }
 
         var id = this.rooms.length;
 
-        this.rooms[id] = {
+        this.rooms.push({
             room_id: room_id,
             x: x,
             y: y,
             room_type: room_data,
             room: img
-        };
+        });
+
 
         if(send_message){
-            Messages.send.buildRoom({objectId: room_id, xPos: x / 16, zPos: y / 16});
+            var rot =  Utility.webRotToUnityRot(this.ghost_room.rotation);
+            Messages.send.buildRoom({objectId: room_id, xPos: x / 16, zPos: y / 16, rot: rot});
         }
 
         this.redrawPlayer();
@@ -334,6 +337,7 @@ Main.prototype = {
     // ToDo: Fix the rooms id and array bug...
     removeAllRooms: function(){
         for(var i=0; i<this.rooms.length; i++) this.rooms[i].room.destroy();
+        this.rooms = [];
     },
 
     /** MOB PLACING **/
@@ -353,7 +357,7 @@ Main.prototype = {
             this.currently_selected_tile_type = null;
         }
     },
-    place_mob: function(mob_id, x, y){
+    place_mob: function(mob_id, x, y, send_message){
         var mob_data = this.mob_types[mob_id];
         if(mob_data == null) throw new Error("No mob data for ["+mob_id+"]");
 
@@ -361,6 +365,18 @@ Main.prototype = {
         mob.pivot.x = 8;
         mob.pivot.y = 8;
 
+        var mob_instance = {
+            mob_id: mob_id,
+            x: x,
+            y: y,
+            mob_type: mob_data,
+            id: this.mob_id_count++
+        };
+        this.mobs.push(mob_instance);
+
+        if(send_message){
+            Messages.send.placeMob({objectId: mob_data.id, xPos: x/TILE_SIZE, zPos: y/TILE_SIZE, id: mob_instance.id});
+        }
     },
 
     /** PLAYER **/
@@ -381,8 +397,8 @@ Main.prototype = {
         };
     },
     setPlayerPosition: function(msg) {
-        this.player.position.x = msg.xPos * this.TILE_SIZE;
-        this.player.position.y = msg.zPos * this.TILE_SIZE;
+        this.player.position.x = msg.xPos * TILE_SIZE;
+        this.player.position.y = msg.zPos * TILE_SIZE;
 
         this.player.sprite.position.x = this.player.position.x;
         this.player.sprite.position.y = this.player.position.y;
@@ -406,23 +422,13 @@ Main.prototype = {
      * UTILITY
      * **/
 
-    get_bounding_box_from_room: function(x, y, room_id){
-        var room_type = this.room_types[room_id];
-        return {
-            x1: x - room_type.scaled.cx,
-            y1: y - room_type.scaled.cy,
-            x2: x + (room_type.scaled.w - room_type.scaled.cx),
-            y2: y + (room_type.scaled.h - room_type.scaled.cy)
-        };
-    },
+
     // Do two bounding boxes collide?
-    doesBoundingBoxesCollide: function(bb1, bb2){
-        return !((bb2.x1 >= bb1.x2) || (bb2.x2 <= bb1.x1) || (bb2.y1 >= bb1.y2) || (bb2.y2 <= bb1.y1));
-    },
+
 
     isMouseInsideMap: function() {
         var mouse = this.getAccurateCoords();
-        return isPointWithinRect(mouse, this.map_dimensions);
+        return Utility.isPointWithinRect(mouse, this.map_dimensions);
     },
     getAccurateCoords: function(){
         var pointer = this.game.input.activePointer;
@@ -448,7 +454,6 @@ Main.prototype = {
         this.gd2.innerHTML = "Tile Global XY["+tile_new.x+","+tile_new.y+"]";
         this.gd3.innerHTML = "mgx/mgy:"+this.map_group.x+","+this.map_group.y+"   mgpx/mgpy:"+this.map_group.pivot.x+","+this.map_group.pivot.y;
 
-
         return tile_xy;
     },
 
@@ -473,40 +478,15 @@ Main.prototype = {
     worldStatus: function(data){
         this.removeAllRooms();
         for(var i=0; i<data.length; i++){
-            this.place_room(data[i].objectId, data[i].xPos, data[i].zPos, false);
+            var rot = Utility.unityRotToWebRot(data[i].rot); // converts Unity rotation to correct web rotation
+            this.place_room(data[i].objectId, data[i].xPos * TILE_SIZE, data[i].zPos * TILE_SIZE, rot, false);
         }
         this.redrawPlayer();
     }
 };
-
-function isPointWithinRect(point, rect){
-    return ( point.x >= rect.x && point.y >= rect.y && point.x <= rect.x + rect.w && point.y <= rect.y + rect.h );
-}
+main = Main.prototype; // Set 'window.main' to the whole Main object #JS #Singletons #BestCodePractice #Globals
 
 
 
-/**
- * Message sending
- * **/
-var Messages = {
-    receive: {
-        worldStatus: function(data){
-            window.mainScene.worldStatus(data);
-        },
-        vrPositionUpdate: function(data){
-            window.mainScene.setPlayerPosition(data);
-        },
-        mobPositions: function(data){
-            // console.log("mob positions");
-            // console.log(data);
-        }
-    },
-    send: {
-        buildRoom: function(data){
-            UnityClient.buildCommand(data.objectId, data.xPos, data.zPos);
-        },
-        placeMob: function(data){
-            UnityClient.spawnMobCommand(data.objectId, data.xPos, data.zPos, data.id);
-        }
-    }
-};
+
+

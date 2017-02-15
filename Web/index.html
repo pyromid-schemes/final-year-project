@@ -18,9 +18,11 @@
             <input id="openWSButton" type="button" value="Open connection" onclick="openWebSocket(config);"/>
             <input id="closeWSButton" type="button" value="Close connection" onclick="closeWebSocket();" disabled/>
 
-            <p id="data">d1</p>
-            <p id="data2">d2</p>
-            <p id="data3">d3</p>
+            <div>
+                <span id="data">d1</span>
+                <span id="data2">d2</span>
+                <span id="data3">d3</span>
+            </div>
         </div>
     </section>
 
@@ -28,6 +30,9 @@
     <script src="js/phaser/phaser.min.js"></script>
 
     <!-- Data files -->
+    <script src="js/utility.js"></script>
+    <script src="js/messages.js"></script>
+
     <script src="js/data/player.js"></script>
     <script src="js/data/mobs.js"></script>
     <script src="js/data/rooms.js"></script>
