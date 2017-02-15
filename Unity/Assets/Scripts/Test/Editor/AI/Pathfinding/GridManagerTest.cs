@@ -41,9 +41,11 @@ namespace Test.AI.Pathfinding
             Assert.False(_gridManager.IsWalkable(x, z));
         }
 
-        private void AssertClosestNode(Node expectedNode)
+        private void AssertClosestNode(Node currentNode, Node expectedNode)
         {
-            
+            Node actualNode = _gridManager.GetClosestNode(currentNode.x, currentNode.z);
+            Assert.AreEqual(expectedNode.x, actualNode.x);
+            Assert.AreEqual(expectedNode.z, actualNode.z);
         }
 
         private void AssertNodeInGridManager(Node expectedNode)
@@ -113,18 +115,17 @@ namespace Test.AI.Pathfinding
         {
             Node closestNode = new Node(1.5f, 1.5f);
             _gridManager.AddNode(closestNode.x, closestNode.z);
-            _currentX = 0.5f;
-            _currentZ = 0.5f;
-            AssertClosestNode(closestNode);
+            AssertClosestNode(closestNode, closestNode);
         }
 
         [Test]
         public void givenTwoNodes_whenGettingClosestNode_returnClosestNode()
         {
             Node closestNode = new Node(1.5f, 1.5f);
+            Node currentNode = new Node(2f, 2f);
             _gridManager.AddNode(closestNode.x, closestNode.z);
             _gridManager.AddNode(-10f, -10f);
-            AssertClosestNode(closestNode);
+            AssertClosestNode(currentNode, closestNode);
         }
     }
 }
