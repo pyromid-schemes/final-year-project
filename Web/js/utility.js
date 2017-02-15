@@ -11,6 +11,7 @@ var Utility = {
         return ( point.x >= rect.x && point.y >= rect.y && point.x <= rect.x + rect.w && point.y <= rect.y + rect.h );
     },
 
+    // Do two bounding boxes collide?
     doBoundingBoxesCollide: function(bb1, bb2){
         return !((bb2.x1 >= bb1.x2) || (bb2.x2 <= bb1.x1) || (bb2.y1 >= bb1.y2) || (bb2.y2 <= bb1.y1));
     },

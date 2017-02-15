@@ -370,6 +370,7 @@ Main.prototype = {
             x: x,
             y: y,
             mob_type: mob_data,
+            mob: mob,
             id: this.mob_id_count++
         };
         this.mobs.push(mob_instance);
@@ -381,7 +382,7 @@ Main.prototype = {
 
     /** PLAYER **/
     setupPlayer: function(player){
-        var sprite = this.game.add.sprite(0, 0, player.sprite.key, null, this.map_group);
+        var sprite = this.game.add.image(0, 0, player.sprite.key, null, this.map_group);
         sprite.pivot.x = player.sprite.size.half_w;
         sprite.pivot.y = player.sprite.size.half_h;
         sprite.scale.setTo(16/player.sprite.size.height);
@@ -423,7 +424,6 @@ Main.prototype = {
      * **/
 
 
-    // Do two bounding boxes collide?
 
 
     isMouseInsideMap: function() {
@@ -482,6 +482,35 @@ Main.prototype = {
             this.place_room(data[i].objectId, data[i].xPos * TILE_SIZE, data[i].zPos * TILE_SIZE, rot, false);
         }
         this.redrawPlayer();
+    },
+
+
+    /** Mob positions **/
+    mobPositions: function(data){
+        for(var i=0; i<data.length; i++){
+            if(data[i].dead){
+                this.deleteMob(data[i].id);
+            }else {
+                this.updateMob(data[i].id, {x: data[i].xPos * TILE_SIZE, y: data[i].zPos * TILE_SIZE});
+            }
+        }
+    },
+    updateMob: function(id, pos){
+        var index = this.findMobIndex(id);
+        var mob = this.mobs[index];
+        mob.mob.position.x = pos.x;
+        mob.mob.position.y = pos.y;
+    },
+    deleteMob: function(id){
+        var index = this.findMobIndex(id);
+        this.mobs[index].mob.destroy();
+        this.mobs.splice(index, 1);
+    },
+    findMobIndex: function(id){
+        for(var i=0; i<this.mobs.length; i++){
+            if(this.mobs[i].id == id) return i;
+        }
+        if(index == -1) throw new Error("Cannot find mob with id="+id);
     }
 };
 main = Main.prototype; // Set 'window.main' to the whole Main object #JS #Singletons #BestCodePractice #Globals
