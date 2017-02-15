@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using UnityEngine;
 
 namespace AI.Pathfinding
 {
@@ -62,28 +62,20 @@ namespace AI.Pathfinding
             float closestZDifference = Single.PositiveInfinity;
             foreach (float x in _nodes.Keys)
             {
-                float difference = Math.Abs(currentX - x);
+                float difference = Math.Max(currentX, x) - Math.Min(currentX, x);
                 if (difference < closestXDifference)
                 { 
                     closestX = x;
                     closestXDifference = difference;
                 }
-                else
-                {
-                    break;
-                }
             }
             foreach (float z in _nodes[closestX])
             {
-                float difference = Math.Abs(currentZ - z);
+                float difference = Math.Max(currentZ, z) - Math.Min(currentZ, z);
                 if (difference < closestZDifference)
                 {
                     closestZ = z;
                     closestZDifference = difference;
-                }
-                else
-                {
-                    break;
                 }
             }
 
@@ -93,6 +85,21 @@ namespace AI.Pathfinding
         public SortedDictionary<float, List<float>> GetNodes()
         {
             return _nodes;
+        }
+
+        public void Debug_Dump()
+        {
+            string toPrint = "";
+            foreach (var x in _nodes)
+            {
+                toPrint += x.Key + ": [";
+                foreach (float z in x.Value)
+                {
+                    toPrint += z + ", ";
+                }
+                toPrint += "]\n";
+            }
+            Debug.Log(toPrint);
         }
     }
 }

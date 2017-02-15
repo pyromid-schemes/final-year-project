@@ -1,29 +1,34 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
-using System.Diagnostics;
+using UnityEngine;
 
 namespace AI.Pathfinding
 {
     public class CalculatePath
     {
         private readonly GridManager _grid;
-        private readonly List<PathfindingNode> _openList;
-        private readonly List<PathfindingNode> _closedList;
+        private List<PathfindingNode> _openList;
+        private List<PathfindingNode> _closedList;
         private bool _atDestination = false;
         private PathfindingNode _startingNode;
         private PathfindingNode _destinationNode;
         private PathfindingNode _currentNode;
+        private HashSet<string> lookedAt;
 
         public CalculatePath(GridManager grid)
         {
             _grid = grid;
             _openList = new List<PathfindingNode>();
             _closedList = new List<PathfindingNode>();
+            lookedAt = new HashSet<string>();
         }
 
         public List<PathfindingNode> GetPathToDestination(float startingX, float startingZ, float destinationX,
             float destinationZ)
         {
+            _openList = new List<PathfindingNode>();
+            _closedList = new List<PathfindingNode>();
             Node closestStartingNode = _grid.GetClosestNode(startingX, startingZ);
             Node closestDestinationNode = _grid.GetClosestNode(destinationX, destinationZ);
             _startingNode = new PathfindingNode(closestStartingNode.x, closestStartingNode.z);
@@ -57,6 +62,7 @@ namespace AI.Pathfinding
 
             foreach (PathfindingNode possibleNode in possibleNodes)
             {
+                lookedAt.Add("(" + possibleNode.X + "," + possibleNode.Z + ")");
                 if (!possibleNode.Equals(_startingNode) && _grid.IsWalkable(possibleNode.X, possibleNode.Z) &&
                     !NodeInClosedList(possibleNode))
                 {

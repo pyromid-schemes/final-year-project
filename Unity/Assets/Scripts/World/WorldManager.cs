@@ -23,6 +23,8 @@ namespace World
 			gameWorld = new List<PlacedPrefab> ();
 			mobs = new List<PlacedMob> ();
 			AddPrefab ("room2", 0, 0, 0);
+            AddPrefab ("room2", 0, 4, 0);
+            AddPrefab ("room2", 4, 0, 0);
 		}
 	
 		void Update ()
@@ -30,7 +32,8 @@ namespace World
 			for (int i = 0; i < roomSpawnQueue.Count; i++) {
 				var obj = (GameObject)Instantiate (roomSpawnQueue [i].gameObj, roomSpawnQueue[i].position, roomSpawnQueue [i].rotation);
 				obj.SetActive (true);
-				roomSpawnQueue.RemoveAt (i);
+                grid.AddNodes(obj);
+                roomSpawnQueue.RemoveAt (i);
 			}
 
 			mobs.RemoveAll (mob => mob.HasBeenKilled ());
@@ -54,7 +57,6 @@ namespace World
 			Quaternion rotation = Quaternion.Euler (0, rot, 0);
 
 			roomSpawnQueue.Add(new Room (obj, position, rotation));
-		    grid.AddNodes(obj);
 			gameWorld.Add (new PlacedPrefab (objectId, position, rotation));
 		}
 

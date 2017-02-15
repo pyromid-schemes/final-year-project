@@ -7,8 +7,6 @@ namespace AI.MobControllers
     class PathfindingTestController : SimpleMobController
     {
 
-        public Grid Grid;
-
         // Use this for initialization
         protected override void InitialiseStates()
         {
