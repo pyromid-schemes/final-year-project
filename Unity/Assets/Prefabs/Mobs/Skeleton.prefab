@@ -41,6 +41,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1000010579623452
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000012067960544}
+  m_Layer: 0
+  m_Name: Eyes
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1000010615543926
 GameObject:
   m_ObjectHideFlags: 1
@@ -233,6 +248,7 @@ GameObject:
   - 95: {fileID: 95000013055987344}
   - 136: {fileID: 136000012293107156}
   - 114: {fileID: 114000012425578510}
+  - 114: {fileID: 114000014048412244}
   m_Layer: 0
   m_Name: Skeleton
   m_TagString: Monster
@@ -626,14 +642,15 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011574630884}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0.29, y: 0, z: 3.171}
   m_LocalScale: {x: 15, y: 15, z: 15}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_Children:
   - {fileID: 4000013674047628}
   - {fileID: 4000011469898076}
   - {fileID: 4000011375702118}
+  - {fileID: 4000012067960544}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &4000010085130484
@@ -869,6 +886,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4000010083165718}
   m_RootOrder: 1
+--- !u!4 &4000012067960544
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010579623452}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.1258, z: 0.0535}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 4000010083165718}
+  m_RootOrder: 3
 --- !u!4 &4000012148710796
 Transform:
   m_ObjectHideFlags: 1
@@ -1224,8 +1254,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.013430004, y: 0.009725924, z: 0.08372918}
-  m_Center: {x: -0.0004987644, y: -0.0000074414465, z: 0.053584546}
+  m_Size: {x: 0.013430004, y: 0.009725924, z: 0.04}
+  m_Center: {x: -0.0004987644, y: -0.0000074414465, z: 0.07}
 --- !u!95 &95000013055987344
 Animator:
   serializedVersion: 3
@@ -1235,7 +1265,7 @@ Animator:
   m_GameObject: {fileID: 1000011574630884}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 5a35c5f0a89b9654d897ccd7c8f81bd0, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 954ac78be7660a540974640cf6219ca3, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1265,6 +1295,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ace5c31dd7b4fd641a31275fc35470b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114000014048412244
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011574630884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cdd4c169222204489fd66d1b400ee9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Grid: {fileID: 0}
+  Eyes: {fileID: 4000012067960544}
+  AttackCooldown: 2
+  AttackRange: 2
+  RotateSpeed: 10
+  FOV: 180
 --- !u!136 &136000012293107156
 CapsuleCollider:
   m_ObjectHideFlags: 1

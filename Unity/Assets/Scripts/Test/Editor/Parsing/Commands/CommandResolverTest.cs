@@ -24,7 +24,7 @@ namespace Test.Parsing.Commands
 			string msg = BuildCommandBuilder.ADefaultBuildCommandBuilder ()
 				.Build ();
 
-			stubSp.SetExpectedForAddPrefabCall ("default", 0, 0);
+			stubSp.SetExpectedForAddPrefabCall ("default", 0, 0, 0);
 
 			underTest.ResolveMessage (msg);
 
@@ -70,6 +70,7 @@ namespace Test.Parsing.Commands
 			private string addPrefabExpectedObjectId;
 			private int addPrefabExpectedXPos;
 			private int addPrefabExpectedZPos;
+			private int addPrefabExpectedRot;
 
 			private bool spawnMobCalled = false;
 			private string spawnMobExpectedObjectId;
@@ -77,20 +78,22 @@ namespace Test.Parsing.Commands
 			private float spawnMobExpectedZPos;
 			private int spawnMobExpectedId;
 			
-			public void AddPrefab (string objectId, int xPos, int zPos)
+			public void AddPrefab (string objectId, int xPos, int zPos, int rot)
 			{
 				addPrefabCalled = true;
 
 				Assert.AreEqual (addPrefabExpectedObjectId, objectId);
 				Assert.AreEqual (addPrefabExpectedXPos, xPos);
 				Assert.AreEqual (addPrefabExpectedZPos, zPos);
+				Assert.AreEqual (addPrefabExpectedRot, rot);
 			}
 
-			public void SetExpectedForAddPrefabCall (string objectId, int xPos, int zPos)
+			public void SetExpectedForAddPrefabCall (string objectId, int xPos, int zPos, int rot)
 			{
 				addPrefabExpectedObjectId = objectId;
 				addPrefabExpectedXPos = xPos;
 				addPrefabExpectedZPos = zPos;
+				addPrefabExpectedRot = rot;
 			}
 
 			public bool WasAddPrefabCalled()

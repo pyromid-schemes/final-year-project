@@ -1,11 +1,12 @@
 var UnityClient = {
-	"buildCommand": function(objectId, xPos, zPos) {
+	"buildCommand": function(objectId, xPos, zPos, rot) {
 		var command = {
 			"command": "build",
 			"options": {
 				"objectId": objectId,
 				"xPos": xPos,
-				"zPos": zPos
+				"zPos": zPos,
+				"rot": rot
 			}
 		};
 		sendMessage(JSON.stringify(command));

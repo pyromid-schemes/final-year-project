@@ -64,19 +64,23 @@ namespace Web
 				switch (networkEvent) {
 				case NetworkEventType.Nothing:
 					break;
+
 				case NetworkEventType.ConnectEvent:
 					if (recHostId == clientSocket) {
 						Debug.Log ("Client connected to " + connectionId.ToString () + "!");
 
-						byte[] gameWorld = ToByteArray(FormatGameWorldAsJson(worldManager.GetGameWorld()));
+						byte[] gameWorld = ToByteArray(JsonMessageBuilder.FormatWorldStatusMessage(worldManager.GetGameWorld()));
 						NetworkTransport.Send(recHostId, connectionId, channelId, gameWorld, gameWorld.Length, out error); 
 						wsClient = new WebsocketClient(recHostId, connectionId, channelId);
 					}
 					break;
 
 				case NetworkEventType.DataEvent:
+					string data = FromByteArray(buffer);
+					Debug.Log (data);
+
 					if (recHostId == clientSocket) {
-						commandResolver.ResolveMessage(FromByteArray (buffer));
+						commandResolver.ResolveMessage(data);
 					}
 					break;
 
@@ -106,65 +110,10 @@ namespace Web
 
 		void SendPositions()
 		{
-			byte[] position = ToByteArray(FormatPositionsAsJson (worldManager.GetVRPosition (), worldManager.GetMobs ()));
+			byte[] position = ToByteArray(JsonMessageBuilder.FormatPositionsMessage (worldManager.GetVRPosition (), worldManager.GetMobs ()));
 			byte error;
 
 			NetworkTransport.Send (wsClient.GetHostId(), wsClient.GetConnectionId(), wsClient.GetChannelId(), position, position.Length, out error);
-		}
-
-		private string FormatGameWorldAsJson(List<PlacedPrefab> gameWorld)
-		{
-			StringBuilder sb = new StringBuilder ();
-			sb.Append ("{");
-			sb.Append ("\"command\":\"worldStatus\",");
-			sb.Append ("\"objects\":[");
-
-			foreach (PlacedPrefab p in gameWorld) {
-				sb.Append ("{");
-				sb.Append (string.Format("\"objectId\":\"{0}\",", p.GetName()));
-				sb.Append (string.Format("\"xPos\":{0},", p.GetPosition().x));
-				sb.Append (string.Format("\"zPos\":{0}", AntiCorruption.FixHandedness(p.GetPosition().z)));
-				sb.Append ("},");
-			}
-			sb.Remove (sb.Length - 1, 1);
-			sb.Append ("]}");
-
-			return sb.ToString ();
-		}
-
-		private string FormatPositionsAsJson(Vector3 position, List<PlacedMob> mobs)
-		{
-			StringBuilder sb = new StringBuilder ();
-			sb.Append ("{");
-			sb.Append ("\"command\":\"positions\",");
-			sb.Append ("\"vrPosition\": {");
-			sb.Append (string.Format("\"xPos\":{0},", position.x));
-			sb.Append (string.Format("\"zPos\":{0}",AntiCorruption.FixHandedness(position.z)));
-			sb.Append ("},");
-			sb.Append ("\"mobs\":[");
-
-			foreach (PlacedMob m in mobs) {
-				sb.Append ("{");
-				sb.Append (string.Format("\"objectId\":\"{0}\",", m.GetName ()));
-				sb.Append (string.Format("\"xPos\":{0},", m.GetGameObject().transform.position.x));
-				sb.Append (string.Format("\"zPos\":{0},", AntiCorruption.FixHandedness(m.GetGameObject ().transform.position.z)));
-
-				bool killMob = ((IDamageable)m.GetGameObject ().GetComponent (typeof(IDamageable))).IsDead ();
-
-				if (killMob) {
-					m.KillMob ();
-				}
-
-				sb.Append (string.Format("\"dead\":{0},", killMob ? "true" : "false"));
-				sb.Append (string.Format("\"id\":{0}", m.GetId ()));
-				sb.Append ("},");
-			}
-			if (mobs.Count > 0) {
-				sb.Remove (sb.Length - 1, 1);
-			}
-			sb.Append ("]}");
-
-			return sb.ToString ();
 		}
 
 		private byte[] ToByteArray(string s)

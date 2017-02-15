@@ -34,10 +34,10 @@ namespace Test.AI.Pathfinding
         public void GivenStartingNodeNextToDestinationNode_returnDestinationNode()
         {
             _startingNode = new PathfindingNode(0, 0);
-            _destinationNode = new PathfindingNode(0, 1);
+            _destinationNode = new PathfindingNode(0, 0.5f);
             _gridManager.AddNode(0, 0);
-            _gridManager.AddNode(0, 1);
-            AssertPathEquals(new List<PathfindingNode>() { new PathfindingNode(0,1)});
+            _gridManager.AddNode(0, 0.5f);
+            AssertPathEquals(new List<PathfindingNode>() { new PathfindingNode(0,0.5f)});
         }
 
         [Test]
@@ -53,17 +53,17 @@ namespace Test.AI.Pathfinding
         public void TestSimpleCorridor()
         {
             _startingNode = new PathfindingNode(0,0);
-            _destinationNode = new PathfindingNode(0,4);
+            _destinationNode = new PathfindingNode(0,2);
             _gridManager.AddNode(0, 0);
+            _gridManager.AddNode(0, 0.5f);
             _gridManager.AddNode(0, 1);
+            _gridManager.AddNode(0, 1.5f);
             _gridManager.AddNode(0, 2);
-            _gridManager.AddNode(0, 3);
-            _gridManager.AddNode(0, 4);
             List<PathfindingNode> expectedPath = new List<PathfindingNode>()
             {
+                new PathfindingNode(0, 0.5f),
                 new PathfindingNode(0, 1),
-                new PathfindingNode(0, 2),
-                new PathfindingNode(0, 3),
+                new PathfindingNode(0, 1.5f),
                 _destinationNode
             };
 
@@ -74,38 +74,38 @@ namespace Test.AI.Pathfinding
         public void TestComplex()
         {
             _startingNode = new PathfindingNode(0,0);
-            _destinationNode = new PathfindingNode(4,-1);
-            _gridManager.AddNode(-1, 1);
-            _gridManager.AddNode(0, 1);
-            _gridManager.AddNode(1, 1);
+            _destinationNode = new PathfindingNode(2,-0.5f);
+            _gridManager.AddNode(-0.5f, 0.5f);
+            _gridManager.AddNode(0, 0.5f);
+            _gridManager.AddNode(0.5f, 0.5f);
 
             _gridManager.AddNode(0,0);
 
-            _gridManager.AddNode(-1, 0);
-            _gridManager.AddNode(1, 0);
+            _gridManager.AddNode(-0.5f, 0);
+            _gridManager.AddNode(0.5f, 0);
 
-            _gridManager.AddNode(-1, -1);
+            _gridManager.AddNode(-0.5f, -0.5f);
+            _gridManager.AddNode(0.5f, -0.5f);
+            _gridManager.AddNode(1.5f, -0.5f);
+            _gridManager.AddNode(2, -0.5f);
+            _gridManager.AddNode(2.5f, -0.5f);
+
+            _gridManager.AddNode(-0.5f, -1);
+            _gridManager.AddNode(0, -1);
+            _gridManager.AddNode(0.5f, -1);
             _gridManager.AddNode(1, -1);
-            _gridManager.AddNode(3, -1);
-            _gridManager.AddNode(4, -1);
-            _gridManager.AddNode(5, -1);
-
-            _gridManager.AddNode(-1, -2);
-            _gridManager.AddNode(0, -2);
-            _gridManager.AddNode(1, -2);
-            _gridManager.AddNode(2, -2);
-            _gridManager.AddNode(3, -2);
-            _gridManager.AddNode(4, -2);
-            _gridManager.AddNode(5, -2);
+            _gridManager.AddNode(1.5f, -1);
+            _gridManager.AddNode(2, -1);
+            _gridManager.AddNode(2.5f, -1);
 
             List<PathfindingNode> expectedPath = new List<PathfindingNode>()
             {
-                new PathfindingNode(1, 0),
+                new PathfindingNode(0.5f, 0),
+                new PathfindingNode(0.5f, -0.5f),
+                new PathfindingNode(0.5f, -1),
                 new PathfindingNode(1, -1),
-                new PathfindingNode(1, -2),
-                new PathfindingNode(2, -2),
-                new PathfindingNode(3, -2),
-                new PathfindingNode(4, -2),
+                new PathfindingNode(1.5f, -1),
+                new PathfindingNode(2, -1),
                 _destinationNode
             };
 
