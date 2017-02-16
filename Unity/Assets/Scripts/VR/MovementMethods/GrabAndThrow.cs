@@ -24,12 +24,12 @@ namespace VirtualReality.MovementMethods
 				RelativeHeadPosition = GetHeadPositionRelativeToPlayArea(playerHead, player);
 				GrabPressed = true;
 			}
-			Vector3 distanceToGrabbedWorldPosition = hand.transform.position - GrabbedWorldPosition;
-			GrabbedWorldPosition += GetHeadPositionRelativeToPlayArea(playerHead, player) - RelativeHeadPosition;
+            Vector3 distanceToGrabbedWorldPosition = GrabbedWorldPosition - hand.transform.position;
+            GrabbedWorldPosition += GetHeadPositionRelativeToPlayArea(playerHead, player) - RelativeHeadPosition;
 
-			// Apply movement
-			RelativeHeadPosition = GetHeadPositionRelativeToPlayArea(playerHead, player);
-			return new Vector3(distanceToGrabbedWorldPosition.x, 0, distanceToGrabbedWorldPosition.z);
+            // Apply movement
+            RelativeHeadPosition = GetHeadPositionRelativeToPlayArea(playerHead, player);
+            return new Vector3(distanceToGrabbedWorldPosition.x, 0, distanceToGrabbedWorldPosition.z);
 		}
 			
 		Vector3 GetHeadPositionRelativeToPlayArea(GameObject playerHead, GameObject player)
