@@ -20,6 +20,7 @@ Builder.prototype = {
 
         this.add_mob_btn(650, 180, Mobs.ant);
         this.add_mob_btn(700, 180, Mobs.bear);
+        this.add_mob_btn(650, 230, Mobs.skellyCheng);
 
 
         this.tile_selector = this.game.add.sprite(0, 0, 'builder-button-selector');
