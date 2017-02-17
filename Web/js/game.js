@@ -44,16 +44,19 @@ Main.prototype = {
     mob_id_count: 0,
 
     preload: function(){
+        var self = this;
+
         this.game.load.image('empty-tile', 'assets/empty-tile.png');
         this.game.load.image('empty-tile64', 'assets/empty-tile64.png');
         this.game.load.image('builder-button-selector', 'assets/selector.png');
 
-        this.preload_room(Rooms.room1);
-        this.preload_room(Rooms.room2);
-        this.preload_room(Rooms.room3);
+        Object.keys(Rooms).forEach(function(k){
+            self.preload_room(Rooms[k]);
+        });
 
-        this.preload_mob(Mobs.ant);
-        this.preload_mob(Mobs.bear);
+        Object.keys(Mobs).forEach(function(k){
+            self.preload_mob(Mobs[k]);
+        });
 
         this.game.load.image(Player.sprite.key, Player.sprite.image);
     },
@@ -96,18 +99,19 @@ Main.prototype = {
         this.builder = new Builder(this.game, this); this.builder.create();
 
         /** Creating the types **/
-        this.addRoomType(Rooms.room1);
-        this.addRoomType(Rooms.room2);
-        this.addRoomType(Rooms.room3);
+        Object.keys(Rooms).forEach(function(k){
+           self.addRoomType(Rooms[k]);
+        });
 
-        this.addMobType(Mobs.ant);
-        this.addMobType(Mobs.bear);
+        Object.keys(Mobs).forEach(function(k){
+            self.addMobType(Mobs[k]);
+        });
 
 
         // Move the map to the center
         this.scrollMap({x: -18 * 16, y: -18 * 16});
         // Create a dummy room
-        this.place_room('room2', 0, 0, false);
+        this.place_room('room2', 0, 0, 0, false);
 
 
         // Setup and move the player to [0,0]
@@ -120,11 +124,12 @@ Main.prototype = {
 
     /** Creation of rooms **/
     addRoomType: function(room_data){
+        console.log("room_data:");
+        console.log(room_data);
         this.room_types[room_data.room_id] = room_data;
     },
     addMobType: function(mob_data){
         this.mob_types[mob_data.id] = mob_data;
-        console.log(this.mob_types);
     },
 
     update: function(){
@@ -347,8 +352,11 @@ Main.prototype = {
         this.currently_selected_tile_type = mob.id;
 
         this.ghost_mob = this.game.add.image(0, 0, mob.sprite.key, null, this.map_group);
-        this.ghost_mob.pivot.x = 8;
-        this.ghost_mob.pivot.y = 8;
+        this.ghost_mob.pivot.x = mob.sprite.size.width/2;
+        this.ghost_mob.pivot.y = mob.sprite.size.height/2;
+
+        var size = 16 / mob.sprite.size.width;
+        this.ghost_mob.scale.set(size, size);
     },
     mob_unselected: function(){
         if(this.ghost_mob != null){
@@ -362,8 +370,12 @@ Main.prototype = {
         if(mob_data == null) throw new Error("No mob data for ["+mob_id+"]");
 
         var mob = this.game.add.image(x, y, mob_data.sprite.key, null, this.map_group);
-        mob.pivot.x = 8;
-        mob.pivot.y = 8;
+        mob.pivot.x = mob_data.sprite.size.width / 2;
+        mob.pivot.y = mob_data.sprite.size.height / 2;
+
+        // console.log("scale: "+mob_data.sprite.scale);
+        mob.scale.setTo(mob_data.sprite.scale, mob_data.sprite.scale);
+
 
         var mob_instance = {
             mob_id: mob_id,
@@ -514,8 +526,3 @@ Main.prototype = {
     }
 };
 main = Main.prototype; // Set 'window.main' to the whole Main object #JS #Singletons #BestCodePractice #Globals
-
-
-
-
-
