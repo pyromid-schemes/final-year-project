@@ -34,7 +34,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012816911610}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.067869, y: -38.10664, z: 17.322376}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -54,3 +54,5 @@ MonoBehaviour:
   room1: {fileID: 1000012974273968, guid: 6f7819ebe9b96aa4594e0df1f6b15061, type: 2}
   room2: {fileID: 1000010360841158, guid: e2abd9071bdd0fd438145f8198170436, type: 2}
   mobKnight: {fileID: 1000012939565528, guid: cb510df9f35b420469fc36e6eac0db8a, type: 2}
+  mobSkellyCheng: {fileID: 1000011574630884, guid: 17e620fb915f6bc4481512f9516cca15,
+    type: 2}
