@@ -173,7 +173,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000013280113734}
   m_Layer: 0
-  m_Name: Left_Door
+  m_Name: Single_Left_Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

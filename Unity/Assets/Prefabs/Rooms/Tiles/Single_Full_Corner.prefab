@@ -200,7 +200,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000013689379768}
   m_Layer: 0
-  m_Name: Full_Corner
+  m_Name: Single_Full_Corner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
