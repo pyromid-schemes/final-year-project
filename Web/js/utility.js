@@ -27,7 +27,6 @@ var Utility = {
     },
 
 
-
     /** DEBUG **/
     DEBUG_MESSAGES: true,
 
