@@ -191,12 +191,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 114000012332729108, guid: 4b6e87ee2f14743f7b489a545e8bd0cd,
-        type: 2}
-      propertyPath: mobSkellyCheng
-      value: 
-      objectReference: {fileID: 1000011574630884, guid: 17e620fb915f6bc4481512f9516cca15,
-        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4b6e87ee2f14743f7b489a545e8bd0cd, type: 2}
   m_IsPrefabParent: 0
@@ -253,24 +247,9 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114000011110684770, guid: bf0be37f061fa4215b222831552cacea,
         type: 2}
-      propertyPath: commandResolver
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000011110684770, guid: bf0be37f061fa4215b222831552cacea,
-        type: 2}
-      propertyPath: spawner
-      value: 
-      objectReference: {fileID: 1912315223}
-    - target: {fileID: 114000011110684770, guid: bf0be37f061fa4215b222831552cacea,
-        type: 2}
       propertyPath: worldManager
       value: 
       objectReference: {fileID: 1912315223}
-    - target: {fileID: 114000011110684770, guid: bf0be37f061fa4215b222831552cacea,
-        type: 2}
-      propertyPath: updatesPerSecond
-      value: 60
-      objectReference: {fileID: 0}
     - target: {fileID: 114000011110684770, guid: bf0be37f061fa4215b222831552cacea,
         type: 2}
       propertyPath: ipcManagerPrefab
