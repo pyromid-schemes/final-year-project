@@ -42,7 +42,7 @@ GameObject:
   - 64: {fileID: 64000013330013064}
   m_Layer: 0
   m_Name: wall (3)
-  m_TagString: Unwalkable
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -78,7 +78,7 @@ GameObject:
   - 64: {fileID: 64000012423265502}
   m_Layer: 0
   m_Name: wall (2)
-  m_TagString: Unwalkable
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -150,7 +150,7 @@ GameObject:
   - 64: {fileID: 64000013629817404}
   m_Layer: 0
   m_Name: wall (2)
-  m_TagString: Unwalkable
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -234,7 +234,7 @@ GameObject:
   - 64: {fileID: 64000013977244870}
   m_Layer: 0
   m_Name: corner_wall
-  m_TagString: Unwalkable
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -354,7 +354,7 @@ GameObject:
   - 64: {fileID: 64000010655773484}
   m_Layer: 0
   m_Name: wall (2)
-  m_TagString: Unwalkable
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -681,7 +681,7 @@ GameObject:
   - 64: {fileID: 64000013717064282}
   m_Layer: 0
   m_Name: wall (2)
-  m_TagString: Unwalkable
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -735,7 +735,7 @@ GameObject:
   - 64: {fileID: 64000011957969480}
   m_Layer: 0
   m_Name: corner_wall
-  m_TagString: Unwalkable
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -753,7 +753,7 @@ GameObject:
   - 64: {fileID: 64000013466483674}
   m_Layer: 0
   m_Name: wall (3)
-  m_TagString: Unwalkable
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -807,7 +807,7 @@ GameObject:
   - 64: {fileID: 64000012616200024}
   m_Layer: 0
   m_Name: wall (2)
-  m_TagString: Unwalkable
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -912,7 +912,7 @@ GameObject:
   - 64: {fileID: 64000011873575470}
   m_Layer: 0
   m_Name: wall (3)
-  m_TagString: Unwalkable
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1119,7 +1119,7 @@ GameObject:
   - 64: {fileID: 64000010902044070}
   m_Layer: 0
   m_Name: wall (1)
-  m_TagString: Unwalkable
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1206,7 +1206,7 @@ GameObject:
   - 64: {fileID: 64000013880379150}
   m_Layer: 0
   m_Name: wall (1)
-  m_TagString: Unwalkable
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1380,7 +1380,7 @@ GameObject:
   - 64: {fileID: 64000012544353394}
   m_Layer: 0
   m_Name: corner_wall
-  m_TagString: Unwalkable
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1416,7 +1416,7 @@ GameObject:
   - 64: {fileID: 64000011801728394}
   m_Layer: 0
   m_Name: floor
-  m_TagString: Walkable
+  m_TagString: Unwalkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1503,7 +1503,7 @@ GameObject:
   - 64: {fileID: 64000013022664412}
   m_Layer: 0
   m_Name: wall (1)
-  m_TagString: Unwalkable
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1554,7 +1554,7 @@ GameObject:
   - 64: {fileID: 64000010747172770}
   m_Layer: 0
   m_Name: corner_wall
-  m_TagString: Unwalkable
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1572,7 +1572,7 @@ GameObject:
   - 64: {fileID: 64000013783534828}
   m_Layer: 0
   m_Name: floor
-  m_TagString: Walkable
+  m_TagString: Unwalkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1605,7 +1605,7 @@ GameObject:
   - 64: {fileID: 64000010796681798}
   m_Layer: 0
   m_Name: wall (2)
-  m_TagString: Unwalkable
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1659,7 +1659,7 @@ GameObject:
   - 64: {fileID: 64000014244286464}
   m_Layer: 0
   m_Name: floor
-  m_TagString: Walkable
+  m_TagString: Unwalkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1677,7 +1677,7 @@ GameObject:
   - 64: {fileID: 64000011556082232}
   m_Layer: 0
   m_Name: wall (3)
-  m_TagString: Unwalkable
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1713,7 +1713,7 @@ GameObject:
   - 64: {fileID: 64000010334921180}
   m_Layer: 0
   m_Name: wall (1)
-  m_TagString: Unwalkable
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1836,7 +1836,7 @@ GameObject:
   - 64: {fileID: 64000013677632808}
   m_Layer: 0
   m_Name: floor
-  m_TagString: Walkable
+  m_TagString: Unwalkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1854,7 +1854,7 @@ GameObject:
   - 64: {fileID: 64000011514774190}
   m_Layer: 0
   m_Name: wall (2)
-  m_TagString: Unwalkable
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1923,7 +1923,7 @@ GameObject:
   - 64: {fileID: 64000011178784326}
   m_Layer: 0
   m_Name: wall (2)
-  m_TagString: Unwalkable
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

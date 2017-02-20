@@ -216,7 +216,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4000014293120240, guid: 364adb13db829a14db70757efdeff4d3, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0.46
+      value: 0.118
       objectReference: {fileID: 0}
     - target: {fileID: 4000014293120240, guid: 364adb13db829a14db70757efdeff4d3, type: 2}
       propertyPath: m_LocalPosition.y
@@ -258,6 +258,10 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1000013483935080, guid: 364adb13db829a14db70757efdeff4d3, type: 2}
+      propertyPath: m_TagString
+      value: Weapon
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 364adb13db829a14db70757efdeff4d3, type: 2}
   m_IsPrefabParent: 0
@@ -267,7 +271,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1511599204}
   m_Script: {fileID: 11500000, guid: 747a994f9a134a34baa306f385c0c108, type: 3}
---- !u!43 &388498911
+--- !u!43 &341545237
 Mesh:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -401,35 +405,6 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1788152880}
   m_Script: {fileID: 11500000, guid: 8034b6de2262d974dad65d0c8844e51a, type: 3}
---- !u!21 &1051212614
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: Sprites/Default
-  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 5
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  m_SavedProperties:
-    serializedVersion: 2
-    m_TexEnvs:
-    - first:
-        name: _MainTex
-      second:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - first:
-        name: PixelSnap
-      second: 0
-    m_Colors:
-    - first:
-        name: _Color
-      second: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &1057224738 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114000012332729108, guid: 4b6e87ee2f14743f7b489a545e8bd0cd,
@@ -650,6 +625,35 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: aadf0ff0e7d207944989da2d278f192c, type: 2}
   m_IsPrefabParent: 0
+--- !u!21 &1813541152
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Sprites/Default
+  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+    - first:
+        name: _MainTex
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - first:
+        name: PixelSnap
+      second: 0
+    m_Colors:
+    - first:
+        name: _Color
+      second: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &1912315223 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114000013165029404, guid: 5deddcdb49dfa4de2ba39fd4f0884e88,
@@ -699,12 +703,12 @@ Prefab:
         type: 2}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 1051212614}
+      objectReference: {fileID: 1813541152}
     - target: {fileID: 33000011031713634, guid: 5bcc5e101650bfd448ebc2bd6dd48074,
         type: 2}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 388498911}
+      objectReference: {fileID: 341545237}
     - target: {fileID: 114000013659841320, guid: 5bcc5e101650bfd448ebc2bd6dd48074,
         type: 2}
       propertyPath: itemMap
