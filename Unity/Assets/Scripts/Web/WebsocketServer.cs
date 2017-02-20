@@ -7,17 +7,20 @@ using Parsing.Commands;
 using World;
 using System.Collections.Generic;
 using System.Text;
+using Communication;
 
 namespace Web
 {
 	class WebsocketServer : MonoBehaviour
 	{
 		public WorldManager worldManager;
+		public IPCManagerPrefab ipcManagerPrefab;
 
 		private int clientSocket = -1;
 		private bool clientInitialised = false;
 		private CommandResolver commandResolver;
 		private WebsocketClient wsClient = null;
+		private IPCManager ipcManager;
 
 		private static float updatesPerSecond = 30.0f;
 		private float TIMER_TICK = (1.0f / updatesPerSecond);
@@ -27,6 +30,7 @@ namespace Web
 		void Start ()
 		{
 			commandResolver = new CommandResolver (worldManager);
+			ipcManager = ipcManagerPrefab.GetIPCManager ();
 
 			NetworkTransport.Init ();
 
@@ -110,7 +114,7 @@ namespace Web
 
 		void SendPositions()
 		{
-			byte[] position = ToByteArray(JsonMessageBuilder.FormatPositionsMessage (worldManager.GetVRPosition (), worldManager.GetMobs ()));
+			byte[] position = ToByteArray(JsonMessageBuilder.FormatPositionsMessage (worldManager.GetVRPosition (), worldManager.GetMobs (), ipcManager.ReceiveEventsForType (Communication.EventType.KillMob)));
 			byte error;
 
 			NetworkTransport.Send (wsClient.GetHostId(), wsClient.GetConnectionId(), wsClient.GetChannelId(), position, position.Length, out error);

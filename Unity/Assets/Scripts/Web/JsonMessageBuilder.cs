@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Text;
 using World;
 using System.Collections.Generic;
+using Communication;
 
 namespace Web
 {
@@ -53,11 +54,18 @@ namespace Web
 				jsonRooms.ToString ());
 		}
 
-		public static string FormatPositionsMessage (Vector3 vrPosition, List<PlacedMob> mobs) {
+		public static string FormatPositionsMessage (Vector3 vrPosition, List<PlacedMob> mobs, List<Communication.Event> deadMobs) {
 			StringBuilder jsonMobs = new StringBuilder ();
 			for (int i = 0; i < mobs.Count; i++) {
 				jsonMobs.Append (FormatMob (mobs [i]));
-				if (i != mobs.Count - 1) {
+				if (deadMobs.Count > 0 || i != mobs.Count - 1) {
+					jsonMobs.Append (",");
+				}
+			}
+
+			for (int i = 0; i < deadMobs.Count; i++) {
+				jsonMobs.Append (FormatMob (((KillMobEvent) deadMobs [i]).GetMob ()));
+				if (i != deadMobs.Count - 1) {
 					jsonMobs.Append (",");
 				}
 			}
@@ -76,12 +84,26 @@ namespace Web
 
 		public static string FormatMob(PlacedMob mob)
 		{
+			float x;
+			float z;
+			string dead;
+
+			if (mob.HasBeenKilled ()) {
+				x = mob.GetFinalPosition ().x;
+				z = mob.GetFinalPosition ().z;
+				dead = "true";
+			} else {
+				x = mob.GetGameObject ().transform.position.x;
+				z = mob.GetGameObject ().transform.position.z;
+				dead = "false";
+			}
+
 			return string.Format (MOB_TEMPLATE, 
 				mob.GetName (), 
-				mob.GetGameObject ().transform.position.x,
-				AntiCorruption.FixHandedness (mob.GetGameObject ().transform.position.z),
+				x,
+				AntiCorruption.FixHandedness (z),
 				mob.GetId (),
-				mob.ShouldKillMobOnWeb () ? "true" : "false");
+				dead);
 		}
 
 		public static string FormatRoom (PlacedPrefab room)
