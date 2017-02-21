@@ -7,12 +7,14 @@ using Parsing.Commands;
 using World;
 using System.Collections.Generic;
 using System.Text;
+using Communication;
 
 namespace Web
 {
 	class WebsocketServer : MonoBehaviour
 	{
 		public WorldManager worldManager;
+		public IPCManagerPrefab ipcManagerPrefab;
 
 		private int clientSocket = -1;
 		private bool clientInitialised = false;
@@ -110,7 +112,7 @@ namespace Web
 
 		void SendPositions()
 		{
-			byte[] position = ToByteArray(JsonMessageBuilder.FormatPositionsMessage (worldManager.GetVRPosition (), worldManager.GetMobs ()));
+			byte[] position = ToByteArray(JsonMessageBuilder.FormatPositionsMessage (worldManager.GetVRPosition (), worldManager.GetMobs (), ipcManagerPrefab.GetIPCManager ().ReceiveEventsForType (Communication.EventType.KillMob)));
 			byte error;
 
 			NetworkTransport.Send (wsClient.GetHostId(), wsClient.GetConnectionId(), wsClient.GetChannelId(), position, position.Length, out error);
