@@ -415,6 +415,8 @@ Main.prototype = {
 
         this.player.sprite.position.x = this.player.position.x;
         this.player.sprite.position.y = this.player.position.y;
+
+        this.player.sprite.rotation = Utility.unityRotToWebRot(msg.rot - 180); // -180 temp fix
     },
 
     // ToDo: Should refactor this and the two above to be nicer...
@@ -503,15 +505,16 @@ Main.prototype = {
             if(data[i].dead){
                 this.deleteMob(data[i].id);
             }else {
-                this.updateMob(data[i].id, {x: data[i].xPos * TILE_SIZE, y: data[i].zPos * TILE_SIZE});
+                this.updateMob(data[i].id, {x: data[i].xPos * TILE_SIZE, y: data[i].zPos * TILE_SIZE}, data[i].rot);
             }
         }
     },
-    updateMob: function(id, pos){
+    updateMob: function(id, pos, rot){
         var index = this.findMobIndex(id);
         var mob = this.mobs[index];
         mob.mob.position.x = pos.x;
         mob.mob.position.y = pos.y;
+        mob.mob.rotation = Utility.unityRotToWebRot(rot - 180);
     },
     deleteMob: function(id){
         var index = this.findMobIndex(id);
