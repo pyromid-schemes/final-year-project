@@ -9,4 +9,6 @@
     bool IsDead();
 
 	int GetHealth();
+
+	int GetMaxHealth();
 }
