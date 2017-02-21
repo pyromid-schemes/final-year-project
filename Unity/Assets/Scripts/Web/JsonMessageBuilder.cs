@@ -11,7 +11,8 @@ namespace Web
 	{
 		private static readonly string VR_POSITION_TEMPLATE = "\"vrPosition\": {{" +
 			"\"xPos\":{0}," +
-			"\"zPos\":{1}" +
+			"\"zPos\":{1}," +
+			"\"rot\":{2}" +
 			"}}";
 
 		private static readonly string MOB_TEMPLATE = "{{" +
@@ -23,7 +24,8 @@ namespace Web
 
 		private static readonly string MOB_POSITION_TEMPLATE = 
 			"\"xPos\":{0}," +
-			"\"zPos\":{1},";
+			"\"zPos\":{1}," +
+			"\"rot\":{2},";
 
 		private static readonly string ROOM_TEMPLATE = "{{" +
 			"\"objectId\":\"{0}\"," +
@@ -57,7 +59,7 @@ namespace Web
 				jsonRooms.ToString ());
 		}
 
-		public static string FormatPositionsMessage (Vector3 vrPosition, List<PlacedMob> mobs, List<Communication.Event> deadMobs) {
+		public static string FormatPositionsMessage (Transform vrPosition, List<PlacedMob> mobs, List<Communication.Event> deadMobs) {
 			StringBuilder jsonMobs = new StringBuilder ();
 			for (int i = 0; i < mobs.Count; i++) {
 				jsonMobs.Append (FormatMob (mobs [i]));
@@ -78,11 +80,12 @@ namespace Web
 				jsonMobs.ToString ());
 		}
 
-		public static string FormatVRPosition(Vector3 position)
+		public static string FormatVRPosition(Transform transform)
 		{
 			return string.Format (VR_POSITION_TEMPLATE, 
-				position.x,
-				AntiCorruption.FixHandedness (position.z));
+				transform.position.x,
+				AntiCorruption.FixHandedness (transform.position.z),
+				Mathf.RoundToInt (transform.rotation.eulerAngles.y));
 		}
 
 		public static string FormatMob(PlacedMob mob)
@@ -95,7 +98,8 @@ namespace Web
 			} else {
 				position = string.Format (MOB_POSITION_TEMPLATE, 
 					mob.GetGameObject ().transform.position.x,
-					AntiCorruption.FixHandedness ( mob.GetGameObject ().transform.position.z));
+					AntiCorruption.FixHandedness ( mob.GetGameObject ().transform.position.z),
+					Mathf.RoundToInt (mob.GetGameObject ().transform.rotation.eulerAngles.y));
 				dead = "false";
 			}
 
