@@ -120,7 +120,7 @@
                 // By default (defined in Unity) this will be called 30x a second
                 updateFrequency++;
                 if (showMovement) {
-                    writeToOutput("xPos: " + msg.xPos + ", zPos: " + msg.zPos, "vrPositionUpdates");
+                    writeToOutput("xPos: " + msg.xPos + ", zPos: " + msg.zPos + ", rot: " + msg.rot, "vrPositionUpdates");
                 }
             },
             "mobPositions": function (msg) {
