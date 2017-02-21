@@ -113,20 +113,36 @@
         "onMessage": {
             "worldStatus": function (msg) {
                 for (var i = 0; i < msg.length; i++) {
-                    writeToOutput("Room: " + msg[i].objectId + ", xPos: " + msg[i].xPos + ", zPos: " + msg[i].zPos + ", rot: " + msg[i].rot, "worldStatusUpdates");
+                    writeToOutput("Room: " + msg[i].objectId +
+                        ", xPos: " + msg[i].xPos +
+                        ", zPos: " + msg[i].zPos +
+                        ", rot: " + msg[i].rot, "worldStatusUpdates");
                 }
             },
             "vrPosition": function (msg) {
                 // By default (defined in Unity) this will be called 30x a second
                 updateFrequency++;
                 if (showMovement) {
-                    writeToOutput("xPos: " + msg.xPos + ", zPos: " + msg.zPos + ", rot: " + msg.rot, "vrPositionUpdates");
+                    writeToOutput("xPos: " + msg.xPos +
+                        ", zPos: " + msg.zPos +
+                        ", rot: " + msg.rot, "vrPositionUpdates");
                 }
             },
             "mobPositions": function (msg) {
                 if (showMovement) {
                     for (var i = 0; i < msg.length; i++) {
-                        writeToOutput("Mob: " + msg[i].objectId + ", xPos: " + msg[i].xPos + ", zPos: " + msg[i].zPos + ", id: " + msg[i].id + ", dead: " + msg[i].dead, "mobPositionUpdates");
+                        if (msg[i].dead) {
+                            writeToOutput("Mob: " + msg[i].objectId +
+                                ", id: " + msg[i].id +
+                                ", dead: " + msg[i].dead, "mobPositionUpdates");
+                        } else {
+                            writeToOutput("Mob: " + msg[i].objectId +
+                                ", xPos: " + msg[i].xPos +
+                                ", zPos: " + msg[i].zPos +
+                                ", id: " + msg[i].id +
+                                ", dead: " + msg[i].dead +
+                                ", rot: " + msg[i].rot, "mobPositionUpdates");
+                        }
                     }
                 }
             }

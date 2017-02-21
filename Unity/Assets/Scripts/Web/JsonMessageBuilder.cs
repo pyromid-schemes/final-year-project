@@ -24,7 +24,8 @@ namespace Web
 
 		private static readonly string MOB_POSITION_TEMPLATE = 
 			"\"xPos\":{0}," +
-			"\"zPos\":{1},";
+			"\"zPos\":{1}," +
+			"\"rot\":{2},";
 
 		private static readonly string ROOM_TEMPLATE = "{{" +
 			"\"objectId\":\"{0}\"," +
@@ -97,7 +98,8 @@ namespace Web
 			} else {
 				position = string.Format (MOB_POSITION_TEMPLATE, 
 					mob.GetGameObject ().transform.position.x,
-					AntiCorruption.FixHandedness ( mob.GetGameObject ().transform.position.z));
+					AntiCorruption.FixHandedness ( mob.GetGameObject ().transform.position.z),
+					Mathf.RoundToInt (mob.GetGameObject ().transform.rotation.eulerAngles.y));
 				dead = "false";
 			}
 
