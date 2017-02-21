@@ -22,10 +22,12 @@ namespace Web
 			"\"dead\":{3}" +
 			"}}";
 
-		private static readonly string MOB_POSITION_TEMPLATE = 
+		private static readonly string OPTIONAL_MOB_FIELDS_TEMPLATE = 
 			"\"xPos\":{0}," +
 			"\"zPos\":{1}," +
-			"\"rot\":{2},";
+			"\"rot\":{2}," +
+			"\"maxHealth\":{3}," +
+			"\"currentHealth\":{4},";
 
 		private static readonly string ROOM_TEMPLATE = "{{" +
 			"\"objectId\":\"{0}\"," +
@@ -90,22 +92,24 @@ namespace Web
 
 		public static string FormatMob(PlacedMob mob)
 		{
-			string position = "";
+			string optionalFields = "";
 			string dead;
 
 			if (mob.HasBeenKilled ()) {
 				dead = "true";
 			} else {
-				position = string.Format (MOB_POSITION_TEMPLATE, 
+				optionalFields = string.Format (OPTIONAL_MOB_FIELDS_TEMPLATE, 
 					mob.GetGameObject ().transform.position.x,
 					AntiCorruption.FixHandedness ( mob.GetGameObject ().transform.position.z),
-					Mathf.RoundToInt (mob.GetGameObject ().transform.rotation.eulerAngles.y));
+					Mathf.RoundToInt (mob.GetGameObject ().transform.rotation.eulerAngles.y),
+					GetDamageable (mob.GetGameObject ()).GetMaxHealth (),
+					GetDamageable (mob.GetGameObject ()).GetHealth ());
 				dead = "false";
 			}
 
 			return string.Format (MOB_TEMPLATE, 
 				mob.GetName (), 
-				position,
+				optionalFields,
 				mob.GetId (),
 				dead);
 		}
@@ -117,6 +121,11 @@ namespace Web
 				room.GetPosition ().x,
 				AntiCorruption.FixHandedness (room.GetPosition ().z),
 				Mathf.RoundToInt(room.GetRotation ().eulerAngles.y));
+		}
+
+		public static IDamageable GetDamageable (GameObject g)
+		{
+			return (IDamageable)g.GetComponent (typeof(IDamageable));
 		}
 	}
 }
