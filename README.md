@@ -19,7 +19,7 @@ This is the "low-level" connection API for using websockets.
  			 // msg.xPos // msg.zPos // msg.rot
  		 },
 		 "mobPositions": function(msg) { // is an array of mobs spawned in the unity world
-		 	// msg[i].objectId // msg[i].xPos // msg[i].zPos // msg[i].id // msg[i].dead // msg[i].rot
+		 	// msg[i].objectId // msg[i].xPos // msg[i].zPos // msg[i].id // msg[i].dead // msg[i].rot // msg[i].maxHealth // msg[i].currentHealth
 		 }
  	 },
  	 "onClose": function() { console.log("Websocket closed!"); }
