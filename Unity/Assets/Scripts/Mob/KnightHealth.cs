@@ -3,13 +3,16 @@ using UnityEngine;
 
 public class KnightHealth : MonoBehaviour, IDamageable
 {
-    private int health;
+	private int maxHealth;
+	private int health;
+
     private GameObject self;
     private bool isDead;
 
     public KnightHealth()
     {
-        health = 3;
+		maxHealth = 3;
+		health = maxHealth;
         isDead = false;
     }
 
@@ -51,5 +54,10 @@ public class KnightHealth : MonoBehaviour, IDamageable
 	public int GetHealth()
 	{
 		return health;
+	}
+
+	public int GetMaxHealth()
+	{
+		return maxHealth;
 	}
 }
