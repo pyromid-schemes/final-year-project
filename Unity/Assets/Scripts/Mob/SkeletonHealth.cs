@@ -46,4 +46,9 @@ public class SkeletonHealth : MonoBehaviour, IDamageable
     {
         return isDead;
     }
+
+	public int GetHealth()
+	{
+		return health;
+	}
 }
