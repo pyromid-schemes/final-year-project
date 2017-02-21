@@ -16,11 +16,14 @@ namespace Web
 
 		private static readonly string MOB_TEMPLATE = "{{" +
 			"\"objectId\":\"{0}\"," +
-			"\"xPos\":{1}," +
-			"\"zPos\":{2}," +
-			"\"id\":{3}," +
-			"\"dead\":{4}" +
+			"{1}" +
+			"\"id\":{2}," +
+			"\"dead\":{3}" +
 			"}}";
+
+		private static readonly string MOB_POSITION_TEMPLATE = 
+			"\"xPos\":{0}," +
+			"\"zPos\":{1},";
 
 		private static readonly string ROOM_TEMPLATE = "{{" +
 			"\"objectId\":\"{0}\"," +
@@ -84,24 +87,21 @@ namespace Web
 
 		public static string FormatMob(PlacedMob mob)
 		{
-			float x;
-			float z;
+			string position = "";
 			string dead;
 
 			if (mob.HasBeenKilled ()) {
-				x = mob.GetFinalPosition ().x;
-				z = mob.GetFinalPosition ().z;
 				dead = "true";
 			} else {
-				x = mob.GetGameObject ().transform.position.x;
-				z = mob.GetGameObject ().transform.position.z;
+				position = string.Format (MOB_POSITION_TEMPLATE, 
+					mob.GetGameObject ().transform.position.x,
+					AntiCorruption.FixHandedness ( mob.GetGameObject ().transform.position.z));
 				dead = "false";
 			}
 
 			return string.Format (MOB_TEMPLATE, 
 				mob.GetName (), 
-				x,
-				AntiCorruption.FixHandedness (z),
+				position,
 				mob.GetId (),
 				dead);
 		}

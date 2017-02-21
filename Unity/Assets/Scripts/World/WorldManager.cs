@@ -12,8 +12,6 @@ namespace World
 	    public Grid grid;
 		public IPCManagerPrefab ipcManagerPrefab;
 
-		private IPCManager ipcManager;
-
 		private List<Room> roomSpawnQueue;
 		private List<Mob> mobSpawnQueue;
 
@@ -22,7 +20,6 @@ namespace World
 
 		void Start ()
 		{
-			ipcManager = ipcManagerPrefab.GetIPCManager ();
 			roomSpawnQueue = new List<Room> ();
 			mobSpawnQueue = new List<Mob> ();
 			gameWorld = new List<PlacedPrefab> ();
@@ -42,7 +39,7 @@ namespace World
 			for (int i = mobs.Count - 1; i >= 0; i--) {
 				if (((IDamageable)mobs[i].GetGameObject ().GetComponent (typeof(IDamageable))).IsDead ()) {
 					mobs [i].KillMob ();
-					ipcManager.RegisterEvent (new KillMobEvent (mobs [i]));
+					ipcManagerPrefab.GetIPCManager ().RegisterEvent (new KillMobEvent (mobs [i]));
 					Destroy (mobs [i].GetGameObject ());
 					mobs.RemoveAt (i);
 				}

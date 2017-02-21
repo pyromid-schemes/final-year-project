@@ -10,7 +10,6 @@ namespace World
 		private int id;
 		private string name;
 		private bool killed;
-		private Vector3 finalPos;
 
 		public PlacedMob (string name, int id, GameObject gameObj)
 		{
@@ -43,12 +42,6 @@ namespace World
 		public void KillMob ()
 		{
 			killed = true;
-			finalPos = gameObj.transform.position;
-		}
-
-		public Vector3 GetFinalPosition()
-		{
-			return finalPos;
 		}
 	}
 }

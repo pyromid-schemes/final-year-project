@@ -14,9 +14,14 @@ namespace Communication
 
 		public List<Event> ReceiveEventsForType(EventType type)
 		{
-			var ret = events.FindAll (e => e.GetEventType ().Equals (type));
-			events.RemoveAll (e => e.GetEventType ().Equals (type));
-			return ret;
+			List<Event> eventsForType = new List<Event> ();
+			for (int i = events.Count - 1; i >= 0; i--) {
+				if (events [i].GetEventType ().Equals (type)) {
+					eventsForType.Add (events [i]);
+					events.RemoveAt (i);
+				}
+			}
+			return eventsForType;
 		}
 
 		public void RegisterEvent (Event e)
