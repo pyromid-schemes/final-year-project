@@ -28,9 +28,6 @@ namespace AI.States.Skeleton
 
         public void OnUpdate()
         {
-            if (!_mob.IsAttacking())
-            {
-            }
             if (Vector3.Distance(_mob.Eyes.position, _player.transform.position) > _mob.AttackRange &&
                 !_mob.IsAttacking())
             {
