@@ -293,7 +293,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000012914462130}
   - 95: {fileID: 95000012823079454}
-  - 195: {fileID: 195000011202678832}
   - 114: {fileID: 114000011175392318}
   - 54: {fileID: 54000013606682064}
   - 65: {fileID: 65000012342636492}
@@ -975,6 +974,7 @@ MonoBehaviour:
   AttackCooldown: 2
   AttackRange: 1
   RotateSpeed: 10
+  FOV: 180
 --- !u!137 &137000010135580672
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -1157,23 +1157,3 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.65208745, y: -0.5650699, z: -0.50261974}
     m_Extent: {x: 5.073639, y: 4.0530043, z: 2.7732158}
   m_DirtyAABB: 0
---- !u!195 &195000011202678832
-NavMeshAgent:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012939565528}
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
