@@ -35,7 +35,7 @@ public class SkeletonHealth : MonoBehaviour, IDamageable
 
     public bool HealthIsZero()
     {
-        return health == 0;
+        return health <= 0;
     }
 
     public void OnZeroHealth()

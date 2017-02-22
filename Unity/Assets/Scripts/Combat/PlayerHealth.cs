@@ -1,18 +1,18 @@
 ﻿using System;
 using UnityEngine;
 
-public class KnightHealth : MonoBehaviour, IDamageable
+public class PlayerHealth : MonoBehaviour, IDamageable
 {
-	private int maxHealth;
-	private int health;
+    private int maxHealth;
+    private int health;
 
     private GameObject self;
     private bool isDead;
 
-    public KnightHealth()
+    public PlayerHealth()
     {
-		maxHealth = 3;
-		health = maxHealth;
+        maxHealth = 20;
+        health = maxHealth;
         isDead = false;
     }
 
@@ -37,13 +37,14 @@ public class KnightHealth : MonoBehaviour, IDamageable
 
     public bool HealthIsZero()
     {
-        return health == 0;
+        return health <= 0;
     }
 
     public void OnZeroHealth()
     {
-        self.SetActive(false);
+        //self.SetActive(false);
         isDead = true;
+        print(isDead);
     }
 
     public bool IsDead()
@@ -51,13 +52,13 @@ public class KnightHealth : MonoBehaviour, IDamageable
         return isDead;
     }
 
-	public int GetHealth()
-	{
-		return health;
-	}
+    public int GetHealth()
+    {
+        return health;
+    }
 
-	public int GetMaxHealth()
-	{
-		return maxHealth;
-	}
+    public int GetMaxHealth()
+    {
+        return maxHealth;
+    }
 }

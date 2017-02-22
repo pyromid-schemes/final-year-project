@@ -14,7 +14,6 @@ public abstract class Weapon : MonoBehaviour
         isColliding = false;
     }
 
-
     //TODO: set to false once AI and VR player has implemented the ability to toggle weapon hit boxes
     // Kept to true to for compatability issues until earlier statement is resolved
     void Start()
@@ -40,6 +39,9 @@ public abstract class Weapon : MonoBehaviour
             case "Monster":
                 ApplyDamageToMonster(other.collider);
                 break;
+            case "Player":
+                ApplyDamageToMonster(other.collider);
+                break;
             default:
                 break;
         }
@@ -53,7 +55,9 @@ public abstract class Weapon : MonoBehaviour
         }
         else
         {
-            other.gameObject.SendMessage("ApplyDamage", damage);
+            print(other.gameObject);
+            //other.gameObject.SendMessage("ApplyDamage", damage);
+            other.gameObject.GetComponent<IDamageable>().ApplyDamage(damage);
         }
     }
 
