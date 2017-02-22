@@ -51,4 +51,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3077b18618d274cfb994c528f2077e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  commandResolver: {fileID: 0}
+  worldManager: {fileID: 0}
+  ipcManagerPrefab: {fileID: 0}

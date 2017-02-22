@@ -2,13 +2,15 @@
 
 public class SkeletonHealth : MonoBehaviour, IDamageable
 {
+	private int maxHealth;
     private int health;
     private GameObject self;
     private bool isDead;
 
     public SkeletonHealth()
     {
-        health = 5;
+		maxHealth = 5;
+		health = maxHealth;
         isDead = false;
     }
 
@@ -46,4 +48,14 @@ public class SkeletonHealth : MonoBehaviour, IDamageable
     {
         return isDead;
     }
+
+	public int GetHealth()
+	{
+		return health;
+	}
+
+	public int GetMaxHealth()
+	{
+		return maxHealth;
+	}
 }

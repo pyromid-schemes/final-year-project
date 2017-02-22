@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using AI.Pathfinding;
+using Communication;
 
 namespace World
 {
@@ -9,6 +10,7 @@ namespace World
 		public PrefabMap prefabs;
 		public GameObject vrPlayer;
 	    public Grid grid;
+		public IPCManagerPrefab ipcManagerPrefab;
 
 		private List<Room> roomSpawnQueue;
 		private List<Mob> mobSpawnQueue;
@@ -34,9 +36,12 @@ namespace World
                 roomSpawnQueue.RemoveAt (i);
 			}
 
-			for (int i = 0; i < mobs.Count; i++) {
+			for (int i = mobs.Count - 1; i >= 0; i--) {
 				if (((IDamageable)mobs[i].GetGameObject ().GetComponent (typeof(IDamageable))).IsDead ()) {
 					mobs [i].KillMob ();
+					ipcManagerPrefab.GetIPCManager ().RegisterEvent (new KillMobEvent (mobs [i]));
+					Destroy (mobs [i].GetGameObject ());
+					mobs.RemoveAt (i);
 				}
 			}
 
@@ -81,9 +86,9 @@ namespace World
 			return gameWorld;
 		}
 
-		public Vector3 GetVRPosition()
+		public Transform GetVRPosition()
 		{
-			return vrPlayer.transform.position;
+			return vrPlayer.transform;
 		}
 
 		public List<PlacedMob> GetMobs()

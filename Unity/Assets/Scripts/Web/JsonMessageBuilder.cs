@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Text;
 using World;
 using System.Collections.Generic;
+using Communication;
 
 namespace Web
 {
@@ -10,16 +11,21 @@ namespace Web
 	{
 		private static readonly string VR_POSITION_TEMPLATE = "\"vrPosition\": {{" +
 			"\"xPos\":{0}," +
-			"\"zPos\":{1}" +
+			"\"zPos\":{1}," +
+			"\"rot\":{2}" +
 			"}}";
 
 		private static readonly string MOB_TEMPLATE = "{{" +
 			"\"objectId\":\"{0}\"," +
-			"\"xPos\":{1}," +
-			"\"zPos\":{2}," +
-			"\"id\":{3}," +
-			"\"dead\":{4}" +
+			"{1}" +
+			"\"id\":{2}," +
+			"\"dead\":{3}" +
 			"}}";
+
+		private static readonly string MOB_POSITION_TEMPLATE = 
+			"\"xPos\":{0}," +
+			"\"zPos\":{1}," +
+			"\"rot\":{2},";
 
 		private static readonly string ROOM_TEMPLATE = "{{" +
 			"\"objectId\":\"{0}\"," +
@@ -53,11 +59,18 @@ namespace Web
 				jsonRooms.ToString ());
 		}
 
-		public static string FormatPositionsMessage (Vector3 vrPosition, List<PlacedMob> mobs) {
+		public static string FormatPositionsMessage (Transform vrPosition, List<PlacedMob> mobs, List<Communication.Event> deadMobs) {
 			StringBuilder jsonMobs = new StringBuilder ();
 			for (int i = 0; i < mobs.Count; i++) {
 				jsonMobs.Append (FormatMob (mobs [i]));
-				if (i != mobs.Count - 1) {
+				if (deadMobs.Count > 0 || i != mobs.Count - 1) {
+					jsonMobs.Append (",");
+				}
+			}
+
+			for (int i = 0; i < deadMobs.Count; i++) {
+				jsonMobs.Append (FormatMob (((KillMobEvent) deadMobs [i]).GetMob ()));
+				if (i != deadMobs.Count - 1) {
 					jsonMobs.Append (",");
 				}
 			}
@@ -67,21 +80,34 @@ namespace Web
 				jsonMobs.ToString ());
 		}
 
-		public static string FormatVRPosition(Vector3 position)
+		public static string FormatVRPosition(Transform transform)
 		{
 			return string.Format (VR_POSITION_TEMPLATE, 
-				position.x,
-				AntiCorruption.FixHandedness (position.z));
+				transform.position.x,
+				AntiCorruption.FixHandedness (transform.position.z),
+				Mathf.RoundToInt (transform.rotation.eulerAngles.y));
 		}
 
 		public static string FormatMob(PlacedMob mob)
 		{
+			string position = "";
+			string dead;
+
+			if (mob.HasBeenKilled ()) {
+				dead = "true";
+			} else {
+				position = string.Format (MOB_POSITION_TEMPLATE, 
+					mob.GetGameObject ().transform.position.x,
+					AntiCorruption.FixHandedness ( mob.GetGameObject ().transform.position.z),
+					Mathf.RoundToInt (mob.GetGameObject ().transform.rotation.eulerAngles.y));
+				dead = "false";
+			}
+
 			return string.Format (MOB_TEMPLATE, 
 				mob.GetName (), 
-				mob.GetGameObject ().transform.position.x,
-				AntiCorruption.FixHandedness (mob.GetGameObject ().transform.position.z),
+				position,
 				mob.GetId (),
-				mob.ShouldKillMobOnWeb () ? "true" : "false");
+				dead);
 		}
 
 		public static string FormatRoom (PlacedPrefab room)

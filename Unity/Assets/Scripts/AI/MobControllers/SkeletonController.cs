@@ -14,8 +14,7 @@ namespace AI.MobControllers
         {
             Patrol,
             Pursue,
-            Defend,
-            Attack
+            Defend
         }
 
         protected override void InitialiseStates()
@@ -26,7 +25,6 @@ namespace AI.MobControllers
             StateManager.AddState((int)States.Patrol, new PatrolState(this));
             StateManager.AddState((int)States.Pursue, new PursueState(this));
             StateManager.AddState((int)States.Defend, new DefendState(this));
-            StateManager.AddState((int)States.Attack, new AttackState(this));
 
             // Set starting state
             StateManager.SetCurrentState((int)States.Patrol);
@@ -43,10 +41,8 @@ namespace AI.MobControllers
             StateManager.AddTransition((int)States.Pursue, (int)States.Patrol);
             StateManager.AddTransition((int)States.Pursue, (int)States.Defend);
 
-            StateManager.AddTransition((int)States.Defend, (int)States.Attack);
             StateManager.AddTransition((int)States.Defend, (int)States.Pursue);
 
-            StateManager.AddTransition((int)States.Attack, (int)States.Defend);
         }
 
         public void ChangeState(States nextState)
@@ -77,21 +73,12 @@ namespace AI.MobControllers
         public void ToDefendingState()
         {
             SetWalking(false);
-            SetAttack(false);
             SetDefend(true);
-        }
-
-        // Defending -> Attack
-        public void ToAttackingState()
-        {
-            SetWalking(false);
-            SetDefend(false);
-            SetAttack(true);
         }
 
         public bool IsAttacking()
         {
-            return false;
+            return Anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Attack");
         }
 
         void SetWalking(bool isWalking)
@@ -103,9 +90,9 @@ namespace AI.MobControllers
         {
         }
 
-        void SetAttack(bool isAttack)
+        public void Attack()
         {
-            Anim.SetBool("attacking", isAttack);
+            Anim.SetTrigger("attack");
         }
 
         void SetDefend(bool isDefend)

@@ -7,4 +7,8 @@
     void OnZeroHealth();
 
     bool IsDead();
+
+	int GetHealth();
+
+	int GetMaxHealth();
 }

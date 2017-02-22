@@ -9,7 +9,6 @@ namespace AI.States.Skeleton
 {
     class DefendState : IState
     {
-
         private SkeletonController _mob;
         private GameObject _player;
 
@@ -29,7 +28,8 @@ namespace AI.States.Skeleton
 
         public void OnUpdate()
         {
-            if (Vector3.Distance(_mob.Eyes.position, _player.transform.position) > _mob.AttackRange)
+            if (Vector3.Distance(_mob.Eyes.position, _player.transform.position) > _mob.AttackRange &&
+                !_mob.IsAttacking())
             {
                 _mob.ChangeState(SkeletonController.States.Pursue);
             }
@@ -37,7 +37,8 @@ namespace AI.States.Skeleton
             {
                 if (_timeSinceLastAttack > _mob.AttackCooldown)
                 {
-                    _mob.ChangeState(SkeletonController.States.Attack);
+                    _mob.Attack();
+                    _timeSinceLastAttack = 0f;
                 }
                 else
                 {
@@ -48,6 +49,8 @@ namespace AI.States.Skeleton
 
         public void OnFixedUpdate()
         {
+            _mob.transform.LookAt(new Vector3(_player.transform.position.x, _mob.transform.position.y,
+                _player.transform.position.z));
         }
     }
 }

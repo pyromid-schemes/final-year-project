@@ -1308,7 +1308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Grid: {fileID: 0}
   Eyes: {fileID: 4000012067960544}
-  AttackCooldown: 2
+  AttackCooldown: 5
   AttackRange: 2
   RotateSpeed: 10
   FOV: 180
