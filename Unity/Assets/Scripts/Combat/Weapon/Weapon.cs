@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
@@ -33,6 +34,9 @@ public abstract class Weapon : MonoBehaviour
 
         switch (other.collider.gameObject.tag)
         {
+            case "Weapon":
+                blocked = true;
+                break;
             case "Shield":
                 blocked = true;
                 break;
@@ -55,8 +59,6 @@ public abstract class Weapon : MonoBehaviour
         }
         else
         {
-            print(other.gameObject);
-            //other.gameObject.SendMessage("ApplyDamage", damage);
             other.gameObject.GetComponent<IDamageable>().ApplyDamage(damage);
         }
     }

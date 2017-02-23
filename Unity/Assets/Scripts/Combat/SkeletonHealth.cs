@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class SkeletonHealth : MonoBehaviour, IDamageable
 {
@@ -21,7 +22,6 @@ public class SkeletonHealth : MonoBehaviour, IDamageable
 
     void OnCollisionEnter()
     {
-        Debug.Log(health);
         if (HealthIsZero())
         {
             OnZeroHealth();
