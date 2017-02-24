@@ -8,6 +8,8 @@ TagManager:
   - Weapon
   - Walkable
   - Shield
+  - Unwalkable
+  - Wall
   layers:
   - Default
   - TransparentFX

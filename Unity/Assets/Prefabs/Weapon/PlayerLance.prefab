@@ -41,7 +41,7 @@ GameObject:
   - 23: {fileID: 23000013774808708}
   m_Layer: 0
   m_Name: Lance
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -86,7 +86,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 371ae8cddab98304a9b1ebc827a1881f, type: 2}
+  - {fileID: 2100000, guid: e7fae39df8e5d77488c17aa0bb115430, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
