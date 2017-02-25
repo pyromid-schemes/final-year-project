@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class MockHealthScript : MonoBehaviour, IDamageable {
     private int maxHealth;
@@ -20,9 +19,14 @@ public class MockHealthScript : MonoBehaviour, IDamageable {
         self = this.gameObject;
     }
 
-    void OnCollisionEnter()
+    void Update()
     {
-        if (HealthIsZero())
+        if (UserPressKKey())
+        {
+            SelfHarmByFiveDamage();
+        }
+
+        if (HealthIsZero() && isDead == false)
         {
             OnZeroHealth();
         }
@@ -57,5 +61,15 @@ public class MockHealthScript : MonoBehaviour, IDamageable {
     public int GetMaxHealth()
     {
         return maxHealth;
+    }
+
+    private bool UserPressKKey()
+    {
+        return Input.GetKeyDown(KeyCode.K);
+    }
+
+    private void SelfHarmByFiveDamage()
+    {
+        health -= 5;
     }
 }
