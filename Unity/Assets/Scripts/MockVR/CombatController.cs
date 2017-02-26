@@ -21,12 +21,12 @@ public class CombatController : MonoBehaviour {
         }
     }
 
-    bool UserPressLeftMouseButton()
+    private bool UserPressLeftMouseButton()
     {
         return Input.GetButtonDown("Fire1");
     }
 
-    void Attack()
+    private void Attack()
     {
         animator.Play("Attack");
         StartCoroutine(WaitForAnimationToFinish());
