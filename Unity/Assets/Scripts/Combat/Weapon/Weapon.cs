@@ -1,18 +1,18 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
     private int damage;
-    private bool blocked;
     private bool isColliding;
-
+    private bool blocked;
 
     public Weapon(int damage)
     {
         this.damage = damage;
-        blocked = false;
         isColliding = false;
+        blocked = false;
     }
 
     //TODO: set to false once AI and VR player has implemented the ability to toggle weapon hit boxes
@@ -42,6 +42,7 @@ public abstract class Weapon : MonoBehaviour
                 break;
             case "Monster":
                 ApplyDamageToMonster(other.collider);
+                print("hitting");
                 break;
             case "Player":
                 ApplyDamageToMonster(other.collider);
@@ -50,8 +51,7 @@ public abstract class Weapon : MonoBehaviour
                 break;
         }
     }
-
-    void ApplyDamageToMonster(Collider other)
+    private void ApplyDamageToMonster(Collider other)
     {
         if (blocked)
         {
@@ -63,13 +63,13 @@ public abstract class Weapon : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        isColliding = false;
-    }
-
     public void setWeaponIsActive(bool isActive)
     {
         GetComponent<BoxCollider>().enabled = isActive;
+    }
+
+    void FixedUpdate()
+    {
+        isColliding = false;
     }
 }
