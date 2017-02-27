@@ -16,7 +16,7 @@ This is the "low-level" connection API for using websockets.
  			 // msg[i].objectId // msg[i].xPos // msg[i].zPos // msg[i].rot
  		 },
  		 "vrPosition": function(msg) { // has the xPos and zPos of the VR player at 30Hz
- 			 // msg.xPos // msg.zPos // msg.rot
+ 			 // msg.xPos // msg.zPos // msg.rot // msg.maxHealth // msg.currentHealth
  		 },
 		 "mobPositions": function(msg) { // is an array of mobs spawned in the unity world
 		 	// msg[i].objectId // msg[i].xPos // msg[i].zPos // msg[i].id // msg[i].dead // msg[i].rot // msg[i].maxHealth // msg[i].currentHealth

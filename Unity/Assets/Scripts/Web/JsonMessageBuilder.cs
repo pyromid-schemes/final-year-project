@@ -9,10 +9,12 @@ namespace Web
 {
 	public class JsonMessageBuilder
 	{
-		private static readonly string VR_POSITION_TEMPLATE = "\"vrPosition\": {{" +
+		private static readonly string VR_PLAYER_TEMPLATE = "\"vrPosition\": {{" +
 			"\"xPos\":{0}," +
 			"\"zPos\":{1}," +
-			"\"rot\":{2}" +
+			"\"rot\":{2}," +
+			"\"maxHealth\":{3}," +
+			"\"currentHealth\":{4}" +
 			"}}";
 
 		private static readonly string MOB_TEMPLATE = "{{" +
@@ -61,7 +63,7 @@ namespace Web
 				jsonRooms.ToString ());
 		}
 
-		public static string FormatPositionsMessage (Transform vrPosition, List<PlacedMob> mobs, List<Communication.Event> deadMobs) {
+		public static string FormatPositionsMessage (GameObject vrPlayer, List<PlacedMob> mobs, List<Communication.Event> deadMobs) {
 			StringBuilder jsonMobs = new StringBuilder ();
 			for (int i = 0; i < mobs.Count; i++) {
 				jsonMobs.Append (FormatMob (mobs [i]));
@@ -78,16 +80,18 @@ namespace Web
 			}
 
 			return string.Format (POSITIONS_TEMPLATE,
-				FormatVRPosition (vrPosition),
+				FormatVRPlayer (vrPlayer),
 				jsonMobs.ToString ());
 		}
 
-		public static string FormatVRPosition(Transform transform)
+		public static string FormatVRPlayer(GameObject player)
 		{
-			return string.Format (VR_POSITION_TEMPLATE, 
-				transform.position.x,
-				AntiCorruption.FixHandedness (transform.position.z),
-				Mathf.RoundToInt (transform.rotation.eulerAngles.y));
+			return string.Format (VR_PLAYER_TEMPLATE, 
+				player.transform.position.x,
+				AntiCorruption.FixHandedness (player.transform.position.z),
+				Mathf.RoundToInt (player.transform.rotation.eulerAngles.y),
+				GetDamageable (player).GetMaxHealth (),
+				GetDamageable (player).GetHealth ());
 		}
 
 		public static string FormatMob(PlacedMob mob)

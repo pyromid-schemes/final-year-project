@@ -125,7 +125,9 @@
                 if (showMovement) {
                     writeToOutput("xPos: " + msg.xPos +
                         ", zPos: " + msg.zPos +
-                        ", rot: " + msg.rot, "vrPositionUpdates");
+                        ", rot: " + msg.rot +
+                        ", maxHealth: " + msg.maxHealth +
+                        ", currentHealth: " + msg.currentHealth, "vrPositionUpdates");
                 }
             },
             "mobPositions": function (msg) {
