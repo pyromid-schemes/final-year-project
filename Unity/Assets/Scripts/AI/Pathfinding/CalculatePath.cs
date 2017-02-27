@@ -52,10 +52,16 @@ namespace AI.Pathfinding
         {
             List<PathfindingNode> possibleNodes = new List<PathfindingNode>
             {
+                // Up down left right
                 new PathfindingNode(_currentNode, _currentNode.X - Grid._spaceBetween, _currentNode.Z),
                 new PathfindingNode(_currentNode, _currentNode.X + Grid._spaceBetween, _currentNode.Z),
                 new PathfindingNode(_currentNode, _currentNode.X, _currentNode.Z - Grid._spaceBetween),
-                new PathfindingNode(_currentNode, _currentNode.X, _currentNode.Z + Grid._spaceBetween)
+                new PathfindingNode(_currentNode, _currentNode.X, _currentNode.Z + Grid._spaceBetween),
+                // Diagonals
+                new PathfindingNode(_currentNode, _currentNode.X - Grid._spaceBetween, _currentNode.Z + Grid._spaceBetween, 1.41f),
+                new PathfindingNode(_currentNode, _currentNode.X + Grid._spaceBetween, _currentNode.Z + Grid._spaceBetween, 1.41f),
+                new PathfindingNode(_currentNode, _currentNode.X - Grid._spaceBetween, _currentNode.Z - Grid._spaceBetween, 1.41f),
+                new PathfindingNode(_currentNode, _currentNode.X + Grid._spaceBetween, _currentNode.Z - Grid._spaceBetween, 1.41f)
             };
 
             foreach (PathfindingNode possibleNode in possibleNodes)
