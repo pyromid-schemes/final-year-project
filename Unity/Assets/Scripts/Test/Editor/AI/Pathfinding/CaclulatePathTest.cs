@@ -100,12 +100,9 @@ namespace Test.AI.Pathfinding
 
             List<PathfindingNode> expectedPath = new List<PathfindingNode>()
             {
-                new PathfindingNode(0.5f, 0),
                 new PathfindingNode(0.5f, -0.5f),
-                new PathfindingNode(0.5f, -1),
                 new PathfindingNode(1, -1),
-                new PathfindingNode(1.5f, -1),
-                new PathfindingNode(2, -1),
+                new PathfindingNode(1.5f, -0.5f),
                 _destinationNode
             };
 
