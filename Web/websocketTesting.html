@@ -125,7 +125,9 @@
                 if (showMovement) {
                     writeToOutput("xPos: " + msg.xPos +
                         ", zPos: " + msg.zPos +
-                        ", rot: " + msg.rot, "vrPositionUpdates");
+                        ", rot: " + msg.rot +
+                        ", maxHealth: " + msg.maxHealth +
+                        ", currentHealth: " + msg.currentHealth, "vrPositionUpdates");
                 }
             },
             "mobPositions": function (msg) {
@@ -141,7 +143,9 @@
                                 ", zPos: " + msg[i].zPos +
                                 ", id: " + msg[i].id +
                                 ", dead: " + msg[i].dead +
-                                ", rot: " + msg[i].rot, "mobPositionUpdates");
+                                ", rot: " + msg[i].rot +
+                                ", maxHealth: " + msg[i].maxHealth +
+                                ", currentHealth: " + msg[i].currentHealth, "mobPositionUpdates");
                         }
                     }
                 }
