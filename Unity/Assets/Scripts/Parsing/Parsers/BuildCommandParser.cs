@@ -11,6 +11,17 @@ namespace Parsing.Parsers
 {
 	public class BuildCommandParser : Parser
 	{
+		public BuildCommandParser() 
+		{
+			JsonConvert.DeserializeObject ("{\"command\":\"build\"," +
+				"\"options\":{" +
+				"\"objectId\": \"objectId\"," +
+				"\"xPos\": 0," +
+				"\"zPos\": 0," +
+				"\"rot\": 0" +
+				"}}");
+		}
+
 		public bool CanParse (string msg)
 		{
 			var obj = (JObject)JsonConvert.DeserializeObject (msg);

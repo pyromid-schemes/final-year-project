@@ -7,6 +7,17 @@ namespace Parsing.Parsers
 {
 	public class SpawnMobCommandParser : Parser
 	{
+		public SpawnMobCommandParser()
+		{
+			JsonConvert.DeserializeObject ("{\"command\":\"spawnMob\"," +
+				"\"options\": {" +
+				"\"objectId\": \"objectId\"," +
+				"\"xPos\": 0," +
+				"\"zPos\": 0," +
+				"\"id\": 0" +
+				"}}");
+		}
+
 		public bool CanParse (string msg)
 		{
 			var obj = (JObject)JsonConvert.DeserializeObject (msg);
