@@ -10,7 +10,7 @@ public class SkeletonHealth : MonoBehaviour, IDamageable
 
     public SkeletonHealth()
     {
-		maxHealth = 1;
+		maxHealth = 5;
 		health = maxHealth;
         isDead = false;
     }
@@ -59,6 +59,8 @@ public class SkeletonHealth : MonoBehaviour, IDamageable
 		return maxHealth;
 	}
 
+    //This should be extracted out but I can't without exposing isDead 
+    //Hardcoded a magic number for delay, can get this out of the animator. But animator is useless in giving info
     private IEnumerator PlayDeathAnimation()
     {
         GetComponent<Animator>().Play("Death");
