@@ -22,7 +22,6 @@ public class SkeletonHealth : MonoBehaviour, IDamageable
 
     void OnCollisionEnter()
     {
-        Debug.Log(health);
         if (HealthIsZero())
         {
             OnZeroHealth();
@@ -60,11 +59,10 @@ public class SkeletonHealth : MonoBehaviour, IDamageable
 	}
 
     //This should be extracted out but I can't without exposing isDead 
-    //Hardcoded a magic number for delay, can get this out of the animator. But animator is useless in giving info
     private IEnumerator PlayDeathAnimation()
     {
         GetComponent<Animator>().Play("Death");
-        yield return new WaitForSeconds(2F);
+        yield return new WaitForSeconds(GetComponent<Animator>().GetCurrentAnimatorClipInfo(0).Length * 2);
         self.SetActive(false);
         isDead = true;
     } 
