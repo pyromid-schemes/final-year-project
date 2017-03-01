@@ -42,7 +42,6 @@ public abstract class Weapon : MonoBehaviour
                 break;
             case "Monster":
                 ApplyDamageToMonster(other.collider);
-                print("hitting");
                 break;
             case "Player":
                 ApplyDamageToMonster(other.collider);
@@ -51,6 +50,7 @@ public abstract class Weapon : MonoBehaviour
                 break;
         }
     }
+
     private void ApplyDamageToMonster(Collider other)
     {
         if (blocked)
