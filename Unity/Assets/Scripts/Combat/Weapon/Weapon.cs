@@ -55,8 +55,6 @@ public abstract class Weapon : MonoBehaviour
         }
         else
         {
-            print(other.gameObject);
-            //other.gameObject.SendMessage("ApplyDamage", damage);
             other.gameObject.GetComponent<IDamageable>().ApplyDamage(damage);
         }
     }
