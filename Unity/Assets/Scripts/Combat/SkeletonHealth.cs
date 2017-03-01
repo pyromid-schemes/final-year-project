@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class SkeletonHealth : MonoBehaviour, IDamageable
 {
@@ -9,7 +10,7 @@ public class SkeletonHealth : MonoBehaviour, IDamageable
 
     public SkeletonHealth()
     {
-		maxHealth = 5;
+		maxHealth = 1;
 		health = maxHealth;
         isDead = false;
     }
@@ -40,8 +41,7 @@ public class SkeletonHealth : MonoBehaviour, IDamageable
 
     public void OnZeroHealth()
     {
-        self.SetActive(false);
-        isDead = true;
+        StartCoroutine(PlayDeathAnimation());
     }
 
     public bool IsDead()
@@ -58,4 +58,12 @@ public class SkeletonHealth : MonoBehaviour, IDamageable
 	{
 		return maxHealth;
 	}
+
+    private IEnumerator PlayDeathAnimation()
+    {
+        GetComponent<Animator>().Play("Death");
+        yield return new WaitForSeconds(2F);
+        self.SetActive(false);
+        isDead = true;
+    } 
 }
