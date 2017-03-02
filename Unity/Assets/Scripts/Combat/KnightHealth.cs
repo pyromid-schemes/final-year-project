@@ -11,7 +11,7 @@ public class KnightHealth : MonoBehaviour, IDamageable
 
     public KnightHealth()
     {
-		maxHealth = 3;
+		maxHealth = 10;
 		health = maxHealth;
         isDead = false;
     }
@@ -43,7 +43,6 @@ public class KnightHealth : MonoBehaviour, IDamageable
     {
         self.SetActive(false);
         isDead = true;
-        print(isDead);
     }
 
     public bool IsDead()

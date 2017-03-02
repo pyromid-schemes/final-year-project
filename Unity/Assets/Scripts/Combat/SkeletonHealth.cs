@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SkeletonHealth : MonoBehaviour, IDamageable
 {
@@ -10,7 +9,7 @@ public class SkeletonHealth : MonoBehaviour, IDamageable
 
     public SkeletonHealth()
     {
-		maxHealth = 5;
+		maxHealth = 10;
 		health = maxHealth;
         isDead = false;
     }
