@@ -86,9 +86,9 @@ namespace World
 			return gameWorld;
 		}
 
-		public Transform GetVRPosition()
+		public GameObject GetVRPlayer()
 		{
-			return vrPlayer.transform;
+			return vrPlayer;
 		}
 
 		public List<PlacedMob> GetMobs()

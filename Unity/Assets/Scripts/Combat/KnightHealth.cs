@@ -23,7 +23,6 @@ public class KnightHealth : MonoBehaviour, IDamageable
 
     void OnCollisionEnter()
     {
-        Debug.Log(health);
         if (HealthIsZero())
         {
             OnZeroHealth();

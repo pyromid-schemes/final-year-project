@@ -29,6 +29,14 @@ namespace AI.Pathfinding
             G = parent.G + 1;
         }
 
+        public PathfindingNode(PathfindingNode parent, float x, float z, float g)
+        {
+            X = x;
+            Z = z;
+            Parent = parent;
+            G = Parent.G + g;
+        }
+
         public bool Equals(PathfindingNode other)
         {
             return other != null && ((Math.Abs(X - other.X) < 0.1f) && (Math.Abs(Z - other.Z) < 0.1f));

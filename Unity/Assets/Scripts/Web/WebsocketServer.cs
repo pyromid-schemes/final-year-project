@@ -112,7 +112,7 @@ namespace Web
 
 		void SendPositions()
 		{
-			byte[] position = ToByteArray(JsonMessageBuilder.FormatPositionsMessage (worldManager.GetVRPosition (), worldManager.GetMobs (), ipcManagerPrefab.GetIPCManager ().ReceiveEventsForType (Communication.EventType.KillMob)));
+			byte[] position = ToByteArray(JsonMessageBuilder.FormatPositionsMessage (worldManager.GetVRPlayer (), worldManager.GetMobs (), ipcManagerPrefab.GetIPCManager ().ReceiveEventsForType (Communication.EventType.KillMob)));
 			byte error;
 
 			NetworkTransport.Send (wsClient.GetHostId(), wsClient.GetConnectionId(), wsClient.GetChannelId(), position, position.Length, out error);

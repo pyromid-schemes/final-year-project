@@ -1,17 +1,15 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour, IDamageable
-{
+public class MockHealthScript : MonoBehaviour, IDamageable {
     private int maxHealth;
     private int health;
 
     private GameObject self;
     private bool isDead;
 
-    public PlayerHealth()
+    public MockHealthScript()
     {
-        maxHealth = 20;
+        maxHealth = 10;
         health = maxHealth;
         isDead = false;
     }
@@ -21,9 +19,14 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         self = this.gameObject;
     }
 
-    void OnCollisionEnter()
+    void Update()
     {
-        if (HealthIsZero())
+        if (UserPressKKey())
+        {
+            SelfHarmByFiveDamage();
+        }
+
+        if (HealthIsZero() && isDead == false)
         {
             OnZeroHealth();
         }
@@ -41,9 +44,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     public void OnZeroHealth()
     {
-        //self.SetActive(false);
+        self.SetActive(false);
         isDead = true;
-        print(isDead);
     }
 
     public bool IsDead()
@@ -59,5 +61,15 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public int GetMaxHealth()
     {
         return maxHealth;
+    }
+
+    private bool UserPressKKey()
+    {
+        return Input.GetKeyDown(KeyCode.K);
+    }
+
+    private void SelfHarmByFiveDamage()
+    {
+        health -= 5;
     }
 }
