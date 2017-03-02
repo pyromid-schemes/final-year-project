@@ -5,7 +5,7 @@ public class Sword : Weapon2
     private const int maxDamage = 3;
     private const int minDamage = 1;
 
-    private int chanceToCrit = 2;
+    private int critChance = 20;
     private int critMultiplier = 2;
 
     public Sword() : base()
@@ -29,14 +29,12 @@ public class Sword : Weapon2
 
     private bool RollCriticalChance()
     {
-        int percentage = Random.Range(0, 10);
-        if (percentage < chanceToCrit)
+        int roll = Random.Range(0, 100);
+        if (roll < critChance)
         {
             return true;
         }
-        else {
-            return false;
-        }
+        return false;
     }
 }
 
@@ -57,8 +55,6 @@ public abstract class Weapon2 : MonoBehaviour
     {
         setWeaponIsActive(true);
     }
-
-    public abstract int GetDamage();
 
     void OnCollisionEnter(Collision other)
     {
@@ -105,4 +101,7 @@ public abstract class Weapon2 : MonoBehaviour
     {
         isColliding = false;
     }
+
+   public abstract int GetDamage();
 }
+
