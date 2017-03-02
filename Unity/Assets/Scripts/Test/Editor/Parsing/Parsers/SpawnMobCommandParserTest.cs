@@ -74,7 +74,7 @@ namespace Test.Parsing.Parsers {
 		}
 
 		[Test]
-		public void ParseBuildCommand()
+		public void ParseSpawnMobCommand()
 		{
 			var expected = new SpawnMobCommand ("knight", 0f, 0f, 0);
 			var actual = (SpawnMobCommand)underTest.Parse (
