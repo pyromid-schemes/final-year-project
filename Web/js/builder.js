@@ -44,15 +44,20 @@ Builder.prototype = {
     },
 
 
+    keyOnDown: function(e, self){
+        if(e.keyCode == Phaser.Keyboard.ESC){
+            this.unselectTile();
+            this.hideTileSelector();
+        }
+    },
+
     listener: function(e){
         var key = e.key;
 
-        this.main.room_unselected();
-        this.main.mob_unselected();
+        this.unselectTile();
 
         if(this.which_tile_to_place == key){
-            this.which_tile_to_place = -1;
-            this.tile_selector.alpha = 0;
+            this.hideTileSelector();
         }else{
             this.selectTile(key);
         }
@@ -78,6 +83,15 @@ Builder.prototype = {
         this.tile_selector.x = obj.tile.x - 2;
         this.tile_selector.y = obj.tile.y - 2;
         this.tile_selector.alpha = 1;
+    },
+    unselectTile: function(){
+
+        this.main.room_unselected();
+        this.main.mob_unselected();
+    },
+    hideTileSelector: function(){
+        this.which_tile_to_place = -1;
+        this.tile_selector.alpha = 0;
     },
 
     is_tile_selected: function(){

@@ -7,10 +7,9 @@ var Messages = {
             window.mainScene.worldStatus(data);
         },
         vrPositionUpdate: function(data){
-            window.mainScene.setPlayerPosition(data);
+            window.mainScene.setPlayerData(data);
         },
         mobPositions: function(data){
-            Utility.debug("mob positions", data);
             main.mobPositions(data);
         }
     },
