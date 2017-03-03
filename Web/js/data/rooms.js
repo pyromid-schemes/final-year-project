@@ -1,45 +1,23 @@
+var DOOR_UP = { x: 0, y: -32 };   // DOOR UP
+var DOOR_DOWN = { x: 0, y: 32 };  // DOOR DOWN
+var DOOR_RIGHT = { x: 32, y: 0 }; // DOOR RIGHT
+var DOOR_LEFT = { x: -32, y: 0 }; // DOOR LEFT
+
 var Rooms = {
     room1: {
         room_id: 'room1',
         w: 128,
         h: 128,
-        center: {
-            x: 64,
-            y: 64
-        },
-
-        scaled: {
-            w: 64,
-            h: 64,
-            cx: 32,
-            cy: 32
-        },
-
-        tile_data: [
-            [1,1,1,1],
-            [1,1,1,1],
-            [1,1,1,1],
-            [1,1,1,1]
-        ],
-        collision: {
-            low: {x: -2, y: -2},
-            high: {x: 2, y: 2}
-        },
-
+        center: { x: 64, y: 64 },
+        scaled: { w: 64, h: 64, cx: 32, cy: 32 },
         assets: {
-            normal: {
-                key: 'room1',
-                path: 'assets/rooms/room1/normal.png'
-            },
-            green: {
-                key: 'room1-green',
-                path: 'assets/rooms/room1/green.png',
-            },
-            red: {
-                key: 'room1-red',
-                path: 'assets/rooms/room1/red.png'
-            }
-        }
+            normal: { key: 'room1', path: 'assets/rooms/room1/normal.png' },
+            green: { key: 'room1-green', path: 'assets/rooms/room1/green.png' },
+            red: { key: 'room1-red', path: 'assets/rooms/room1/red.png' }
+        },
+        door_positions: [
+            DOOR_UP
+        ]
     },
     room2: {
         room_id: 'room2',
@@ -52,7 +30,13 @@ var Rooms = {
             normal: { key: 'room2', path: 'assets/rooms/room2/normal.png' },
             green: { key: 'room2-green', path: 'assets/rooms/room2/green.png' },
             red: { key: 'room2-red', path: 'assets/rooms/room2/red.png' }
-        }
+        },
+        door_positions: [
+            DOOR_UP,
+            DOOR_RIGHT,
+            DOOR_DOWN,
+            DOOR_LEFT
+        ]
     },
     room3: {
         room_id: 'room3',
@@ -65,6 +49,10 @@ var Rooms = {
             normal: { key: 'room3', path: 'assets/rooms/room3/normal.png' },
             green: { key: 'room3-green', path: 'assets/rooms/room3/green.png' },
             red: { key: 'room3-red', path: 'assets/rooms/room3/red.png' }
-        }
+        },
+        door_positions: [
+            DOOR_UP,
+            DOOR_RIGHT
+        ]
     }
 };

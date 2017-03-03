@@ -43,6 +43,9 @@ Main.prototype = {
     mobs: [],
     mob_id_count: 0,
 
+    /* Room snap positions */
+    room_snap_positions: [],
+
     preload: function(){
         var self = this;
 
@@ -61,6 +64,8 @@ Main.prototype = {
         this.game.load.image(Player.sprite.key, Player.sprite.image);
 
         this.healthbar_preload();
+
+        this.gridsnap_preload();
     },
     preload_room: function(room){
         this.game.load.image(room.assets.normal.key, room.assets.normal.path);
@@ -126,8 +131,6 @@ Main.prototype = {
 
     /** Creation of rooms **/
     addRoomType: function(room_data){
-        console.log("room_data:");
-        console.log(room_data);
         this.room_types[room_data.room_id] = room_data;
     },
     addMobType: function(mob_data){
@@ -239,6 +242,11 @@ Main.prototype = {
         }
 
         this.builder.keyOnDown(e, null);
+
+
+        if(e.keyCode == Phaser.Keyboard.D){
+            this.gridsnap_show_dots();
+        }
     },
 
     /* Initial setup */
@@ -341,6 +349,15 @@ Main.prototype = {
         }
 
         this.redrawPlayer();
+
+        /* ToDo: Add the room snap positions to an array */
+
+
+        for(var i=0; i<room_data.door_positions.length; i++){
+            var door_pos = room_data.door_positions[i];
+            var pos = {x: x + door_pos.x, y: y + door_pos.y};
+            this.gridsnap_add_point(pos);
+        }
     },
 
     // ToDo: Fix the rooms id and array bug...
