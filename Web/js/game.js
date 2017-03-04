@@ -247,6 +247,8 @@ Main.prototype = {
 
         this.builder.keyOnDown(e, null);
 
+        this.ghostroom_keyOnDown(e, null);
+
 
         if(e.keyCode == Phaser.Keyboard.D){
             this.gridsnap_show_dots();
@@ -338,13 +340,21 @@ Main.prototype = {
 
         var id = this.rooms.length;
 
+        var bb = {
+            x1: x - room_data.scaled.cx, y1: y - room_data.scaled.cy,
+            x2: x + room_data.scaled.cx, y2: y + room_data.scaled.cy
+        };
+
+
         this.rooms.push({
             room_id: room_id,
             x: x,
             y: y,
             room_type: room_data,
-            room: img
+            room: img,
+            bb: bb
         });
+
 
 
         if(send_message){

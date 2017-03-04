@@ -1,7 +1,14 @@
 var DOOR_UP = { x: 0, y: -32 };   // DOOR UP
-var DOOR_DOWN = { x: 0, y: 32 };  // DOOR DOWN
 var DOOR_RIGHT = { x: 32, y: 0 }; // DOOR RIGHT
+var DOOR_DOWN = { x: 0, y: 32 };  // DOOR DOWN
 var DOOR_LEFT = { x: -32, y: 0 }; // DOOR LEFT
+
+var DOORS = [
+    DOOR_UP,
+    DOOR_RIGHT,
+    DOOR_DOWN,
+    DOOR_LEFT
+];
 
 var Rooms = {
     room1: {

@@ -50,5 +50,14 @@ Main.appendPrototype({
                 }
             }, ALPHA_FADE_TIME);
         }, TIME_TO_START_FADE);
+    },
+
+
+    gridsnap_is_point_in_list: function(p){
+        for(var i=0; i<this.grid_snap_points.length; i++){
+            var p1 = this.grid_snap_points[i];
+            if (p.x == p1.x && p.y == p1.y) return true;
+        }
+        return false;
     }
 });
