@@ -5,7 +5,9 @@ namespace VirtualReality.MovementMethods
 {
 	public class MovementUtil
 	{
-        public static float speedMultiplier = 2f;
+        public static float SpeedMultiplier = 2f;
+        public static float MovementBounds = 0.2f;
+        public static LayerMask WorldCollisionMask = LayerMask.GetMask("World Geometry");
 
 		public static Vector2 YRotationAsVector2(float angle)
 		{
@@ -14,8 +16,13 @@ namespace VirtualReality.MovementMethods
 
 		public static float InterpolatePosition(float value)
 		{
-			return value * speedMultiplier * Time.deltaTime;
+			return value * SpeedMultiplier * Time.deltaTime;
 		}
+
+        public static bool IsValidMove(Vector3 origin, Vector3 direction)
+        {
+            return !Physics.Raycast(origin, direction, MovementBounds, WorldCollisionMask);
+        }
 	}
 }
 

@@ -43,7 +43,6 @@ public class KnightHealth : MonoBehaviour, IDamageable
     {
         self.SetActive(false);
         isDead = true;
-        print(isDead);
     }
 
     public bool IsDead()

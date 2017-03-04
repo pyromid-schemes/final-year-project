@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System;
+using UnityEngine;
 using VirtualReality.MovementMethods;
 
 namespace VirtualReality
@@ -48,15 +48,25 @@ namespace VirtualReality
         {
             Device = SteamVR_Controller.Input((int)TrackedOBJ.index);
 
-			if (MovementMethod.BeginMovement (Device)) {
-				Vector3 position = MovementMethod.RunMovement (PlayerHead, Hand, Player, Device);
-				Player.transform.Translate (position);
-			} else {
-				Vector3 position;
-				if (MovementMethod.IdleMovement (Device, out position)) {
-					Player.transform.Translate (position);
-				}
-			}
+            if (MovementMethod.BeginMovement(Device))
+            {
+                Vector3 position = MovementMethod.RunMovement(PlayerHead, Hand, Player, Device);
+                if (MovementUtil.IsValidMove(PlayerHead.transform.position, position))
+                {
+                    Player.transform.Translate(position);
+                }
+            }
+            else
+            {
+                Vector3 position;
+                if (MovementMethod.IdleMovement(Device, out position))
+                {
+                    if (MovementUtil.IsValidMove(PlayerHead.transform.position, position))
+                    {
+                        Player.transform.Translate(position);
+                    }
+                }
+            }
         }
     }
 }
