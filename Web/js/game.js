@@ -138,43 +138,45 @@ Main.prototype = {
     },
 
     update: function(){
-        var tile = this.get_tile_xy();
-
-        // If a ghost room is active - try to update the room position
-        if(this.ghost_room != null) {
-            var tx16 = tile.x * 16;
-            var ty16 = tile.y * 16;
-            var rotation = this.ghost_room.rotation;
-
-
-            var bb = Utility.get_bounding_box_from_room(tx16,ty16, this.currently_selected_tile_type);
-
-            this.can_place_ghost_room = true;
-            for(var i=0; i<this.rooms.length; i++){
-                var room = this.rooms[i];
-                var bb2 = Utility.get_bounding_box_from_room(room.x, room.y, room.room_id);
-
-                if(Utility.doBoundingBoxesCollide(bb, bb2)){
-                    this.can_place_ghost_room = false;
-                    this.room_selected(this.currently_selected_tile_type, false);
-                    break;
-                }
-            }
-
-            if(this.can_place_ghost_room){
-                this.room_selected(this.currently_selected_tile_type, true);
-            }
-
-
-            this.ghost_room.x = tx16;
-            this.ghost_room.y = ty16;
-            this.ghost_room.rotation = rotation;
-        }else if(this.ghost_mob != null){
-            tile = this.get_world_xy();
-
-            this.ghost_mob.x = tile.x;
-            this.ghost_mob.y = tile.y;
-        }
+        // var tile = this.get_tile_xy();
+        //
+        // this.ghostroom_update();
+        //
+        // // If a ghost room is active - try to update the room position
+        // if(this.ghost_room != null) {
+        //     var tx16 = tile.x * 16;
+        //     var ty16 = tile.y * 16;
+        //     var rotation = this.ghost_room.rotation;
+        //
+        //
+        //     var bb = Utility.get_bounding_box_from_room(tx16,ty16, this.currently_selected_tile_type);
+        //
+        //     this.can_place_ghost_room = true;
+        //     for(var i=0; i<this.rooms.length; i++){
+        //         var room = this.rooms[i];
+        //         var bb2 = Utility.get_bounding_box_from_room(room.x, room.y, room.room_id);
+        //
+        //         if(Utility.doBoundingBoxesCollide(bb, bb2)){
+        //             this.can_place_ghost_room = false;
+        //             this.room_selected(this.currently_selected_tile_type, false);
+        //             break;
+        //         }
+        //     }
+        //
+        //     if(this.can_place_ghost_room){
+        //         this.room_selected(this.currently_selected_tile_type, true);
+        //     }
+        //
+        //
+        //     this.ghost_room.x = tx16;
+        //     this.ghost_room.y = ty16;
+        //     this.ghost_room.rotation = rotation;
+        // }else if(this.ghost_mob != null){
+        //     tile = this.get_world_xy();
+        //
+        //     this.ghost_mob.x = tile.x;
+        //     this.ghost_mob.y = tile.y;
+        // }
     },
 
     onDown: function(e){
@@ -212,6 +214,8 @@ Main.prototype = {
 
             this.scrollMap(diff);
 
+        }else{
+            this.ghostroom_mouse_move();
         }
     },
 
@@ -435,8 +439,6 @@ Main.prototype = {
             center: player.sprite.center,
             healthbar: healthbar
         };
-
-        console.log(healthbar);
     },
     setPlayerData: function(msg) {
         this.player.position.x = msg.xPos * TILE_SIZE;

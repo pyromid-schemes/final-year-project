@@ -70,7 +70,8 @@ Builder.prototype = {
         if(key in this.buttons){
             obj = this.buttons[key];
             this.typeOfTileToPlace = 'room';
-            this.main.room_selected(key, true);
+            // this.main.room_selected(key, true);
+            this.main.ghostroom_room_selected(key);
         }else if(key in this.mobButtons){
             obj = this.mobButtons[key];
             this.typeOfTileToPlace = 'mob';
