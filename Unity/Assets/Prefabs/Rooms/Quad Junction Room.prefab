@@ -3465,7 +3465,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000011192833914}
   m_Layer: 8
-  m_Name: Quad Junction
+  m_Name: Quad Junction Room
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

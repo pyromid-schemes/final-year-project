@@ -613,7 +613,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000013609479496}
   m_Layer: 8
-  m_Name: Corridor
+  m_Name: Corridor Room
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
