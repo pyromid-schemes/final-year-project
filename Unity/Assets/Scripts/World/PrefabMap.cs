@@ -14,7 +14,7 @@ namespace World
 
 		private Dictionary<string, GameObject> map;
 		
-		void Start ()
+		void Awake ()
 		{
 			map = new Dictionary<string, GameObject> ();
 
