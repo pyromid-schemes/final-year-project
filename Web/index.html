@@ -41,13 +41,14 @@
     <script src="js/splash.js"></script>
     <script src="js/builder.js"></script>
     <script src="js/game.js"></script>
+    <script src="js/healthbar.js"></script>
 
     <script>
         (function(){
             var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game');
             game.state.add('Main', Main);
             game.state.add('Splash', Splash);
-            game.state.start('Splash');
+            game.state.start('Main');
         })();
     </script>
 

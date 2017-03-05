@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+using System.Collections;
+using UnityEngine;
+
 
 public class SkeletonHealth : MonoBehaviour, IDamageable
 {
@@ -39,8 +41,7 @@ public class SkeletonHealth : MonoBehaviour, IDamageable
 
     public void OnZeroHealth()
     {
-        self.SetActive(false);
-        isDead = true;
+        StartCoroutine(PlayDeathAnimation());
     }
 
     public bool IsDead()
@@ -57,4 +58,13 @@ public class SkeletonHealth : MonoBehaviour, IDamageable
 	{
 		return maxHealth;
 	}
+
+    //This should be extracted out but I can't without exposing isDead 
+    private IEnumerator PlayDeathAnimation()
+    {
+        GetComponent<Animator>().Play("Death");
+        yield return new WaitForSeconds(GetComponent<Animator>().GetCurrentAnimatorClipInfo(0).Length * 2);
+        self.SetActive(false);
+        isDead = true;
+    } 
 }

@@ -59,6 +59,8 @@ Main.prototype = {
         });
 
         this.game.load.image(Player.sprite.key, Player.sprite.image);
+
+        this.healthbar_preload();
     },
     preload_room: function(room){
         this.game.load.image(room.assets.normal.key, room.assets.normal.path);
@@ -109,14 +111,14 @@ Main.prototype = {
 
 
         // Move the map to the center
-        this.scrollMap({x: -18 * 16, y: -18 * 16});
+        this.scrollMap({x: -18 * 16, y: -18 * 14});
         // Create a dummy room
         this.place_room('room2', 0, 0, 0, false);
 
 
         // Setup and move the player to [0,0]
         this.setupPlayer(Player);
-        this.setPlayerPosition({xPos: 0, zPos: 0});
+        this.setPlayerData({xPos: 0, zPos: 0, currentHealth: 1, maxHealth: 1});
 
 
         window.mainScene = this;
@@ -235,6 +237,8 @@ Main.prototype = {
             // Funky rotation?
             this.ghost_room.rotation = self.ghost_room.rotation + Math.PI/2;
         }
+
+        this.builder.keyOnDown(e, null);
     },
 
     /* Initial setup */
@@ -377,13 +381,16 @@ Main.prototype = {
         mob.scale.setTo(mob_data.sprite.scale, mob_data.sprite.scale);
 
 
+        var healthbar = this.healthbar_add(x, y - 14);
+
         var mob_instance = {
             mob_id: mob_id,
             x: x,
             y: y,
             mob_type: mob_data,
             mob: mob,
-            id: this.mob_id_count++
+            id: this.mob_id_count++,
+            healthbar: healthbar
         };
         this.mobs.push(mob_instance);
 
@@ -398,6 +405,9 @@ Main.prototype = {
         sprite.pivot.x = player.sprite.size.half_w;
         sprite.pivot.y = player.sprite.size.half_h;
         sprite.scale.setTo(16/player.sprite.size.height);
+
+        var healthbar = this.healthbar_add(0, 0);
+
         this.player = {
             sprite: sprite,
             position: {
@@ -406,10 +416,12 @@ Main.prototype = {
             },
             size: player.sprite.size,
             center: player.sprite.center,
-            is_visible: true
+            healthbar: healthbar
         };
+
+        console.log(healthbar);
     },
-    setPlayerPosition: function(msg) {
+    setPlayerData: function(msg) {
         this.player.position.x = msg.xPos * TILE_SIZE;
         this.player.position.y = msg.zPos * TILE_SIZE;
 
@@ -417,12 +429,16 @@ Main.prototype = {
         this.player.sprite.position.y = this.player.position.y;
 
         this.player.sprite.rotation = Utility.unityRotToWebRot(msg.rot - 180); // -180 temp fix
+
+        this.updatePlayerHealthbar();
+        this.updatePlayerHealthbarPercent(msg.currentHealth / msg.maxHealth);
     },
 
     // ToDo: Should refactor this and the two above to be nicer...
     redrawPlayer: function(){
         if(this.player == null) return;
 
+        var rot = this.player.sprite.rotation;
         var player_key = this.player.sprite.key;
         this.player.sprite.destroy();
         this.player.sprite = this.game.add.image(0, 0, player_key, null, this.map_group);
@@ -431,6 +447,21 @@ Main.prototype = {
         this.player.sprite.position.x = this.player.position.x;
         this.player.sprite.position.y = this.player.position.y;
         this.player.sprite.scale.setTo(16/this.player.size.height);
+        this.player.sprite.rotation = rot;
+
+        this.updatePlayerHealthbar();
+        this.player.healthbar.redraw();
+    },
+
+    updatePlayerHealthbar: function(){
+        var pos = {
+            x: this.player.sprite.position.x,
+            y: this.player.sprite.position.y - 14
+        };
+        this.player.healthbar.setPosition(pos.x, pos.y);
+    },
+    updatePlayerHealthbarPercent: function(percentage){
+        this.player.healthbar.setPercentage(percentage);
     },
 
     /**
@@ -505,19 +536,27 @@ Main.prototype = {
             if(data[i].dead){
                 this.deleteMob(data[i].id);
             }else {
-                this.updateMob(data[i].id, {x: data[i].xPos * TILE_SIZE, y: data[i].zPos * TILE_SIZE}, data[i].rot);
+                var health_percentage = (data[i].currentHealth / data[i].maxHealth);
+                this.updateMob(data[i].id, {x: data[i].xPos * TILE_SIZE, y: data[i].zPos * TILE_SIZE}, data[i].rot, health_percentage);
             }
         }
     },
-    updateMob: function(id, pos, rot){
+    updateMob: function(id, pos, rot, hp){
         var index = this.findMobIndex(id);
         var mob = this.mobs[index];
         mob.mob.position.x = pos.x;
         mob.mob.position.y = pos.y;
         mob.mob.rotation = Utility.unityRotToWebRot(rot - 180);
+
+        pos.y -= 14;
+
+        mob.healthbar.setPercentage(hp);
+        mob.healthbar.setPosition(pos.x, pos.y);
+        mob.healthbar.redraw();
     },
     deleteMob: function(id){
         var index = this.findMobIndex(id);
+        this.mobs[index].healthbar.destroy();
         this.mobs[index].mob.destroy();
         this.mobs.splice(index, 1);
     },
@@ -529,3 +568,9 @@ Main.prototype = {
     }
 };
 main = Main.prototype; // Set 'window.main' to the whole Main object #JS #Singletons #BestCodePractice #Globals
+
+Main.appendPrototype = function(src) {
+    for (var prop in src) {
+        this.prototype[prop] = src[prop];
+    }
+};
