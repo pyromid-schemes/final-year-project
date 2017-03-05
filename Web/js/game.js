@@ -35,8 +35,8 @@ Main.prototype = {
     ghost_mob: null,
 
     /* Room data */
-    room_types: [],
-    rooms: [],
+    // room_types: [],
+    // rooms: [],
 
     /* Mob data */
     mob_types: [],
@@ -53,10 +53,6 @@ Main.prototype = {
         this.game.load.image('empty-tile64', 'assets/empty-tile64.png');
         this.game.load.image('builder-button-selector', 'assets/selector.png');
 
-        Object.keys(Rooms).forEach(function(k){
-            self.preload_room(Rooms[k]);
-        });
-
         Object.keys(Mobs).forEach(function(k){
             self.preload_mob(Mobs[k]);
         });
@@ -64,13 +60,8 @@ Main.prototype = {
         this.game.load.image(Player.sprite.key, Player.sprite.image);
 
         this.healthbar_preload();
-
         this.gridsnap_preload();
-    },
-    preload_room: function(room){
-        this.game.load.image(room.assets.normal.key, room.assets.normal.path);
-        this.game.load.image(room.assets.green.key, room.assets.green.path);
-        this.game.load.image(room.assets.red.key, room.assets.red.path);
+        this.rooms_preload();
     },
     preload_mob: function(mob){
         this.game.load.image(mob.sprite.key, mob.sprite.image);
@@ -105,10 +96,8 @@ Main.prototype = {
         // Create the builder object
         this.builder = new Builder(this.game, this); this.builder.create();
 
-        /** Creating the types **/
-        Object.keys(Rooms).forEach(function(k){
-           self.addRoomType(Rooms[k]);
-        });
+
+        this.rooms_create();
 
         Object.keys(Mobs).forEach(function(k){
             self.addMobType(Mobs[k]);
@@ -129,10 +118,7 @@ Main.prototype = {
         window.mainScene = this;
     },
 
-    /** Creation of rooms **/
-    addRoomType: function(room_data){
-        this.room_types[room_data.room_id] = room_data;
-    },
+
     addMobType: function(mob_data){
         this.mob_types[mob_data.id] = mob_data;
     },
@@ -188,12 +174,13 @@ Main.prototype = {
 
             // If the map is not dragging - TRY to place a room
             if(!this.is_dragging){
+                this.ghostroom_try_to_place();
                 if(this.ghost_room != null){
-                    var tile = this.get_tile_xy();
-
-                    if(this.can_place_ghost_room) {
-                        this.place_room(this.currently_selected_tile_type, tile.x * 16, tile.y * 16, this.ghost_room.rotation, true);
-                    }
+                    // var tile = this.get_tile_xy();
+                    //
+                    // if(this.can_place_ghost_room) {
+                    //     this.place_room(this.currently_selected_tile_type, tile.x * 16, tile.y * 16, this.ghost_room.rotation, true);
+                    // }
                 }else if(this.ghost_mob != null){
                     var world = this.get_world_xy();
                     this.place_mob(this.currently_selected_tile_type, world.x, world.y, true);
@@ -358,7 +345,7 @@ Main.prototype = {
 
 
         if(send_message){
-            var rot =  Utility.webRotToUnityRot(this.ghost_room.rotation);
+            var rot =  Utility.webRotToUnityRot(rot);
             Messages.send.buildRoom({objectId: room_id, xPos: x / 16, zPos: y / 16, rot: rot});
         }
 
@@ -368,7 +355,7 @@ Main.prototype = {
 
 
         for(var i=0; i<room_data.door_positions.length; i++){
-            var door_pos = room_data.door_positions[i];
+            var door_pos = this.ghostroom_translate_door_pos(room_data.door_positions[i]);
             var pos = {x: x + door_pos.x, y: y + door_pos.y};
             this.gridsnap_add_point(pos);
         }

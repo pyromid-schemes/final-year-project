@@ -10,6 +10,7 @@ Main.appendPrototype({
     ghostroom_green: null,
     ghostroom_selected_room_key: null,
     ghostroom_rot: 0,
+    ghostroom_can_place: false,
 
 
     ghostroom_preload: function(){
@@ -17,6 +18,7 @@ Main.appendPrototype({
     },
 
     ghostroom_room_selected: function(key){
+
       Utility.debug("ghostroom_room_selected", key);
 
         this.ghostroom_selected_room_key = key;
@@ -68,31 +70,31 @@ Main.appendPrototype({
     },
 
     ghostroom_check_room_collisions: function(pos){
-        var can_place_room = true;
+        this.ghostroom_can_place = true;
         for(var i=0; i<this.rooms.length; i++){
             var room = this.rooms[i];
 
             if(Utility.doBoundingBoxesCollide(room.bb, this.ghostroom_bb)){
-                can_place_room = false;
+                this.ghostroom_can_place = false;
                 break;
             }
         }
 
-        if(can_place_room){
+        if(this.ghostroom_can_place){
             // Check for grid snap points
             var grid_snap_points = this.ghostroom_generate_snap_points(pos);
 
-            can_place_room = false;
+            this.ghostroom_can_place = false;
             for(var i=0; i<grid_snap_points.length; i++){
                 var gsp = grid_snap_points[i];
                 if(this.gridsnap_is_point_in_list(gsp)){
-                    can_place_room = true;
+                    this.ghostroom_can_place = true;
                     break;
                 }
             }
         }
 
-        if(can_place_room){
+        if(this.ghostroom_can_place){
             this.ghostroom_red.alpha = 0;
             this.ghostroom_green.alpha = 1;
         }else{
@@ -118,9 +120,7 @@ Main.appendPrototype({
         for(var i=0; i<DOORS.length; i++){
             if(door_pos.x == DOORS[i].x && door_pos.y == DOORS[i].y){ door_index = i; break; }
         }
-
         door_index += this.ghostroom_rot;
-
         if(door_index > 3) door_index -= 4;
 
         return DOORS[door_index];
@@ -143,6 +143,36 @@ Main.appendPrototype({
             this.ghostroom_rotate_rooms();
             this.ghostroom_update();
         }
+    },
+
+    ghostroom_try_to_place: function(){
+        if(this.ghostroom_red == null) return;
+
+        if(this.ghostroom_can_place){
+            console.log("CAN PLACE ROOM");
+            var pos = {x: this.ghostroom_red.position.x, y: this.ghostroom_red.position.y};
+            this.place_room(this.ghostroom_selected_room_key, pos.x, pos.y, this.ghostroom_red.rotation, true);
+
+            this.ghostroom_redraw();
+        }
+
+
+    },
+
+    ghostroom_redraw: function(){
+        if(this.ghostroom_red == null) return;
+
+        var pos = this.ghostroom_red.position;
+        var rot = this.ghostroom_rot;
+
+        this.ghostroom_red.destroy();
+        this.ghostroom_green.destroy();
+
+        this.ghostroom_room_selected(this.ghostroom_selected_room_key);
+
+        this.ghostroom_update_room_positions(pos);
+
+        for(var i=0; i<rot; i++) this.ghostroom_rotate_rooms();
     },
 
 
