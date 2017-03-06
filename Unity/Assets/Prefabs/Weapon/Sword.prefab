@@ -22,8 +22,8 @@ GameObject:
   - 33: {fileID: 33000014162906918}
   - 23: {fileID: 23000014263536412}
   - 54: {fileID: 54000010792600388}
-  - 65: {fileID: 65000013201181910}
   - 114: {fileID: 114000010347753078}
+  - 65: {fileID: 65000013735172672}
   m_Layer: 0
   m_Name: Sword
   m_TagString: Untagged
@@ -39,7 +39,7 @@ Transform:
   m_GameObject: {fileID: 1000010951088904}
   m_LocalRotation: {x: 0.06162845, y: 0.06162845, z: -0.70441604, w: 0.70441604}
   m_LocalPosition: {x: -0, y: -0.01, z: -0.05}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 10, y: 0, z: -90}
   m_Children: []
   m_Father: {fileID: 0}
@@ -95,7 +95,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &65000013201181910
+--- !u!65 &65000013735172672
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -105,8 +105,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.61486304, y: 0.262188, z: 4.619109}
-  m_Center: {x: -0.105197504, y: 0, z: 1.5098284}
+  m_Size: {x: 0.1, y: 0.03, z: 0.93}
+  m_Center: {x: -0.021039503, y: 0, z: 0.3019657}
 --- !u!114 &114000010347753078
 MonoBehaviour:
   m_ObjectHideFlags: 1
