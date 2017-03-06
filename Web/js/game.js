@@ -3,11 +3,16 @@
 var MAP_DRAW_OFFSET_X = 0;
 var MAP_DRAW_OFFSET_Y = 0;
 
-var SCROLL_SPEED = 0.022;
-var SCROLL_MIN = 1;
-var SCROLL_MAX = 3;
+var SCROLL_SPEED = 0.014;
+var SCROLL_MIN = 0.6;
+var SCROLL_MAX = 1.7;
+var SCROLL_DEFAULT = 0.85;
 
 var TILE_SIZE = 16;
+
+var MAP_MASK = {
+    x: 0, y: 0, w: 36 * 16, h: 32 * 16
+};
 
 var Main = function(game){
 };
@@ -122,6 +127,8 @@ Main.prototype = {
             this.ghost_mob.x = tile.x;
             this.ghost_mob.y = tile.y;
         }
+
+        this.get_tile_xy();
     },
 
     onDown: function(e){
@@ -165,11 +172,11 @@ Main.prototype = {
         this.map_group.pivot.x += diff.x / this.game_zoom;
         this.map_group.pivot.y += diff.y / this.game_zoom;
 
-        var diff2 = {x: this.map_group.pivot.x - 288, y: this.map_group.pivot.y - 256};
+        var diff2 = {x: this.map_group.pivot.x - (this.map_dimensions.w / 2), y: this.map_group.pivot.y - (this.map_dimensions.h / 2)};
         var diff3 = {x: Math.floor(diff2.x / 16), y: Math.floor(diff2.y / 16)};
 
-        this.empty_background.pivot.x = 288 - diff3.x*16;
-        this.empty_background.pivot.y = 256 - diff3.y*16;
+        this.empty_background.pivot.x = (this.map_dimensions.w / 2) - diff3.x*16;
+        this.empty_background.pivot.y = (this.map_dimensions.h / 2) - diff3.y*16;
     },
 
     mouseWheel: function(e){
@@ -178,14 +185,10 @@ Main.prototype = {
 
         // Set the 'zoom' on the map
         this.map_group.scale.set(this.game_zoom);
+        console.log("zoom: "+this.game_zoom);
     },
 
     keyOnDown: function(e, self){
-        if(this.ghost_room != null && e.keyCode == Phaser.Keyboard.R){
-            // Funky rotation?
-            this.ghost_room.rotation = self.ghost_room.rotation + Math.PI/2;
-        }
-
         this.builder.keyOnDown(e, null);
 
         this.ghostroom_keyOnDown(e);
@@ -194,17 +197,24 @@ Main.prototype = {
         if(e.keyCode == Phaser.Keyboard.D){
             this.gridsnap_show_dots();
         }
+
+        if(e.keyCode == Phaser.Keyboard.S){
+            this.ghostroom_debug();
+        }
     },
 
     /* Initial setup */
     create_tiled_background: function() {
-        var map_w = 36;
-        var map_h = 32;
+        var map_w = 100;
+        var map_h = 100;
         var empty_tile = this.game.make.sprite(0, 0, 'empty-tile');
 
 
         this.map_draw_offset = {x: MAP_DRAW_OFFSET_X, y: MAP_DRAW_OFFSET_Y};
         this.map_dimensions = {x: this.map_draw_offset.x, y: this.map_draw_offset.y, w: map_w * 16, h: map_h * 16};
+
+        console.log("map dimensions:");
+        console.log(this.map_dimensions);
 
         this.map_group = this.game.add.group();
 
@@ -218,23 +228,24 @@ Main.prototype = {
 
         var mask = this.game.add.graphics(this.map_draw_offset.x, this.map_draw_offset.y);
         mask.beginFill(0xffffff);
-        mask.drawRect(0, 0, map_w * 16, map_h * 16);
+        mask.drawRect(MAP_MASK.x, MAP_MASK.y, MAP_MASK.w, MAP_MASK.h);
         this.map_group.mask = mask;
 
-        var world_center = {x: this.map_dimensions.w / 2, y: this.map_dimensions.h / 2};
+        var world_center = {x: MAP_MASK.w , y: MAP_MASK.h };
         this.empty_background = this.game.add.image(world_center.x, world_center.y, background, null, this.map_group);
         this.empty_background.pivot.x = world_center.x;
         this.empty_background.pivot.y = world_center.y;
 
-        this.game_zoom = 1;
-        this.map_group.scale.set(1);
 
-        var pivot = {x: this.map_dimensions.w/2, y: this.map_dimensions.h/2};
+        var pivot = {x: MAP_MASK.w/2, y: MAP_MASK.h/2};
 
-        this.map_group.x = this.map_draw_offset.x + pivot.x;
-        this.map_group.y = this.map_draw_offset.y + pivot.y;
+        this.map_group.x = this.map_draw_offset.x + MAP_MASK.w/2;
+        this.map_group.y = this.map_draw_offset.y + MAP_MASK.h/2;
         this.map_group.pivot.x = pivot.x;
         this.map_group.pivot.y = pivot.y;
+
+        this.game_zoom = SCROLL_DEFAULT;
+        this.map_group.scale.set(SCROLL_DEFAULT);
     },
 
 
@@ -265,7 +276,7 @@ Main.prototype = {
 
 
         var img = this.game.add.image(x, y, room_id, null, this.map_group);
-        img.scale.setTo(0.5, 0.5);
+        img.scale.set(room_data.scale);
         img.pivot.x = room_data.center.x;
         img.pivot.y = room_data.center.y;
 
@@ -448,7 +459,7 @@ Main.prototype = {
 
         /** Actual usable code **/
         var map_relative = {x: mouse.x - this.map_draw_offset.x, y: mouse.y - this.map_draw_offset.y};
-        var mr_percent = {x: map_relative.x / this.map_dimensions.w , y: map_relative.y / this.map_dimensions.h };
+        var mr_percent = {x: map_relative.x / MAP_MASK.w , y: map_relative.y / MAP_MASK.h};
         var mrp_true = {x: mr_percent.x - 0.50, y: mr_percent.y - 0.50};
 
 
@@ -468,7 +479,7 @@ Main.prototype = {
         var mouse = this.getAccurateCoords();
 
         var map_relative = {x: mouse.x - this.map_draw_offset.x, y: mouse.y - this.map_draw_offset.y};
-        var mr_percent = {x: map_relative.x / this.map_dimensions.w , y: map_relative.y / this.map_dimensions.h };
+        var mr_percent = {x: map_relative.x / MAP_MASK.w , y: map_relative.y / MAP_MASK.h };
         var mrp_true = {x: mr_percent.x - 0.50, y: mr_percent.y - 0.50};
 
         var cur_map_dim = this.get_cur_map_dim();
@@ -479,10 +490,11 @@ Main.prototype = {
     },
 
     get_cur_map_dim: function(){
-        return {w: this.map_dimensions.w / this.game_zoom, h: this.map_dimensions.h / this.game_zoom};
+        return {w: MAP_MASK.w / this.game_zoom, h: MAP_MASK.h / this.game_zoom};
     },
 
     worldStatus: function(data){
+        this.removeAllMobs();
         this.removeAllRooms();
         for(var i=0; i<data.length; i++){
             var rot = Utility.unityRotToWebRot(data[i].rot); // converts Unity rotation to correct web rotation
@@ -527,6 +539,12 @@ Main.prototype = {
             if(this.mobs[i].id == id) return i;
         }
         if(index == -1) throw new Error("Cannot find mob with id="+id);
+    },
+    removeAllMobs: function(){
+        for(var i=0; i<this.mobs.length; i++) {
+            this.mobs[i].mob.destroy();
+        }
+        this.mobs = [];
     }
 };
 main = Main.prototype; // Set 'window.main' to the whole Main object #JS #Singletons #BestCodePractice #Globals

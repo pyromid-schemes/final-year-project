@@ -14,14 +14,13 @@ Builder.prototype = {
     typeOfTileToPlace: null,
 
     create: function(){
-        this.add_room_btn(650, 20, Rooms.room1.room_id);
-        this.add_room_btn(650, 70, Rooms.room2.room_id);
-        this.add_room_btn(700, 20, Rooms.room3.room_id);
+        this.add_room_btn(650, 20, Rooms.room1);
+        this.add_room_btn(650, 70, Rooms.room2);
+        this.add_room_btn(700, 20, Rooms.room3);
 
         this.add_mob_btn(650, 180, Mobs.ant);
         this.add_mob_btn(700, 180, Mobs.bear);
         this.add_mob_btn(650, 230, Mobs.skellyCheng);
-
 
         this.tile_selector = this.game.add.sprite(0, 0, 'builder-button-selector');
         this.tile_selector.alpha = 0;
@@ -29,12 +28,12 @@ Builder.prototype = {
         window.builderScene = this;
     },
 
-    add_room_btn: function(x, y, key){
-        var btn = this.game.add.sprite(x, y, key);
-        btn.scale.set(0.25);
+    add_room_btn: function(x, y, room){
+        var btn = this.game.add.sprite(x, y, room.room_id);
+        btn.scale.set(32 / room.w);
         btn.inputEnabled = true;
         btn.events.onInputDown.add(this.listener, this);
-        this.buttons[key] = {tile: btn, id: key};
+        this.buttons[room.room_id] = {tile: btn, id: room.room_id};
     },
     add_mob_btn: function(x, y, mob){
         var btn = this.game.add.sprite(x, y, mob.builderButton.key);

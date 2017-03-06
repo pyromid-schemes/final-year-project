@@ -21,7 +21,7 @@ Main.appendPrototype({
         var img = this.game.add.image(pos.x, pos.y, 'gridsnap-circle', null, this.map_group);
         img.pivot.x = 32;
         img.pivot.y = 32;
-        img.scale.set(0.1);
+        img.scale.set(0.3);
         return img;
     },
 

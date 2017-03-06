@@ -1,4 +1,5 @@
 var PI_HALF = Math.PI/2;
+var PI_2 = Math.PI * 2;
 
 Main.appendPrototype({
 
@@ -17,8 +18,8 @@ Main.appendPrototype({
         this.ghostroom_selected_room_key = key;
 
         this.ghostroom_obj = this.room_types[key];
-        this.ghostroom_red = this.ghostroom_create_room(key + '-red');
-        this.ghostroom_green = this.ghostroom_create_room(key + '-green');
+        this.ghostroom_red = this.ghostroom_create_room(key, '-red');
+        this.ghostroom_green = this.ghostroom_create_room(key, '-green');
 
         this.ghostroom_bb = {x1: 0, y1: 0, x2: 0, y2: 0};
 
@@ -33,11 +34,11 @@ Main.appendPrototype({
         this.ghostroom_green.destroy();
     },
 
-    ghostroom_create_room: function(key){
-        var room = this.game.add.image(0, 0, key, null, this.map_group);
-        room.scale.setTo(0.5);
-        room.pivot.x = 64;
-        room.pivot.y = 64;
+    ghostroom_create_room: function(key, suffix){
+        var room = this.game.add.image(0, 0, key+suffix, null, this.map_group);
+        room.scale.setTo(this.room_types[key].scale);
+        room.pivot.x = this.room_types[key].center.x;
+        room.pivot.y = this.room_types[key].center.y;
         return room;
     },
 
@@ -131,6 +132,8 @@ Main.appendPrototype({
         this.ghostroom_rot = (this.ghostroom_rot + 1) % 4;
         var rot = this.ghostroom_red.rotation + PI_HALF;
 
+        if(rot > PI_2) rot -= PI_2;
+
         this.ghostroom_red.rotation = rot;
         this.ghostroom_green.rotation = rot;
     },
@@ -173,5 +176,11 @@ Main.appendPrototype({
 
 
     ghostroom_debug: function(){
+        var tile = this.get_tile_xy();
+        var pos = {x: tile.x * 16, y: tile.y * 16};
+        var gsp = this.ghostroom_generate_snap_points(pos);
+
+        for(var i=0; i<gsp.length; i++) this.gridsnap_add_point(gsp[i]);
+        this.gridsnap_show_dots();
     }
 });
