@@ -2,8 +2,6 @@ var PI_HALF = Math.PI/2;
 
 Main.appendPrototype({
 
-
-    // ghostroom: null,
     ghostroom_bb: null,
     ghostroom_obj: null,
     ghostroom_red: null,
@@ -12,18 +10,12 @@ Main.appendPrototype({
     ghostroom_rot: 0,
     ghostroom_can_place: false,
 
-
     ghostroom_preload: function(){
-        // this.game.load.image('gridsnap-circle', 'assets/gridsnap/circle.png');
     },
 
     ghostroom_room_selected: function(key){
-
-      Utility.debug("ghostroom_room_selected", key);
-
         this.ghostroom_selected_room_key = key;
 
-        // this.ghostroom = this.ghostroom_create_room(key);
         this.ghostroom_obj = this.room_types[key];
         this.ghostroom_red = this.ghostroom_create_room(key + '-red');
         this.ghostroom_green = this.ghostroom_create_room(key + '-green');
@@ -33,6 +25,12 @@ Main.appendPrototype({
         this.ghostroom_rot = 0;
 
         this.ghostroom_update();
+    },
+    ghostroom_room_unselected: function(){
+        if(this.ghostroom_red == null) return;
+
+        this.ghostroom_red.destroy();
+        this.ghostroom_green.destroy();
     },
 
     ghostroom_create_room: function(key){
@@ -44,7 +42,6 @@ Main.appendPrototype({
     },
 
     ghostroom_update_room_positions: function(pos){
-        // this.ghostroom.x = x; this.ghostroom.y = y;
         this.ghostroom_red.x = pos.x; this.ghostroom_red.y = pos.y;
         this.ghostroom_green.x = pos.x; this.ghostroom_green.y = pos.y;
 
@@ -138,7 +135,7 @@ Main.appendPrototype({
         this.ghostroom_green.rotation = rot;
     },
 
-    ghostroom_keyOnDown: function(e, self) {
+    ghostroom_keyOnDown: function(e) {
         if(e.keyCode == Phaser.Keyboard.R){
             this.ghostroom_rotate_rooms();
             this.ghostroom_update();
@@ -149,7 +146,6 @@ Main.appendPrototype({
         if(this.ghostroom_red == null) return;
 
         if(this.ghostroom_can_place){
-            console.log("CAN PLACE ROOM");
             var pos = {x: this.ghostroom_red.position.x, y: this.ghostroom_red.position.y};
             this.place_room(this.ghostroom_selected_room_key, pos.x, pos.y, this.ghostroom_red.rotation, true);
 

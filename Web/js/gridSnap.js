@@ -27,8 +27,6 @@ Main.appendPrototype({
 
 
     gridsnap_show_dots: function(){
-        // this.gridsnap_print();
-
         var temp_points = [];
         for(var i=0; i<this.grid_snap_points.length; i++){
             var p = this.grid_snap_points[i];

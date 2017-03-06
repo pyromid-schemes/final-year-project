@@ -34,17 +34,10 @@ Main.prototype = {
     /** GHOST MOB **/
     ghost_mob: null,
 
-    /* Room data */
-    // room_types: [],
-    // rooms: [],
-
     /* Mob data */
     mob_types: [],
     mobs: [],
     mob_id_count: 0,
-
-    /* Room snap positions */
-    room_snap_positions: [],
 
     preload: function(){
         var self = this;
@@ -118,51 +111,17 @@ Main.prototype = {
         window.mainScene = this;
     },
 
-
     addMobType: function(mob_data){
         this.mob_types[mob_data.id] = mob_data;
     },
 
     update: function(){
-        // var tile = this.get_tile_xy();
-        //
-        // this.ghostroom_update();
-        //
-        // // If a ghost room is active - try to update the room position
-        // if(this.ghost_room != null) {
-        //     var tx16 = tile.x * 16;
-        //     var ty16 = tile.y * 16;
-        //     var rotation = this.ghost_room.rotation;
-        //
-        //
-        //     var bb = Utility.get_bounding_box_from_room(tx16,ty16, this.currently_selected_tile_type);
-        //
-        //     this.can_place_ghost_room = true;
-        //     for(var i=0; i<this.rooms.length; i++){
-        //         var room = this.rooms[i];
-        //         var bb2 = Utility.get_bounding_box_from_room(room.x, room.y, room.room_id);
-        //
-        //         if(Utility.doBoundingBoxesCollide(bb, bb2)){
-        //             this.can_place_ghost_room = false;
-        //             this.room_selected(this.currently_selected_tile_type, false);
-        //             break;
-        //         }
-        //     }
-        //
-        //     if(this.can_place_ghost_room){
-        //         this.room_selected(this.currently_selected_tile_type, true);
-        //     }
-        //
-        //
-        //     this.ghost_room.x = tx16;
-        //     this.ghost_room.y = ty16;
-        //     this.ghost_room.rotation = rotation;
-        // }else if(this.ghost_mob != null){
-        //     tile = this.get_world_xy();
-        //
-        //     this.ghost_mob.x = tile.x;
-        //     this.ghost_mob.y = tile.y;
-        // }
+        if(this.ghost_mob != null){
+            var tile = this.get_world_xy();
+
+            this.ghost_mob.x = tile.x;
+            this.ghost_mob.y = tile.y;
+        }
     },
 
     onDown: function(e){
@@ -175,13 +134,8 @@ Main.prototype = {
             // If the map is not dragging - TRY to place a room
             if(!this.is_dragging){
                 this.ghostroom_try_to_place();
-                if(this.ghost_room != null){
-                    // var tile = this.get_tile_xy();
-                    //
-                    // if(this.can_place_ghost_room) {
-                    //     this.place_room(this.currently_selected_tile_type, tile.x * 16, tile.y * 16, this.ghost_room.rotation, true);
-                    // }
-                }else if(this.ghost_mob != null){
+
+                if(this.ghost_mob != null){
                     var world = this.get_world_xy();
                     this.place_mob(this.currently_selected_tile_type, world.x, world.y, true);
                 }
@@ -234,7 +188,7 @@ Main.prototype = {
 
         this.builder.keyOnDown(e, null);
 
-        this.ghostroom_keyOnDown(e, null);
+        this.ghostroom_keyOnDown(e);
 
 
         if(e.keyCode == Phaser.Keyboard.D){
@@ -304,10 +258,6 @@ Main.prototype = {
             this.currently_selected_tile_type = null;
         }
     },
-    can_place_room: function(room_id, x, y){
-        var room = this.room_types[room_id];
-        var bb = Utility.get_bounding_box_from_room(x, y, room);
-    },
     place_room: function(room_id, x, y, rot, send_message){
         var room_data = this.room_types[room_id];
 
@@ -351,9 +301,6 @@ Main.prototype = {
 
         this.redrawPlayer();
 
-        /* ToDo: Add the room snap positions to an array */
-
-
         for(var i=0; i<room_data.door_positions.length; i++){
             var door_pos = this.ghostroom_translate_door_pos(room_data.door_positions[i]);
             var pos = {x: x + door_pos.x, y: y + door_pos.y};
@@ -395,7 +342,6 @@ Main.prototype = {
         mob.pivot.x = mob_data.sprite.size.width / 2;
         mob.pivot.y = mob_data.sprite.size.height / 2;
 
-        // console.log("scale: "+mob_data.sprite.scale);
         mob.scale.setTo(mob_data.sprite.scale, mob_data.sprite.scale);
 
 

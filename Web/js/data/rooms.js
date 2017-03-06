@@ -19,6 +19,7 @@ var Rooms = {
         scaled: { w: 64, h: 64, cx: 32, cy: 32 },
         assets: {
             normal: { key: 'room1', path: 'assets/rooms/room1/normal.png' },
+            // normal: { key: 'room1', path: 'assets/rooms/room1/normal3.abc' },
             green: { key: 'room1-green', path: 'assets/rooms/room1/green.png' },
             red: { key: 'room1-red', path: 'assets/rooms/room1/red.png' }
         },
@@ -52,6 +53,22 @@ var Rooms = {
         center: { x: 64, y: 64 },
         scaled: { w: 64, h: 64, cx: 32, cy: 32},
         tile_data: [[1,1,1,1], [1,1,1,1], [1,1,1,1], [1,1,1,1]],
+        assets: {
+            normal: { key: 'room3', path: 'assets/rooms/room3/normal.png' },
+            green: { key: 'room3-green', path: 'assets/rooms/room3/green.png' },
+            red: { key: 'room3-red', path: 'assets/rooms/room3/red.png' }
+        },
+        door_positions: [
+            DOOR_UP,
+            DOOR_RIGHT
+        ]
+    },
+    room1_new: {
+        room_id: 'room1new',
+        w: 480,
+        h: 480,
+        center: { x: 240, y: 240 },
+        scaled: { w: 240, h: 240, cx: 120, cy: 120},
         assets: {
             normal: { key: 'room3', path: 'assets/rooms/room3/normal.png' },
             green: { key: 'room3-green', path: 'assets/rooms/room3/green.png' },

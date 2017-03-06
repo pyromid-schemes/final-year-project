@@ -70,7 +70,6 @@ Builder.prototype = {
         if(key in this.buttons){
             obj = this.buttons[key];
             this.typeOfTileToPlace = 'room';
-            // this.main.room_selected(key, true);
             this.main.ghostroom_room_selected(key);
         }else if(key in this.mobButtons){
             obj = this.mobButtons[key];
@@ -86,8 +85,7 @@ Builder.prototype = {
         this.tile_selector.alpha = 1;
     },
     unselectTile: function(){
-
-        this.main.room_unselected();
+        this.main.ghostroom_room_unselected();
         this.main.mob_unselected();
     },
     hideTileSelector: function(){
