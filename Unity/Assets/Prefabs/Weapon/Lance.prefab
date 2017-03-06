@@ -23,7 +23,7 @@ GameObject:
   - 65: {fileID: 65000013835806796}
   - 114: {fileID: 114000012474031638}
   m_Layer: 0
-  m_Name: PlayerLance
+  m_Name: Lance
   m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

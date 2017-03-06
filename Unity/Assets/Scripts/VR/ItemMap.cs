@@ -1,20 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ItemMap : MonoBehaviour {
-    public GameObject swordPrefab;
-    public GameObject lancePrefab;
+    public GameObject SwordPrefab;
+    public GameObject LancePrefab;
+
+    private Dictionary<string, Transform> ItemTransforms;
+
+    void Awake()
+    {
+        ItemTransforms = new Dictionary<string, Transform>();
+        ItemTransforms.Add(SwordPrefab.name, SwordPrefab.transform);
+        ItemTransforms.Add(LancePrefab.name, LancePrefab.transform);
+    }
 
     public Transform GetDefaultTransform(string itemName)
     {
-        switch (itemName)
+        Transform result;
+        ItemTransforms.TryGetValue(itemName, out result);
+        if (result != null)
         {
-            case "PlayerSword":
-                return swordPrefab.transform;
-            case "PlayerLance":
-                return lancePrefab.transform;
-            default:
-                throw new System.Exception("ItemMap.GetDefaultTransform() could not find the requested prefab");
+            return result;
         }
+        else
+        {
+            throw new System.Exception("ItemMap.GetDefaultTransform() could not find the requested prefab");
+        }
+        
     }
 }
