@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000013956119506}
   - 114: {fileID: 114000010451928056}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,7 +37,7 @@ GameObject:
   - 4: {fileID: 4000010470284972}
   - 81: {fileID: 81000010398116490}
   - 114: {fileID: 114000012224522724}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Camera (ears)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   - 114: {fileID: 114000014013667148}
   - 114: {fileID: 114000013659841320}
   - 114: {fileID: 114000010508581574}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Controller (left)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   - 20: {fileID: 20000010164030788}
   - 114: {fileID: 114000010242633954}
   - 92: {fileID: 92000010359166400}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Camera (head)
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000013526717048}
   - 114: {fileID: 114000010419329768}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ GameObject:
   - 20: {fileID: 20000011423115294}
   - 124: {fileID: 124000011484547658}
   - 114: {fileID: 114000011771206470}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Camera (eye)
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000013803620734}
   - 136: {fileID: 136000012547483340}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PlayerHead
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -143,7 +143,7 @@ GameObject:
   - 23: {fileID: 23000011954377732}
   - 33: {fileID: 33000011031713634}
   - 114: {fileID: 114000011703267250}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -160,7 +160,7 @@ GameObject:
   - 4: {fileID: 4000012769905470}
   - 136: {fileID: 136000014043496272}
   - 114: {fileID: 114000012849377122}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PlayerBody
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -179,7 +179,7 @@ GameObject:
   - 114: {fileID: 114000012949485490}
   - 114: {fileID: 114000012820709168}
   - 114: {fileID: 114000010383853850}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Controller (right)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -537,14 +537,14 @@ MonoBehaviour:
   size: 0
   color: {r: 0, g: 1, b: 1, a: 1}
   vertices:
-  - {x: 0.49999997, y: 0.01, z: -0.5}
-  - {x: -0.49999997, y: 0.01, z: -0.5}
-  - {x: -0.49999997, y: 0.01, z: 0.5}
-  - {x: 0.49999997, y: 0.01, z: 0.5}
-  - {x: 0.65, y: 0.01, z: -0.65}
-  - {x: -0.65, y: 0.01, z: -0.65}
-  - {x: -0.65, y: 0.01, z: 0.65}
-  - {x: 0.65, y: 0.01, z: 0.65}
+  - {x: 0.5000001, y: 0.01, z: -0.50000006}
+  - {x: -0.5000001, y: 0.01, z: -0.50000006}
+  - {x: -0.5000001, y: 0.01, z: 0.50000006}
+  - {x: 0.5000001, y: 0.01, z: 0.50000006}
+  - {x: 0.6500001, y: 0.01, z: -0.6500001}
+  - {x: -0.6500001, y: 0.01, z: -0.6500001}
+  - {x: -0.6500001, y: 0.01, z: 0.6500001}
+  - {x: 0.6500001, y: 0.01, z: 0.6500001}
 --- !u!114 &114000011771206470
 MonoBehaviour:
   m_ObjectHideFlags: 1
