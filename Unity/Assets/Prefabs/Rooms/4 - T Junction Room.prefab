@@ -1832,7 +1832,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000013967373306}
   m_Layer: 8
-  m_Name: T Junction Room
+  m_Name: 4 - T Junction Room
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
