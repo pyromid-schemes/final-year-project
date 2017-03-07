@@ -3464,6 +3464,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000011192833914}
+  - 114: {fileID: 114000010021532932}
   m_Layer: 8
   m_Name: 5 - Quad Junction Room
   m_TagString: Untagged
@@ -10727,3 +10728,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 10, y: 0.05, z: 10}
   m_Center: {x: 0, y: -0.085, z: 0}
+--- !u!114 &114000010021532932
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013196685198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ead15e35d3524e939fbc7e651fb766ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorPositions: 00000000010000000200000003000000
+  doorObject: {fileID: 1000011570427702, guid: cc3437d279261a842892ecfa764e11b0, type: 2}
