@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections;
 using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
-    private int damage;
     private bool isColliding;
     private bool blocked;
 
-    public Weapon(int damage)
+    public Weapon()
     {
-        this.damage = damage;
         isColliding = false;
         blocked = false;
     }
@@ -20,11 +17,6 @@ public abstract class Weapon : MonoBehaviour
     void Start()
     {
         setWeaponIsActive(true);
-    }
-
-    public int GetDamage()
-    {
-        return damage;
     }
 
     void OnCollisionEnter(Collision other)
@@ -41,6 +33,7 @@ public abstract class Weapon : MonoBehaviour
                 blocked = true;
                 break;
             case "Monster":
+                print("hit");
                 ApplyDamageToMonster(other.collider);
                 break;
             case "Player":
@@ -59,7 +52,7 @@ public abstract class Weapon : MonoBehaviour
         }
         else
         {
-            other.gameObject.GetComponent<IDamageable>().ApplyDamage(damage);
+            other.gameObject.GetComponent<IDamageable>().ApplyDamage(GetDamage());
         }
     }
 
@@ -72,4 +65,6 @@ public abstract class Weapon : MonoBehaviour
     {
         isColliding = false;
     }
+
+    public abstract int GetDamage();
 }

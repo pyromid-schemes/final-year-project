@@ -26,7 +26,10 @@ namespace AI.Pathfinding
             {
                 if (child.tag == "Walkable")
                 {
-                    _gridManager.AddNode(child.transform.position.x, child.transform.position.z);
+                    double _rounding = _spaceBetween/2;
+                    double x = Math.Round((double) child.transform.position.x/_rounding) * _rounding;
+                    double z = Math.Round((double) child.transform.position.z/_rounding) * _rounding;
+                    _gridManager.AddNode((float) x, (float) z);
 
                     if (DebugMode)
                     {
