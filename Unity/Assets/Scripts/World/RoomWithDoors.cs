@@ -15,15 +15,13 @@ namespace World
         {
             foreach (DoorPosition d in doorPositions)
             {
-                var potentialDoorPosition = ResolveDoorPosition(d);
+                var potentialDoorPosition = ResolveDoorPosition(ApplyRoomRotation(d));
                 RaycastHit raycastHit;
                 if (RaycastDoor(potentialDoorPosition, out raycastHit)) {
                     Destroy(raycastHit.transform.parent.gameObject);
-                    Debug.Log("shouldn't spawn door and should kill old door");
                 }
                 else {
                     Instantiate(doorObject, potentialDoorPosition.Position, potentialDoorPosition.Rotation, transform);
-                    Debug.Log("should spawn new door");
                 }
             }
         }
@@ -59,17 +57,71 @@ namespace World
                     direction = Vector3.right;
                     break;
             }
+
             return new PotentialPosition(position, Quaternion.Euler(rotation), direction);
         }
 
         private bool RaycastDoor(PotentialPosition potentialPosition, out RaycastHit hit)
         {
             var raycastOrigin = potentialPosition.Position + new Vector3(0, 1, 0);
-            Debug.DrawRay(raycastOrigin, potentialPosition.Direction, Color.green, Single.MaxValue);
-            bool raycast = Physics.Raycast(raycastOrigin, potentialPosition.Direction, out hit, 1f);
-            Debug.Log("raycast hit something: " + raycast);
 
-            return raycast && hit.transform.gameObject.CompareTag("Door");
+            return Physics.Raycast(raycastOrigin, potentialPosition.Direction, out hit, 1f) &&
+                   hit.transform.gameObject.CompareTag("Door");
+        }
+
+        private DoorPosition ApplyRoomRotation(DoorPosition d)
+        {
+            var roomRotation = transform.eulerAngles.y;
+            switch (d) {
+                case DoorPosition.Up:
+                    if (Mathf.Approximately(roomRotation, 90f)) {
+                        return DoorPosition.Right;
+                    }
+                    if (Mathf.Approximately(roomRotation, 180f)) {
+                        return DoorPosition.Down;
+                    }
+                    if (Mathf.Approximately(roomRotation, 270f)) {
+                        return DoorPosition.Left;
+                    }
+                    break;
+
+                case DoorPosition.Down:
+                    if (Mathf.Approximately(roomRotation, 90f)) {
+                        return DoorPosition.Left;
+                    }
+                    if (Mathf.Approximately(roomRotation, 180f)) {
+                        return DoorPosition.Up;
+                    }
+                    if (Mathf.Approximately(roomRotation, 270f)) {
+                        return DoorPosition.Right;
+                    }
+                    break;
+
+                case DoorPosition.Left:
+                    if (Mathf.Approximately(roomRotation, 90f)) {
+                        return DoorPosition.Up;
+                    }
+                    if (Mathf.Approximately(roomRotation, 180f)) {
+                        return DoorPosition.Right;
+                    }
+                    if (Mathf.Approximately(roomRotation, 270f)) {
+                        return DoorPosition.Down;
+                    }
+                    break;
+
+                case DoorPosition.Right:
+                    if (Mathf.Approximately(roomRotation, 90f)) {
+                        return DoorPosition.Down;
+                    }
+                    if (Mathf.Approximately(roomRotation, 180f)) {
+                        return DoorPosition.Left;
+                    }
+                    if (Mathf.Approximately(roomRotation, 270f)) {
+                        return DoorPosition.Up;
+                    }
+                    break;
+            }
+            return d;
         }
 
         struct PotentialPosition
@@ -88,19 +140,16 @@ namespace World
             public Vector3 Position
             {
                 get { return position; }
-                set { position = value; }
             }
 
             public Quaternion Rotation
             {
                 get { return rotation; }
-                set { rotation = value; }
             }
 
             public Vector3 Direction
             {
                 get { return direction; }
-                set { direction = value; }
             }
         }
 
