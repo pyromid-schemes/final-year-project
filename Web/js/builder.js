@@ -17,6 +17,8 @@ Builder.prototype = {
         this.add_room_btn(650, 20, Rooms.room1);
         this.add_room_btn(650, 70, Rooms.room2);
         this.add_room_btn(700, 20, Rooms.room3);
+        this.add_room_btn(700, 70, Rooms.room4);
+        this.add_room_btn(650, 120, Rooms.room5);
 
         this.add_mob_btn(650, 180, Mobs.ant);
         this.add_mob_btn(700, 180, Mobs.bear);
