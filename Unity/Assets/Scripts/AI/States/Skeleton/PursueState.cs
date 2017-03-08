@@ -49,14 +49,17 @@ namespace AI.States.Skeleton
 
         private bool PlayerInSight()
         {
-            RaycastHit hit;
-            for (float i = -90f; i < 90f; i++)
+            if (Physics.CheckSphere(_mob.transform.position, 20f, LayerMask.GetMask("Player")))
             {
-                Vector3 direction = _mob.Eyes.forward - _mob.Eyes.right*i;
-
-                if (Physics.Raycast(_mob.Eyes.position, direction, out hit) && hit.collider.CompareTag("Player"))
+                Vector3 forward = _mob.transform.forward;
+                Vector3 _playerPos = _player.transform.position;
+                if (Vector3.Dot(Vector3.Normalize(forward), Vector3.Normalize(_playerPos)) >= 0)
                 {
-                    return true;
+                    RaycastHit hit;
+                    Vector3 direction = _mob.transform.position - _playerPos;
+                    Debug.Log(direction);
+                    if (!Physics.Raycast(_mob.transform.position, direction, out hit, LayerMask.GetMask("World Geometry")))
+                        return true;
                 }
             }
             return false;
