@@ -4,7 +4,9 @@ var Utility = {
         return (rot - 180) * (Math.PI / 180);
     },
     webRotToUnityRot: function(rot){
-        return (rot * 180 / Math.PI) - 180;
+        var rot = (rot * 180 / Math.PI) - 180;
+        if(rot < 0) rot += 360;
+        return rot;
     },
 
     isPointWithinRect: function(point, rect){
