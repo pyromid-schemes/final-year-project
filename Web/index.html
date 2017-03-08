@@ -38,6 +38,7 @@
     <script src="js/data/rooms.js"></script>
 
     <!-- Scenes -->
+    <script src="js/startScreen.js"></script>
     <script src="js/splash.js"></script>
     <script src="js/builder.js"></script>
     <script src="js/game.js"></script>
@@ -51,6 +52,8 @@
             var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game');
             game.state.add('Main', Main);
             game.state.add('Splash', Splash);
+//            game.state.add('StartScreen', StartScreen);
+//            game.state.start('StartScreen');
             game.state.start('Main');
         })();
     </script>

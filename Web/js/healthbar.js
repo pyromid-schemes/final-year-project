@@ -25,6 +25,8 @@ var Healthbar = function(main, x, y){
     var pos = {x: x, y: y};
     var GREEN_SCALE = BASE_SCALE;
 
+    var can_update = true;
+
     redraw();
 
     function setPosition(x, y){
@@ -34,9 +36,18 @@ var Healthbar = function(main, x, y){
     }
 
     function setPercentage(percentage){
+        if( !can_update ) return;
+
         var travel = (green.scale.x - (BASE_SCALE * percentage)) * FULL_BAR_DEPLETION_TIME / BASE_SCALE;
+        if( travel >= 0 && travel < 0.0000001 ) return;
+
         GREEN_SCALE = BASE_SCALE * percentage;
         main.game.add.tween(green.scale).to({x: GREEN_SCALE, y: BASE_SCALE}, travel, Phaser.Easing.Linear.None, true);
+
+        can_update = false;
+        setTimeout(function(){
+            can_update = true;
+        }, travel);
     }
 
 
