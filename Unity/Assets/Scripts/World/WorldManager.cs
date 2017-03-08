@@ -18,12 +18,16 @@ namespace World
 		private List<PlacedPrefab> gameWorld;
 		private List<PlacedMob> mobs;
 
+        void Awake ()
+        {
+            roomSpawnQueue = new List<Room>();
+            mobSpawnQueue = new List<Mob>();
+            gameWorld = new List<PlacedPrefab>();
+            mobs = new List<PlacedMob>();
+        }
+
 		void Start ()
 		{
-			roomSpawnQueue = new List<Room> ();
-			mobSpawnQueue = new List<Mob> ();
-			gameWorld = new List<PlacedPrefab> ();
-			mobs = new List<PlacedMob> ();
 			AddPrefab ("room2", 0, 0, 0);
 		}
 	

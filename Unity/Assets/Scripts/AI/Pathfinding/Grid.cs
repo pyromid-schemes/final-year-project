@@ -26,17 +26,17 @@ namespace AI.Pathfinding
             {
                 if (child.tag == "Walkable")
                 {
-                    Renderer renderer = child.GetComponent<Renderer>();
-                    double rounding = _spaceBetween/2;
-                    double closestX = Math.Round((double) renderer.bounds.center.x/rounding)*rounding;
-                    double closestZ = Math.Round((double) (renderer.bounds.center.z/rounding))*rounding;
-                    float x = (float) closestX;
-                    float z = (float) closestZ;
-                    _gridManager.AddNode(x, z);
+                    double _rounding = _spaceBetween/2;
+                    double x = Math.Round((double) child.transform.position.x/_rounding) * _rounding;
+                    double z = Math.Round((double) child.transform.position.z/_rounding) * _rounding;
+                    _gridManager.AddNode((float) x, (float) z);
+
                     if (DebugMode)
                     {
-                        DebugSphere debug =
-                            (DebugSphere) Instantiate(testThing, new Vector3(x, 2.5f, z), child.transform.rotation);
+                        DebugSphere debug = (DebugSphere) Instantiate(
+                                testThing,
+                                new Vector3(child.transform.position.x, 2.5f, child.transform.position.z),
+                                child.transform.rotation);
                         debug.parent = child.gameObject;
                     }
                 }

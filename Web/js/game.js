@@ -3,11 +3,16 @@
 var MAP_DRAW_OFFSET_X = 0;
 var MAP_DRAW_OFFSET_Y = 0;
 
-var SCROLL_SPEED = 0.022;
-var SCROLL_MIN = 1;
-var SCROLL_MAX = 3;
+var SCROLL_SPEED = 0.014;
+var SCROLL_MIN = 0.6;
+var SCROLL_MAX = 1.7;
+var SCROLL_DEFAULT = 0.85;
 
 var TILE_SIZE = 16;
+
+var MAP_MASK = {
+    x: 0, y: 0, w: 36 * 16, h: 32 * 16
+};
 
 var Main = function(game){
 };
@@ -34,10 +39,6 @@ Main.prototype = {
     /** GHOST MOB **/
     ghost_mob: null,
 
-    /* Room data */
-    room_types: [],
-    rooms: [],
-
     /* Mob data */
     mob_types: [],
     mobs: [],
@@ -50,20 +51,15 @@ Main.prototype = {
         this.game.load.image('empty-tile64', 'assets/empty-tile64.png');
         this.game.load.image('builder-button-selector', 'assets/selector.png');
 
-        Object.keys(Rooms).forEach(function(k){
-            self.preload_room(Rooms[k]);
-        });
-
         Object.keys(Mobs).forEach(function(k){
             self.preload_mob(Mobs[k]);
         });
 
         this.game.load.image(Player.sprite.key, Player.sprite.image);
-    },
-    preload_room: function(room){
-        this.game.load.image(room.assets.normal.key, room.assets.normal.path);
-        this.game.load.image(room.assets.green.key, room.assets.green.path);
-        this.game.load.image(room.assets.red.key, room.assets.red.path);
+
+        this.healthbar_preload();
+        this.gridsnap_preload();
+        this.rooms_preload();
     },
     preload_mob: function(mob){
         this.game.load.image(mob.sprite.key, mob.sprite.image);
@@ -98,10 +94,8 @@ Main.prototype = {
         // Create the builder object
         this.builder = new Builder(this.game, this); this.builder.create();
 
-        /** Creating the types **/
-        Object.keys(Rooms).forEach(function(k){
-           self.addRoomType(Rooms[k]);
-        });
+
+        this.rooms_create();
 
         Object.keys(Mobs).forEach(function(k){
             self.addMobType(Mobs[k]);
@@ -109,67 +103,32 @@ Main.prototype = {
 
 
         // Move the map to the center
-        this.scrollMap({x: -18 * 16, y: -18 * 16});
+        this.scrollMap({x: -18 * 16, y: -18 * 14});
         // Create a dummy room
         this.place_room('room2', 0, 0, 0, false);
 
 
         // Setup and move the player to [0,0]
         this.setupPlayer(Player);
-        this.setPlayerPosition({xPos: 0, zPos: 0});
+        this.setPlayerData({xPos: 0, zPos: 0, currentHealth: 1, maxHealth: 1});
 
 
         window.mainScene = this;
     },
 
-    /** Creation of rooms **/
-    addRoomType: function(room_data){
-        console.log("room_data:");
-        console.log(room_data);
-        this.room_types[room_data.room_id] = room_data;
-    },
     addMobType: function(mob_data){
         this.mob_types[mob_data.id] = mob_data;
     },
 
     update: function(){
-        var tile = this.get_tile_xy();
-
-        // If a ghost room is active - try to update the room position
-        if(this.ghost_room != null) {
-            var tx16 = tile.x * 16;
-            var ty16 = tile.y * 16;
-            var rotation = this.ghost_room.rotation;
-
-
-            var bb = Utility.get_bounding_box_from_room(tx16,ty16, this.currently_selected_tile_type);
-
-            this.can_place_ghost_room = true;
-            for(var i=0; i<this.rooms.length; i++){
-                var room = this.rooms[i];
-                var bb2 = Utility.get_bounding_box_from_room(room.x, room.y, room.room_id);
-
-                if(Utility.doBoundingBoxesCollide(bb, bb2)){
-                    this.can_place_ghost_room = false;
-                    this.room_selected(this.currently_selected_tile_type, false);
-                    break;
-                }
-            }
-
-            if(this.can_place_ghost_room){
-                this.room_selected(this.currently_selected_tile_type, true);
-            }
-
-
-            this.ghost_room.x = tx16;
-            this.ghost_room.y = ty16;
-            this.ghost_room.rotation = rotation;
-        }else if(this.ghost_mob != null){
-            tile = this.get_world_xy();
+        if(this.ghost_mob != null){
+            var tile = this.get_world_xy();
 
             this.ghost_mob.x = tile.x;
             this.ghost_mob.y = tile.y;
         }
+
+        this.get_tile_xy();
     },
 
     onDown: function(e){
@@ -181,13 +140,9 @@ Main.prototype = {
 
             // If the map is not dragging - TRY to place a room
             if(!this.is_dragging){
-                if(this.ghost_room != null){
-                    var tile = this.get_tile_xy();
+                this.ghostroom_try_to_place();
 
-                    if(this.can_place_ghost_room) {
-                        this.place_room(this.currently_selected_tile_type, tile.x * 16, tile.y * 16, this.ghost_room.rotation, true);
-                    }
-                }else if(this.ghost_mob != null){
+                if(this.ghost_mob != null){
                     var world = this.get_world_xy();
                     this.place_mob(this.currently_selected_tile_type, world.x, world.y, true);
                 }
@@ -207,6 +162,8 @@ Main.prototype = {
 
             this.scrollMap(diff);
 
+        }else{
+            this.ghostroom_mouse_move();
         }
     },
 
@@ -215,11 +172,11 @@ Main.prototype = {
         this.map_group.pivot.x += diff.x / this.game_zoom;
         this.map_group.pivot.y += diff.y / this.game_zoom;
 
-        var diff2 = {x: this.map_group.pivot.x - 288, y: this.map_group.pivot.y - 256};
+        var diff2 = {x: this.map_group.pivot.x - (this.map_dimensions.w / 2), y: this.map_group.pivot.y - (this.map_dimensions.h / 2)};
         var diff3 = {x: Math.floor(diff2.x / 16), y: Math.floor(diff2.y / 16)};
 
-        this.empty_background.pivot.x = 288 - diff3.x*16;
-        this.empty_background.pivot.y = 256 - diff3.y*16;
+        this.empty_background.pivot.x = (this.map_dimensions.w / 2) - diff3.x*16;
+        this.empty_background.pivot.y = (this.map_dimensions.h / 2) - diff3.y*16;
     },
 
     mouseWheel: function(e){
@@ -228,24 +185,36 @@ Main.prototype = {
 
         // Set the 'zoom' on the map
         this.map_group.scale.set(this.game_zoom);
+        console.log("zoom: "+this.game_zoom);
     },
 
     keyOnDown: function(e, self){
-        if(this.ghost_room != null && e.keyCode == Phaser.Keyboard.R){
-            // Funky rotation?
-            this.ghost_room.rotation = self.ghost_room.rotation + Math.PI/2;
+        this.builder.keyOnDown(e, null);
+
+        this.ghostroom_keyOnDown(e);
+
+
+        if(e.keyCode == Phaser.Keyboard.D){
+            this.gridsnap_show_dots();
+        }
+
+        if(e.keyCode == Phaser.Keyboard.S){
+            this.ghostroom_debug();
         }
     },
 
     /* Initial setup */
     create_tiled_background: function() {
-        var map_w = 36;
-        var map_h = 32;
+        var map_w = 100;
+        var map_h = 100;
         var empty_tile = this.game.make.sprite(0, 0, 'empty-tile');
 
 
         this.map_draw_offset = {x: MAP_DRAW_OFFSET_X, y: MAP_DRAW_OFFSET_Y};
         this.map_dimensions = {x: this.map_draw_offset.x, y: this.map_draw_offset.y, w: map_w * 16, h: map_h * 16};
+
+        console.log("map dimensions:");
+        console.log(this.map_dimensions);
 
         this.map_group = this.game.add.group();
 
@@ -259,23 +228,24 @@ Main.prototype = {
 
         var mask = this.game.add.graphics(this.map_draw_offset.x, this.map_draw_offset.y);
         mask.beginFill(0xffffff);
-        mask.drawRect(0, 0, map_w * 16, map_h * 16);
+        mask.drawRect(MAP_MASK.x, MAP_MASK.y, MAP_MASK.w, MAP_MASK.h);
         this.map_group.mask = mask;
 
-        var world_center = {x: this.map_dimensions.w / 2, y: this.map_dimensions.h / 2};
+        var world_center = {x: MAP_MASK.w , y: MAP_MASK.h };
         this.empty_background = this.game.add.image(world_center.x, world_center.y, background, null, this.map_group);
         this.empty_background.pivot.x = world_center.x;
         this.empty_background.pivot.y = world_center.y;
 
-        this.game_zoom = 1;
-        this.map_group.scale.set(1);
 
-        var pivot = {x: this.map_dimensions.w/2, y: this.map_dimensions.h/2};
+        var pivot = {x: MAP_MASK.w/2, y: MAP_MASK.h/2};
 
-        this.map_group.x = this.map_draw_offset.x + pivot.x;
-        this.map_group.y = this.map_draw_offset.y + pivot.y;
+        this.map_group.x = this.map_draw_offset.x + MAP_MASK.w/2;
+        this.map_group.y = this.map_draw_offset.y + MAP_MASK.h/2;
         this.map_group.pivot.x = pivot.x;
         this.map_group.pivot.y = pivot.y;
+
+        this.game_zoom = SCROLL_DEFAULT;
+        this.map_group.scale.set(SCROLL_DEFAULT);
     },
 
 
@@ -299,10 +269,6 @@ Main.prototype = {
             this.currently_selected_tile_type = null;
         }
     },
-    can_place_room: function(room_id, x, y){
-        var room = this.room_types[room_id];
-        var bb = Utility.get_bounding_box_from_room(x, y, room);
-    },
     place_room: function(room_id, x, y, rot, send_message){
         var room_data = this.room_types[room_id];
 
@@ -310,7 +276,7 @@ Main.prototype = {
 
 
         var img = this.game.add.image(x, y, room_id, null, this.map_group);
-        img.scale.setTo(0.5, 0.5);
+        img.scale.set(room_data.scale);
         img.pivot.x = room_data.center.x;
         img.pivot.y = room_data.center.y;
 
@@ -322,21 +288,35 @@ Main.prototype = {
 
         var id = this.rooms.length;
 
+        var bb = {
+            x1: x - room_data.scaled.cx, y1: y - room_data.scaled.cy,
+            x2: x + room_data.scaled.cx, y2: y + room_data.scaled.cy
+        };
+
+
         this.rooms.push({
             room_id: room_id,
             x: x,
             y: y,
             room_type: room_data,
-            room: img
+            room: img,
+            bb: bb
         });
 
 
+
         if(send_message){
-            var rot =  Utility.webRotToUnityRot(this.ghost_room.rotation);
+            var rot =  Utility.webRotToUnityRot(rot);
             Messages.send.buildRoom({objectId: room_id, xPos: x / 16, zPos: y / 16, rot: rot});
         }
 
         this.redrawPlayer();
+
+        for(var i=0; i<room_data.door_positions.length; i++){
+            var door_pos = this.ghostroom_translate_door_pos(room_data.door_positions[i]);
+            var pos = {x: x + door_pos.x, y: y + door_pos.y};
+            this.gridsnap_add_point(pos);
+        }
     },
 
     // ToDo: Fix the rooms id and array bug...
@@ -373,9 +353,10 @@ Main.prototype = {
         mob.pivot.x = mob_data.sprite.size.width / 2;
         mob.pivot.y = mob_data.sprite.size.height / 2;
 
-        // console.log("scale: "+mob_data.sprite.scale);
         mob.scale.setTo(mob_data.sprite.scale, mob_data.sprite.scale);
 
+
+        var healthbar = this.healthbar_add(x, y - 14);
 
         var mob_instance = {
             mob_id: mob_id,
@@ -383,7 +364,8 @@ Main.prototype = {
             y: y,
             mob_type: mob_data,
             mob: mob,
-            id: this.mob_id_count++
+            id: this.mob_id_count++,
+            healthbar: healthbar
         };
         this.mobs.push(mob_instance);
 
@@ -398,6 +380,9 @@ Main.prototype = {
         sprite.pivot.x = player.sprite.size.half_w;
         sprite.pivot.y = player.sprite.size.half_h;
         sprite.scale.setTo(16/player.sprite.size.height);
+
+        var healthbar = this.healthbar_add(0, 0);
+
         this.player = {
             sprite: sprite,
             position: {
@@ -406,10 +391,10 @@ Main.prototype = {
             },
             size: player.sprite.size,
             center: player.sprite.center,
-            is_visible: true
+            healthbar: healthbar
         };
     },
-    setPlayerPosition: function(msg) {
+    setPlayerData: function(msg) {
         this.player.position.x = msg.xPos * TILE_SIZE;
         this.player.position.y = msg.zPos * TILE_SIZE;
 
@@ -417,12 +402,16 @@ Main.prototype = {
         this.player.sprite.position.y = this.player.position.y;
 
         this.player.sprite.rotation = Utility.unityRotToWebRot(msg.rot - 180); // -180 temp fix
+
+        this.updatePlayerHealthbar();
+        this.updatePlayerHealthbarPercent(msg.currentHealth / msg.maxHealth);
     },
 
     // ToDo: Should refactor this and the two above to be nicer...
     redrawPlayer: function(){
         if(this.player == null) return;
 
+        var rot = this.player.sprite.rotation;
         var player_key = this.player.sprite.key;
         this.player.sprite.destroy();
         this.player.sprite = this.game.add.image(0, 0, player_key, null, this.map_group);
@@ -431,6 +420,21 @@ Main.prototype = {
         this.player.sprite.position.x = this.player.position.x;
         this.player.sprite.position.y = this.player.position.y;
         this.player.sprite.scale.setTo(16/this.player.size.height);
+        this.player.sprite.rotation = rot;
+
+        this.updatePlayerHealthbar();
+        this.player.healthbar.redraw();
+    },
+
+    updatePlayerHealthbar: function(){
+        var pos = {
+            x: this.player.sprite.position.x,
+            y: this.player.sprite.position.y - 14
+        };
+        this.player.healthbar.setPosition(pos.x, pos.y);
+    },
+    updatePlayerHealthbarPercent: function(percentage){
+        this.player.healthbar.setPercentage(percentage);
     },
 
     /**
@@ -455,7 +459,7 @@ Main.prototype = {
 
         /** Actual usable code **/
         var map_relative = {x: mouse.x - this.map_draw_offset.x, y: mouse.y - this.map_draw_offset.y};
-        var mr_percent = {x: map_relative.x / this.map_dimensions.w , y: map_relative.y / this.map_dimensions.h };
+        var mr_percent = {x: map_relative.x / MAP_MASK.w , y: map_relative.y / MAP_MASK.h};
         var mrp_true = {x: mr_percent.x - 0.50, y: mr_percent.y - 0.50};
 
 
@@ -475,7 +479,7 @@ Main.prototype = {
         var mouse = this.getAccurateCoords();
 
         var map_relative = {x: mouse.x - this.map_draw_offset.x, y: mouse.y - this.map_draw_offset.y};
-        var mr_percent = {x: map_relative.x / this.map_dimensions.w , y: map_relative.y / this.map_dimensions.h };
+        var mr_percent = {x: map_relative.x / MAP_MASK.w , y: map_relative.y / MAP_MASK.h };
         var mrp_true = {x: mr_percent.x - 0.50, y: mr_percent.y - 0.50};
 
         var cur_map_dim = this.get_cur_map_dim();
@@ -486,10 +490,11 @@ Main.prototype = {
     },
 
     get_cur_map_dim: function(){
-        return {w: this.map_dimensions.w / this.game_zoom, h: this.map_dimensions.h / this.game_zoom};
+        return {w: MAP_MASK.w / this.game_zoom, h: MAP_MASK.h / this.game_zoom};
     },
 
     worldStatus: function(data){
+        this.removeAllMobs();
         this.removeAllRooms();
         for(var i=0; i<data.length; i++){
             var rot = Utility.unityRotToWebRot(data[i].rot); // converts Unity rotation to correct web rotation
@@ -505,19 +510,27 @@ Main.prototype = {
             if(data[i].dead){
                 this.deleteMob(data[i].id);
             }else {
-                this.updateMob(data[i].id, {x: data[i].xPos * TILE_SIZE, y: data[i].zPos * TILE_SIZE}, data[i].rot);
+                var health_percentage = (data[i].currentHealth / data[i].maxHealth);
+                this.updateMob(data[i].id, {x: data[i].xPos * TILE_SIZE, y: data[i].zPos * TILE_SIZE}, data[i].rot, health_percentage);
             }
         }
     },
-    updateMob: function(id, pos, rot){
+    updateMob: function(id, pos, rot, hp){
         var index = this.findMobIndex(id);
         var mob = this.mobs[index];
         mob.mob.position.x = pos.x;
         mob.mob.position.y = pos.y;
         mob.mob.rotation = Utility.unityRotToWebRot(rot - 180);
+
+        pos.y -= 14;
+
+        mob.healthbar.setPercentage(hp);
+        mob.healthbar.setPosition(pos.x, pos.y);
+        mob.healthbar.redraw();
     },
     deleteMob: function(id){
         var index = this.findMobIndex(id);
+        this.mobs[index].healthbar.destroy();
         this.mobs[index].mob.destroy();
         this.mobs.splice(index, 1);
     },
@@ -526,6 +539,18 @@ Main.prototype = {
             if(this.mobs[i].id == id) return i;
         }
         if(index == -1) throw new Error("Cannot find mob with id="+id);
+    },
+    removeAllMobs: function(){
+        for(var i=0; i<this.mobs.length; i++) {
+            this.mobs[i].mob.destroy();
+        }
+        this.mobs = [];
     }
 };
 main = Main.prototype; // Set 'window.main' to the whole Main object #JS #Singletons #BestCodePractice #Globals
+
+Main.appendPrototype = function(src) {
+    for (var prop in src) {
+        this.prototype[prop] = src[prop];
+    }
+};
