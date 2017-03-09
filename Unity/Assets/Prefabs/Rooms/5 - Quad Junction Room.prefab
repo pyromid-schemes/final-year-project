@@ -3472,7 +3472,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000011192833914}
-  - 114: {fileID: 114000012279610632}
+  - 114: {fileID: 114000011272317430}
   m_Layer: 8
   m_Name: 5 - Quad Junction Room
   m_TagString: Untagged
@@ -10832,7 +10832,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 3, z: 0.59999996}
   m_Center: {x: 1.5, y: 1.5, z: 0}
---- !u!114 &114000012279610632
+--- !u!114 &114000011272317430
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
