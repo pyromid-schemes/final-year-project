@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace World
 {
     public class RoomWithDoors : MonoBehaviour
     {
-        [System.Serializable]
+        [Serializable]
         public enum DoorPosition { Up, Down, Left, Right}
 
         public DoorPosition[] doorPositions;
@@ -18,12 +19,19 @@ namespace World
                 var potentialDoorPosition = ResolveDoorPosition(ApplyRoomRotation(d));
                 RaycastHit raycastHit;
                 if (RaycastDoor(potentialDoorPosition, out raycastHit)) {
-                    Destroy(raycastHit.transform.parent.gameObject);
+                    StartCoroutine(AnimateThenKillDoors(raycastHit.transform.parent.gameObject));
                 }
                 else {
                     Instantiate(doorObject, potentialDoorPosition.Position, potentialDoorPosition.Rotation, transform);
                 }
             }
+        }
+
+        private IEnumerator AnimateThenKillDoors(GameObject doors)
+        {
+            doors.GetComponent<Animator>().Play("TwoDoors");
+            yield return new WaitForSeconds(doors.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0).Length + 1);
+            Destroy(doors.gameObject);
         }
 
         private PotentialPosition ResolveDoorPosition(DoorPosition doorPosition)
