@@ -22,6 +22,7 @@ GameObject:
   - 33: {fileID: 33000011177123954}
   - 23: {fileID: 23000010219734302}
   - 65: {fileID: 65000012308974772}
+  - 95: {fileID: 95000012492924768}
   m_Layer: 0
   m_Name: door_2
   m_TagString: Door
@@ -40,6 +41,7 @@ GameObject:
   - 33: {fileID: 33000013241907046}
   - 23: {fileID: 23000013671476954}
   - 65: {fileID: 65000013139432488}
+  - 95: {fileID: 95000011882193158}
   m_Layer: 0
   m_Name: door_2 (1)
   m_TagString: Door
@@ -55,6 +57,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000013461843690}
+  - 95: {fileID: 95000011335533544}
   m_Layer: 0
   m_Name: Doors
   m_TagString: Door
@@ -69,7 +72,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010070998682}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.375, y: 0, z: -0.03000021}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1.1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -199,3 +202,54 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.2, y: 2.55, z: 0.35999998}
   m_Center: {x: -0.225, y: 1.275, z: 0.030000001}
+--- !u!95 &95000011335533544
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011570427702}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 96277f923fdd34ad78183321c06d9bdb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+--- !u!95 &95000011882193158
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011474489164}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 97bbb1712b79e459a8c5532bb225973c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+--- !u!95 &95000012492924768
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010070998682}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e5a2bc7f086a04f119d38a0aab764580, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1

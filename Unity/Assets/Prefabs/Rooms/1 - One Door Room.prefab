@@ -9580,5 +9580,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ead15e35d3524e939fbc7e651fb766ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorPositions: 00000000
+  doorPositions: 01000000
   doorObject: {fileID: 1000011570427702, guid: cc3437d279261a842892ecfa764e11b0, type: 2}
