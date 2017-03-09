@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using AI.Pathfinding;
-using AI.States;
+﻿using AI.States;
 using AI.States.Skeleton;
 using UnityEngine;
 

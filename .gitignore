@@ -38,5 +38,5 @@ sysinfo.txt
 
 node_modules/
 /Web/.idea/
-
+/Unity/.idea
 /Web/js/bin/

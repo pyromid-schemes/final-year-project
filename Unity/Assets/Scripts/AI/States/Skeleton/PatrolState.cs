@@ -22,24 +22,21 @@ namespace AI.States.Skeleton
 
         public void OnUpdate()
         {
-            if(Physics.CheckSphere(_mob.transform.position, 5f, LayerMask.GetMask("Player")))
-            {
-                Vector3 forward = _mob.transform.forward;
-                Vector3 _playerPos = _player.transform.position;
-                if (Vector3.Dot(Vector3.Normalize(forward), Vector3.Normalize(_playerPos)) >=0)
-                {
-                    RaycastHit hit;
-                    Vector3 direction = _mob.transform.position - _playerPos;
-                    Debug.Log(direction);
-                    if(!Physics.Raycast(_mob.transform.position, direction, out hit, LayerMask.GetMask("World Geometry")))
-                        _mob.ChangeState(SkeletonController.States.Pursue);
-                }
-            }
+            if (!Physics.CheckSphere(_mob.transform.position, _mob.MaxSightRange, LayerMask.GetMask("Player"))) return;
+            var forward = _mob.transform.forward;
+            var playerPos = _player.transform.position;
+            if (!(Vector3.Dot(Vector3.Normalize(forward), Vector3.Normalize(playerPos)) >= 0)) return;
+            RaycastHit hit;
+            var direction = Vector3.Normalize(playerPos - _mob.transform.position);
+            if (!Physics.Raycast(_mob.transform.position, direction, out hit) ||
+                !hit.collider.CompareTag("Player")) return;
+            Debug.Log("Changing to pursue");
+            _mob.ChangeState(SkeletonController.States.Pursue);
         }
 
         public void OnFixedUpdate()
         {
-            _mob.transform.Rotate(Vector3.up, Time.deltaTime*_mob.RotateSpeed);
+            _mob.transform.Rotate(Vector3.up, Time.deltaTime * _mob.RotateSpeed);
         }
     }
 }

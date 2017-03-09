@@ -1,9 +1,5 @@
-﻿using System.Diagnostics;
-using System.Runtime.InteropServices;
-using AI.MobControllers;
+﻿using AI.MobControllers;
 using UnityEngine;
-using Valve.VR;
-using Debug = UnityEngine.Debug;
 
 namespace AI.States.Skeleton
 {
@@ -31,6 +27,7 @@ namespace AI.States.Skeleton
             if (Vector3.Distance(_mob.Eyes.position, _player.transform.position) > _mob.AttackRange &&
                 !_mob.IsAttacking())
             {
+                Debug.Log("Changing to pursue");
                 _mob.ChangeState(SkeletonController.States.Pursue);
             }
             else
