@@ -30,7 +30,6 @@ namespace AI.States.Skeleton
             var direction = Vector3.Normalize(playerPos - _mob.transform.position);
             if (!Physics.Raycast(_mob.transform.position, direction, out hit) ||
                 !hit.collider.CompareTag("Player")) return;
-            Debug.Log("Changing to pursue");
             _mob.ChangeState(SkeletonController.States.Pursue);
         }
 
