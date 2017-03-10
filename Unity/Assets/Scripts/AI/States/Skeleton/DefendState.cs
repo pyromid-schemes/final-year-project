@@ -27,7 +27,6 @@ namespace AI.States.Skeleton
             if (Vector3.Distance(_mob.Eyes.position, _player.transform.position) > _mob.AttackRange &&
                 !_mob.IsAttacking())
             {
-                Debug.Log("Changing to pursue");
                 _mob.ChangeState(SkeletonController.States.Pursue);
             }
             else
