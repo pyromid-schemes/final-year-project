@@ -25,12 +25,10 @@ namespace AI.States.Skeleton
         {
             if (!PlayerInSight())
             {
-                Debug.Log("Changing to patrol");
                 _mob.ChangeState(SkeletonController.States.Patrol);
             }
             else if (Vector3.Distance(_mob.transform.position, _player.transform.position) < _mob.AttackRange)
             {
-                Debug.Log("Changing to defend");
                 _mob.ChangeState(SkeletonController.States.Defend);
             }
         }
