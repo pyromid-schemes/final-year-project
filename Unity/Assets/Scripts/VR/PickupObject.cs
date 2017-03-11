@@ -28,6 +28,7 @@ namespace VirtualReality
                 {
                     equipedObject.transform.SetParent(null);
                     equipedObject.GetComponent<Rigidbody>().isKinematic = false;
+                    equipedObject.GetComponent<Equippable>().UnequppedByPlayer();
                     TossObject(equipedObject.GetComponent<Rigidbody>());
                     equipedObject = null;
                 }
@@ -37,6 +38,7 @@ namespace VirtualReality
         // Called during collisions
         void OnTriggerStay(Collider col)
         {
+            // TODO: Check if i'm already holding something (Count children?)
             if (equipedObject == null)
             {
                 ManipulateObject(col);
@@ -48,14 +50,17 @@ namespace VirtualReality
             // Pickup
             if (device.GetTouch(SteamVR_Controller.ButtonMask.Trigger))
             {
+                // TODO: Check what i'm picking up is valid
                 col.attachedRigidbody.isKinematic = true;
                 col.gameObject.transform.SetParent(this.gameObject.transform);
-                if (col.CompareTag("Weapon"))
+                if (col.gameObject.GetComponent<Equippable>())
                 {
                     equipedObject = col.gameObject;
                     Transform test = itemMap.GetDefaultTransform(col.name);
                     equipedObject.transform.localRotation = test.rotation;
                     equipedObject.transform.localPosition = test.position;
+
+                    equipedObject.GetComponent<Equippable>().EquippedByPlayer(device);
                 }
             }
 

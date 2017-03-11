@@ -6,7 +6,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private int maxHealth;
     private int health;
 
-    private GameObject self;
+    //private SpriteRenderer DamageOverlay;
+
     private bool isDead;
 
     public PlayerHealth()
@@ -16,10 +17,11 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         isDead = false;
     }
 
-    void Start()
-    {
-        self = this.gameObject;
-    }
+    //void Start()
+    //{
+    //    DamageOverlay = gameObject.GetComponent<SpriteRenderer>();
+    //    FadeDamageOverlay();
+    //}
 
     void OnCollisionEnter()
     {
@@ -32,7 +34,14 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public void ApplyDamage(int damage)
     {
         health -= damage;
+        //DamageOverlay.color = Color.red;
+        Invoke("FadeDamageOverlay", 0.1f);
     }
+
+    //public void FadeDamageOverlay()
+    //{
+    //    DamageOverlay.color = Color.clear;
+    //}
 
     public bool HealthIsZero()
     {

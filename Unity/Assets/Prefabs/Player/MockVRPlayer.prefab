@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000011128083030}
   - 137: {fileID: 137000010617146922}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lance
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   - 92: {fileID: 92000010739169020}
   - 81: {fileID: 81000011266969778}
   - 114: {fileID: 114000012776638808}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000012814383788}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bone_008
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,7 +70,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000011362632404}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bone_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,7 +85,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000011587256402}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: IKLower_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000011534327730}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Helmet_Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,7 +115,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000012371261278}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bone_002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -130,7 +130,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000010863727472}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bone_001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,7 +145,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000011759146848}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -160,7 +160,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000012329630936}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: body_Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,7 +175,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000011710000508}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bone_003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -197,7 +197,7 @@ GameObject:
   - 114: {fileID: 114000010087592710}
   - 65: {fileID: 65000011421282270}
   - 114: {fileID: 114000013860191048}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MockVRPlayer
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -212,7 +212,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000012168488988}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bone_004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -228,7 +228,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000013655108656}
   - 137: {fileID: 137000013463721792}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -243,7 +243,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000014282895104}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LanceArmature
   m_TagString: Weapon
   m_Icon: {fileID: 0}
@@ -258,7 +258,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000010948908184}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bone_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -276,7 +276,7 @@ GameObject:
   - 65: {fileID: 65000013468596020}
   - 114: {fileID: 114000010792172100}
   - 54: {fileID: 54000014056678298}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bone_0
   m_TagString: Weapon
   m_Icon: {fileID: 0}
@@ -291,7 +291,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000012478996352}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: IKLower_R_001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -307,7 +307,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000013594571780}
   - 137: {fileID: 137000011512812588}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: melee_helmet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -322,7 +322,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000010900593610}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bone_006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -337,7 +337,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000011390341866}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: shield_Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -352,7 +352,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000010871165882}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bone_013
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -367,7 +367,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000013091497380}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bone_010
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -382,7 +382,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000013534815406}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bone_014
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -397,7 +397,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000011772623660}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bone_012
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -412,7 +412,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000013315300616}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: UpperLeftArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -427,7 +427,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000013062485544}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bone_009
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -443,7 +443,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000011892931008}
   - 137: {fileID: 137000010806588026}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -458,7 +458,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000011547866686}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bone_005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -473,7 +473,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000013709341194}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: UpperRightArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -556,7 +556,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011417705008}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.941189, y: 4.83, z: -3.22}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:

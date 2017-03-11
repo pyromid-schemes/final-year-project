@@ -191,6 +191,18 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114000012332729108, guid: 4b6e87ee2f14743f7b489a545e8bd0cd,
+        type: 2}
+      propertyPath: room2
+      value: 
+      objectReference: {fileID: 1000013196685198, guid: c265fde954cd77c42a1afce6752f1260,
+        type: 2}
+    - target: {fileID: 114000012332729108, guid: 4b6e87ee2f14743f7b489a545e8bd0cd,
+        type: 2}
+      propertyPath: room1
+      value: 
+      objectReference: {fileID: 1000013174641054, guid: 125e614facd6fe54bb0f461e5e12fb14,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4b6e87ee2f14743f7b489a545e8bd0cd, type: 2}
   m_IsPrefabParent: 0
