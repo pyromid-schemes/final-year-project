@@ -3583,7 +3583,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000012608398394}
   m_Layer: 8
-  m_Name: 2 - Corner Room
+  m_Name: 5 - Corner Room
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

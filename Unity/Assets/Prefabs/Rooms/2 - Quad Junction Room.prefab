@@ -3699,7 +3699,7 @@ GameObject:
   - 4: {fileID: 4000011192833914}
   - 114: {fileID: 114000011272317430}
   m_Layer: 8
-  m_Name: 5 - Quad Junction Room
+  m_Name: 2 - Quad Junction Room
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
