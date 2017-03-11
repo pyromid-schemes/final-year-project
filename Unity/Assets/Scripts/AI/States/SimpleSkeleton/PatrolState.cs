@@ -20,7 +20,7 @@ namespace AI.States.SimpleSkeleton
         public void OnUpdate()
         {
             RaycastHit hit;
-            for (float i = -(_mob.FOV/2); i < (_mob.FOV/2); i++)
+            for (float i = -(_mob.Fov/2); i < (_mob.Fov/2); i++)
             {
                 Vector3 direction = _mob.Eyes.forward - _mob.Eyes.right*i;
                 if (Physics.Raycast(_mob.Eyes.position, direction, out hit) && hit.collider.CompareTag("Player"))
