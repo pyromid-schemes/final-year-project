@@ -2,12 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62557117-eb6b-43bb-a2a2-b8a7c768dbaa" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/Prefabs/Rooms/2 - Corner Room.prefab" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/Prefabs/Rooms/2 - Corner Room.prefab.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/Prefabs/Rooms/5 - Quad Junction Room.prefab" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/Prefabs/Rooms/5 - Quad Junction Room.prefab.meta" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/ScriptObjects/PrefabMap.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/ScriptObjects/PrefabMap.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Scripts/World/PrefabMap.cs" afterPath="$PROJECT_DIR$/Assets/Scripts/World/PrefabMap.cs" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Assets/Scripts/World/Torch.cs" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Assets/Scripts/World/Torch.cs.meta" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.idea.Unity/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/.idea.Unity/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Rooms/1 - One Door Room.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Rooms/1 - One Door Room.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Rooms/2 - Quad Junction Room.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Rooms/2 - Quad Junction Room.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Rooms/3 - Corridor Room.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Rooms/3 - Corridor Room.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Rooms/4 - T Junction Room.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Rooms/4 - T Junction Room.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Rooms/5 - Corner Room.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Rooms/5 - Corner Room.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Rooms/Wall Torch.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Rooms/Wall Torch.prefab" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -99,11 +102,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PrefabMap.cs" pinned="false" current-in-tab="true">
+      <file leaf-file-name="PrefabMap.cs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/World/PrefabMap.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="10" column="32" lean-forward="false" selection-start-line="10" selection-start-column="32" selection-end-line="10" selection-end-column="32" />
+            <state relative-caret-position="480">
+              <caret line="30" column="9" lean-forward="false" selection-start-line="30" selection-start-column="9" selection-end-line="30" selection-end-column="9" />
               <folding>
                 <marker date="1489244247000" expanded="true" signature="6:66" ph="..." />
                 <marker date="1489244247000" expanded="true" signature="83:845" ph="{...}" />
@@ -115,25 +118,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SkeletonHealth.cs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Assets/Scripts/Combat/SkeletonHealth.cs">
+      <file leaf-file-name="Torch.cs" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Assets/Scripts/World/Torch.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1040">
-              <caret line="65" column="107" lean-forward="false" selection-start-line="65" selection-start-column="21" selection-end-line="65" selection-end-column="107" />
+            <state relative-caret-position="272">
+              <caret line="17" column="30" lean-forward="false" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
               <folding>
-                <marker date="1488878934000" expanded="true" signature="6:44" ph="..." />
-                <marker date="1488878934000" expanded="true" signature="103:1238" ph="{...}" />
-                <marker date="1488878934000" expanded="true" signature="236:312" ph="{...}" />
-                <marker date="1488878934000" expanded="true" signature="330:374" ph="{...}" />
-                <marker date="1488878934000" expanded="true" signature="403:491" ph="{...}" />
-                <marker date="1488878934000" expanded="true" signature="437:485" ph="{...}" />
-                <marker date="1488878934000" expanded="true" signature="532:570" ph="{...}" />
-                <marker date="1488878934000" expanded="true" signature="602:642" ph="{...}" />
-                <marker date="1488878934000" expanded="true" signature="674:732" ph="{...}" />
-                <marker date="1488878934000" expanded="true" signature="758:793" ph="{...}" />
-                <marker date="1488878934000" expanded="true" signature="818:841" ph="{...}" />
-                <marker date="1488878934000" expanded="true" signature="869:895" ph="{...}" />
-                <marker date="1488878934000" expanded="true" signature="1013:1235" ph="{...}" />
+                <marker date="1489247634000" expanded="true" signature="6:67" ph="..." />
+                <marker date="1489247634000" expanded="true" signature="84:1059" ph="{...}" />
+                <marker date="1489247634000" expanded="true" signature="125:1057" ph="{...}" />
+                <marker date="1489247634000" expanded="true" signature="279:510" ph="{...}" />
+                <marker date="1489247634000" expanded="true" signature="369:425" ph="{...}" />
+                <marker date="1489247634000" expanded="true" signature="425:500" ph="{...}" />
+                <marker date="1489247634000" expanded="true" signature="552:1051" ph="{...}" />
+                <marker date="1489247634000" expanded="true" signature="614:861" ph="{...}" />
+                <marker date="1489247634000" expanded="true" signature="672:740" ph="{...}" />
+                <marker date="1489247634000" expanded="true" signature="780:847" ph="{...}" />
+                <marker date="1489247634000" expanded="true" signature="915:1041" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -156,6 +157,7 @@
         <option value="$USER_HOME$/.local/share/JetBrains/Shared/v08/DecompilerCache/decompiler/DB76E6F9-BE99-4F4E-BE2A-8DEFA259A808/3b/c858bd6c/Mathf.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/World/RoomWithDoors.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/World/PrefabMap.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/World/Torch.cs" />
       </list>
     </option>
   </component>
@@ -328,12 +330,12 @@
       <workItem from="1489051011438" duration="204000" />
       <workItem from="1489051553367" duration="1327000" />
       <workItem from="1489069607052" duration="3014000" />
-      <workItem from="1489243429497" duration="604000" />
+      <workItem from="1489243429497" duration="2843000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26257000" />
+    <option name="totallyTimeSpent" value="28496000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -380,20 +382,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/VR/Movement.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="795">
-          <caret line="53" column="38" lean-forward="false" selection-start-line="53" selection-start-column="38" selection-end-line="53" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/VR/MovementMethods/MovementUtil.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="32" lean-forward="false" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/World/RoomWithDoors.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1935">
@@ -1091,14 +1079,42 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/World/PrefabMap.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="10" column="32" lean-forward="false" selection-start-line="10" selection-start-column="32" selection-end-line="10" selection-end-column="32" />
+        <state relative-caret-position="480">
+          <caret line="30" column="9" lean-forward="false" selection-start-line="30" selection-start-column="9" selection-end-line="30" selection-end-column="9" />
           <folding>
             <marker date="1489244247000" expanded="true" signature="6:66" ph="..." />
             <marker date="1489244247000" expanded="true" signature="83:845" ph="{...}" />
             <marker date="1489244247000" expanded="true" signature="125:843" ph="{...}" />
             <marker date="1489244247000" expanded="true" signature="421:707" ph="{...}" />
             <marker date="1489244247000" expanded="true" signature="755:840" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.local/share/JetBrains/Shared/v08/DecompilerCache/decompiler/DB76E6F9-BE99-4F4E-BE2A-8DEFA259A808/7e/77fc8681/Transform.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="448">
+          <caret line="837" column="47" lean-forward="true" selection-start-line="837" selection-start-column="47" selection-end-line="837" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/World/Torch.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="17" column="30" lean-forward="false" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
+          <folding>
+            <marker date="1489247634000" expanded="true" signature="6:67" ph="..." />
+            <marker date="1489247634000" expanded="true" signature="84:1059" ph="{...}" />
+            <marker date="1489247634000" expanded="true" signature="125:1057" ph="{...}" />
+            <marker date="1489247634000" expanded="true" signature="279:510" ph="{...}" />
+            <marker date="1489247634000" expanded="true" signature="369:425" ph="{...}" />
+            <marker date="1489247634000" expanded="true" signature="425:500" ph="{...}" />
+            <marker date="1489247634000" expanded="true" signature="552:1051" ph="{...}" />
+            <marker date="1489247634000" expanded="true" signature="614:861" ph="{...}" />
+            <marker date="1489247634000" expanded="true" signature="672:740" ph="{...}" />
+            <marker date="1489247634000" expanded="true" signature="780:847" ph="{...}" />
+            <marker date="1489247634000" expanded="true" signature="915:1041" ph="{...}" />
           </folding>
         </state>
       </provider>

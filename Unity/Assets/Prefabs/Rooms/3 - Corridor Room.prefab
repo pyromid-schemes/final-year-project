@@ -614,6 +614,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000013609479496}
+  - 114: {fileID: 114000013826591986}
   m_Layer: 8
   m_Name: 3 - Corridor Room
   m_TagString: Untagged
@@ -2054,6 +2055,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000013374597416}
+  - 114: {fileID: 114000013058647182}
   m_Layer: 0
   m_Name: Wall Torch
   m_TagString: Untagged
@@ -2139,7 +2141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1000012077448446
 GameObject:
   m_ObjectHideFlags: 1
@@ -2798,7 +2800,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1000012751808722
 GameObject:
   m_ObjectHideFlags: 1
@@ -2967,7 +2969,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1000012892381812
 GameObject:
   m_ObjectHideFlags: 1
@@ -3229,7 +3231,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1000013084524064
 GameObject:
   m_ObjectHideFlags: 1
@@ -4193,6 +4195,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000011032888312}
+  - 114: {fileID: 114000013653321934}
   m_Layer: 0
   m_Name: Wall Torch (1)
   m_TagString: Untagged
@@ -10563,6 +10566,41 @@ Light:
   m_BounceIntensity: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114000013058647182
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011937272464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85034cb3e91d469b838522865211845d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114000013653321934
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013940520296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85034cb3e91d469b838522865211845d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114000013826591986
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010536289390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ead15e35d3524e939fbc7e651fb766ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorPositions: 0000000001000000
+  doorObject: {fileID: 1000011570427702, guid: cc3437d279261a842892ecfa764e11b0, type: 2}
 --- !u!198 &198000011645438472
 ParticleSystem:
   m_ObjectHideFlags: 1

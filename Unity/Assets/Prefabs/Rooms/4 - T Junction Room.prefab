@@ -809,6 +809,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000014000526158}
+  - 114: {fileID: 114000011160853754}
   m_Layer: 0
   m_Name: Wall Torch
   m_TagString: Untagged
@@ -907,7 +908,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1000010862608942
 GameObject:
   m_ObjectHideFlags: 1
@@ -1240,7 +1241,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1000011124344914
 GameObject:
   m_ObjectHideFlags: 1
@@ -1915,6 +1916,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000013967373306}
+  - 114: {fileID: 114000011711539082}
   m_Layer: 8
   m_Name: 4 - T Junction Room
   m_TagString: Untagged
@@ -10697,6 +10699,30 @@ Light:
   m_BounceIntensity: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114000011160853754
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010791194458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85034cb3e91d469b838522865211845d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114000011711539082
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011626574896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ead15e35d3524e939fbc7e651fb766ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorPositions: 000000000100000002000000
+  doorObject: {fileID: 1000011570427702, guid: cc3437d279261a842892ecfa764e11b0, type: 2}
 --- !u!198 &198000012052175226
 ParticleSystem:
   m_ObjectHideFlags: 1
