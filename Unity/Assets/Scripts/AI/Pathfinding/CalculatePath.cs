@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace AI.Pathfinding
 {
@@ -28,8 +29,8 @@ namespace AI.Pathfinding
             _closedList = new List<PathfindingNode>();
             var closestStartingNode = _grid.GetClosestNode(startingX, startingZ);
             var closestDestinationNode = _grid.GetClosestNode(destinationX, destinationZ);
-            _startingNode = new PathfindingNode(closestStartingNode.x, closestStartingNode.z);
-            _destinationNode = new PathfindingNode(closestDestinationNode.x, closestDestinationNode.z);
+            _startingNode = new PathfindingNode(closestStartingNode.X, closestStartingNode.Z);
+            _destinationNode = new PathfindingNode(closestDestinationNode.X, closestDestinationNode.Z);
             _currentNode = _startingNode;
             if (_currentNode.Equals(_destinationNode))
             {
@@ -52,19 +53,19 @@ namespace AI.Pathfinding
             List<PathfindingNode> possibleNodes = new List<PathfindingNode>
             {
                 // Up down left right
-                new PathfindingNode(_currentNode, _currentNode.X - Grid._spaceBetween, _currentNode.Z),
-                new PathfindingNode(_currentNode, _currentNode.X + Grid._spaceBetween, _currentNode.Z),
-                new PathfindingNode(_currentNode, _currentNode.X, _currentNode.Z - Grid._spaceBetween),
-                new PathfindingNode(_currentNode, _currentNode.X, _currentNode.Z + Grid._spaceBetween),
+                new PathfindingNode(_currentNode, _currentNode.X - Grid.SpaceBetween, _currentNode.Z),
+                new PathfindingNode(_currentNode, _currentNode.X + Grid.SpaceBetween, _currentNode.Z),
+                new PathfindingNode(_currentNode, _currentNode.X, _currentNode.Z - Grid.SpaceBetween),
+                new PathfindingNode(_currentNode, _currentNode.X, _currentNode.Z + Grid.SpaceBetween),
                 // Diagonals
-                new PathfindingNode(_currentNode, _currentNode.X - Grid._spaceBetween,
-                    _currentNode.Z + Grid._spaceBetween, 1.41f),
-                new PathfindingNode(_currentNode, _currentNode.X + Grid._spaceBetween,
-                    _currentNode.Z + Grid._spaceBetween, 1.41f),
-                new PathfindingNode(_currentNode, _currentNode.X - Grid._spaceBetween,
-                    _currentNode.Z - Grid._spaceBetween, 1.41f),
-                new PathfindingNode(_currentNode, _currentNode.X + Grid._spaceBetween,
-                    _currentNode.Z - Grid._spaceBetween, 1.41f)
+                new PathfindingNode(_currentNode, _currentNode.X - Grid.SpaceBetween,
+                    _currentNode.Z + Grid.SpaceBetween, 1.41f),
+                new PathfindingNode(_currentNode, _currentNode.X + Grid.SpaceBetween,
+                    _currentNode.Z + Grid.SpaceBetween, 1.41f),
+                new PathfindingNode(_currentNode, _currentNode.X - Grid.SpaceBetween,
+                    _currentNode.Z - Grid.SpaceBetween, 1.41f),
+                new PathfindingNode(_currentNode, _currentNode.X + Grid.SpaceBetween,
+                    _currentNode.Z - Grid.SpaceBetween, 1.41f)
             };
 
             foreach (var possibleNode in possibleNodes)
@@ -87,8 +88,9 @@ namespace AI.Pathfinding
 
         private bool NodeIsNotWalkable(PathfindingNode possibleNode)
         {
-            return possibleNode.Equals(_startingNode) || !_grid.IsWalkable(possibleNode.X, possibleNode.Z) ||
+            var ret = possibleNode.Equals(_startingNode) || !_grid.IsWalkable(possibleNode.X, possibleNode.Z) ||
                    NodeInClosedList(possibleNode);
+            return ret;
         }
 
         private void GoToNextNode()

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using AI.Pathfinding;
 using AI.States;
 using AI.States.SimpleSkeleton;
@@ -9,6 +8,7 @@ namespace AI.MobControllers
 {
     class SimpleSkeletonController : SimpleMobController
     {
+
         [HideInInspector]
         public enum States
         {
@@ -16,6 +16,11 @@ namespace AI.MobControllers
             Pursue,
             Defend,
             Attack
+        }
+
+        public override List<PathfindingNode> GetOccupiedSpaces()
+        {
+            return null;
         }
 
         protected override void InitialiseStates()

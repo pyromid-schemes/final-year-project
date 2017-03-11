@@ -6,8 +6,6 @@ namespace Test.AI.Pathfinding
 {
     class GridManagerTest
     {
-
-        
         private GridManager _gridManager;
         private List<Node> _expectedNodes;
         private float _currentX;
@@ -17,7 +15,7 @@ namespace Test.AI.Pathfinding
         {
             Node node = new Node(x, z);
             _expectedNodes.Add(node);
-            _gridManager.AddNode(node.x, node.z);
+            _gridManager.AddNode(node.X, node.Z);
         }
 
         private void AssertNodesCorrect()
@@ -32,7 +30,7 @@ namespace Test.AI.Pathfinding
         {
             foreach (Node node in _expectedNodes)
             {
-                Assert.True(_gridManager.IsWalkable(node.x, node.z));
+                Assert.True(_gridManager.IsWalkable(node.X, node.Z));
             }
         }
 
@@ -43,22 +41,22 @@ namespace Test.AI.Pathfinding
 
         private void AssertClosestNode(Node currentNode, Node expectedNode)
         {
-            Node actualNode = _gridManager.GetClosestNode(currentNode.x, currentNode.z);
-            Assert.AreEqual(expectedNode.x, actualNode.x);
-            Assert.AreEqual(expectedNode.z, actualNode.z);
+            Node actualNode = _gridManager.GetClosestNode(currentNode.X, currentNode.Z);
+            Assert.AreEqual(expectedNode.X, actualNode.X);
+            Assert.AreEqual(expectedNode.Z, actualNode.Z);
         }
 
         private void AssertNodeInGridManager(Node expectedNode)
         {
             List<float> zValues;
-            Assert.True(_gridManager.GetNodes().TryGetValue(expectedNode.x, out zValues));
-            Assert.True(zValues.Contains(expectedNode.z));
+            Assert.True(_gridManager.GetNodes().TryGetValue(expectedNode.X, out zValues));
+            Assert.True(zValues.Contains(expectedNode.Z));
         }
 
         [SetUp]
         public void SetUp()
         {
-            _gridManager = new GridManager();
+            _gridManager = new GridManager(new GridFake());
             _expectedNodes = new List<Node>();
         }
 
@@ -114,7 +112,7 @@ namespace Test.AI.Pathfinding
         public void givenNode_whenGettingClosestNode_returnNode()
         {
             Node closestNode = new Node(1.5f, 1.5f);
-            _gridManager.AddNode(closestNode.x, closestNode.z);
+            _gridManager.AddNode(closestNode.X, closestNode.Z);
             AssertClosestNode(closestNode, closestNode);
         }
 
@@ -123,7 +121,7 @@ namespace Test.AI.Pathfinding
         {
             Node closestNode = new Node(1.5f, 1.5f);
             Node currentNode = new Node(2f, 2f);
-            _gridManager.AddNode(closestNode.x, closestNode.z);
+            _gridManager.AddNode(closestNode.X, closestNode.Z);
             _gridManager.AddNode(-10f, -10f);
             AssertClosestNode(currentNode, closestNode);
         }

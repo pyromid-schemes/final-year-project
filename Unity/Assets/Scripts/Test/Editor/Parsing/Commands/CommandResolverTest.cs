@@ -1,8 +1,10 @@
 ﻿using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using Parsing.Commands;
 using Newtonsoft.Json;
 using Test.Builders;
+using World;
 
 namespace Test.Parsing.Commands
 {
@@ -111,7 +113,12 @@ namespace Test.Parsing.Commands
 				Assert.AreEqual (spawnMobExpectedId, id);
 			}
 
-			public void SetExpectedForSpawnMobCall (string objectId, float xPos, float zPos, int id)
+		    public List<PlacedMob> GetMobs()
+		    {
+		        return null;
+		    }
+
+		    public void SetExpectedForSpawnMobCall (string objectId, float xPos, float zPos, int id)
 			{
 				spawnMobExpectedObjectId = objectId;
 				spawnMobExpectedXPos = xPos;

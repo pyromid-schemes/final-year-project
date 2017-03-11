@@ -1,4 +1,6 @@
-﻿using AI.States;
+﻿using System.Collections.Generic;
+using AI.Pathfinding;
+using AI.States;
 using AI.States.Skeleton;
 using UnityEngine;
 
@@ -6,6 +8,8 @@ namespace AI.MobControllers
 {
     class SkeletonController : SimpleMobController
     {
+        private States _currentStateID;
+
         [HideInInspector]
         public enum States
         {
@@ -14,17 +18,25 @@ namespace AI.MobControllers
             Defend
         }
 
+        public override List<PathfindingNode> GetOccupiedSpaces()
+        {
+            return IsState(States.Pursue)
+                ? ((PursueState) StateManager.GetCurrentState()).GetPath()
+                : new List<PathfindingNode> {new PathfindingNode(transform.position.x, transform.position.z)};
+        }
+
         protected override void InitialiseStates()
         {
             StateManager = new StateManager();
 
             // Add states to manager
-            StateManager.AddState((int)States.Patrol, new PatrolState(this));
-            StateManager.AddState((int)States.Pursue, new PursueState(this));
-            StateManager.AddState((int)States.Defend, new DefendState(this));
+            StateManager.AddState((int) States.Patrol, new PatrolState(this));
+            StateManager.AddState((int) States.Pursue, new PursueState(this));
+            StateManager.AddState((int) States.Defend, new DefendState(this));
 
             // Set starting state
-            StateManager.SetCurrentState((int)States.Patrol);
+            StateManager.SetCurrentState((int) States.Patrol);
+            _currentStateID = States.Patrol;
             StateManager.GetCurrentState().OnEnter();
 
             // Setup transitions
@@ -33,18 +45,18 @@ namespace AI.MobControllers
 
         private void CreateStateTransitions()
         {
-            StateManager.AddTransition((int)States.Patrol, (int)States.Pursue);
+            StateManager.AddTransition((int) States.Patrol, (int) States.Pursue);
 
-            StateManager.AddTransition((int)States.Pursue, (int)States.Patrol);
-            StateManager.AddTransition((int)States.Pursue, (int)States.Defend);
+            StateManager.AddTransition((int) States.Pursue, (int) States.Patrol);
+            StateManager.AddTransition((int) States.Pursue, (int) States.Defend);
 
-            StateManager.AddTransition((int)States.Defend, (int)States.Pursue);
-
+            StateManager.AddTransition((int) States.Defend, (int) States.Pursue);
         }
 
         public void ChangeState(States nextState)
         {
-            StateManager.ChangeToState((int)nextState);
+            StateManager.ChangeToState((int) nextState);
+            _currentStateID = nextState;
         }
 
         // I think this could be done cleaner @DanC
@@ -71,6 +83,12 @@ namespace AI.MobControllers
         {
             SetWalking(false);
             SetDefend(true);
+        }
+
+
+        public bool IsState(States state)
+        {
+            return _currentStateID.Equals(state);
         }
 
         public bool IsAttacking()

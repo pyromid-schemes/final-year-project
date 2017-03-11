@@ -1,4 +1,5 @@
-﻿using AI.Pathfinding;
+﻿using System.Collections.Generic;
+using AI.Pathfinding;
 using AI.States;
 using AI.States.PathfindingTest;
 
@@ -8,6 +9,11 @@ namespace AI.MobControllers
     {
 
         // Use this for initialization
+        public override List<PathfindingNode> GetOccupiedSpaces()
+        {
+            return null;
+        }
+
         protected override void InitialiseStates()
         {
             StateManager = new StateManager();

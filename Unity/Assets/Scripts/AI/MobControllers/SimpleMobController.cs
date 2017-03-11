@@ -1,4 +1,5 @@
-﻿using AI.Pathfinding;
+﻿using System.Collections.Generic;
+using AI.Pathfinding;
 using AI.States;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ namespace AI.MobControllers
         protected StateManager StateManager;
         protected Animator Anim;
         [HideInInspector] public Grid Grid;
-
+        [HideInInspector] public Sword Sword;
         public Transform Eyes;
         public float AttackCooldown = 2f;
         public float AttackRange = 2f;
@@ -17,12 +18,16 @@ namespace AI.MobControllers
         public float RotateSpeed = 10f;
         public float Fov = 180f; // Not in use for now i don't think ?
 
+        public abstract List<PathfindingNode> GetOccupiedSpaces();
+
         protected abstract void InitialiseStates();
 
         void Start()
         {
             Anim = GetComponent<Animator>();
             Grid = GameObject.Find("Grid").GetComponent<Grid>();
+            Sword = GetComponentInChildren<Sword>();
+            Sword.setWeaponIsActive(false);
             InitialiseStates();
         }
 
@@ -36,5 +41,6 @@ namespace AI.MobControllers
         {
             StateManager.GetCurrentState().OnFixedUpdate();
         }
+
     }
 }
