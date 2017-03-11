@@ -15,7 +15,7 @@ namespace AI.MobControllers
         public float AttackRange = 2f;
         public float MaxSightRange = 10f;
         public float RotateSpeed = 10f;
-        public float FOV = 180f;
+        public float Fov = 180f; // Not in use for now i don't think ?
 
         protected abstract void InitialiseStates();
 
