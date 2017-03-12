@@ -140,8 +140,8 @@ namespace Test.AI.Pathfinding
 
             var expectedPath = new List<PathfindingNode>
             {
-                new PathfindingNode(0.5f, 0),
-                new PathfindingNode(1f, 0)
+//                new PathfindingNode(0.5f, 0),
+//                new PathfindingNode(1f, 0)
             };
 
             AssertPathEquals(expectedPath);
@@ -180,8 +180,8 @@ namespace Test.AI.Pathfinding
 
             var expectedPath = new List<PathfindingNode>
             {
-                new PathfindingNode(0.5f, 0),
-                new PathfindingNode(1f, 0)
+//                new PathfindingNode(0.5f, 0),
+//                new PathfindingNode(1f, 0)
             };
 
             AssertPathEquals(expectedPath);

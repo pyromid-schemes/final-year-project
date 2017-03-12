@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
 
 namespace AI.Pathfinding
 {
     public class CalculatePath
     {
         private readonly GridManager _grid;
-        private List<PathfindingNode> _openList;
-        private List<PathfindingNode> _closedList;
+        private Dictionary<int, PathfindingNode> _openList;
+        private readonly HashSet<PathfindingNode> _closedList;
+
         private bool _atDestination;
         private PathfindingNode _startingNode;
         private PathfindingNode _destinationNode;
@@ -18,15 +17,15 @@ namespace AI.Pathfinding
         public CalculatePath(GridManager grid)
         {
             _grid = grid;
-            _openList = new List<PathfindingNode>();
-            _closedList = new List<PathfindingNode>();
+            _openList = new Dictionary<int, PathfindingNode>();
+            _closedList = new HashSet<PathfindingNode>();
         }
 
         public List<PathfindingNode> GetPathToDestination(float startingX, float startingZ, float destinationX,
             float destinationZ)
         {
-            _openList = new List<PathfindingNode>();
-            _closedList = new List<PathfindingNode>();
+            _openList.Clear();
+            _closedList.Clear();
             var closestStartingNode = _grid.GetClosestNode(startingX, startingZ);
             var closestDestinationNode = _grid.GetClosestNode(destinationX, destinationZ);
             _startingNode = new PathfindingNode(closestStartingNode.X, closestStartingNode.Z);
@@ -76,21 +75,22 @@ namespace AI.Pathfinding
                 if (existingOpenNode != null)
                 {
                     if (!(possibleNode.F < existingOpenNode.F)) continue;
-                    _openList.Remove(existingOpenNode);
-                    _openList.Add(possibleNode);
+                    _openList.Remove(existingOpenNode.GetHashCode());
+                    _openList.Add(possibleNode.GetHashCode(), possibleNode);
                 }
                 else
                 {
-                    _openList.Add(possibleNode);
+                    _openList.Add(possibleNode.GetHashCode(), possibleNode);
                 }
             }
         }
 
         private bool NodeIsNotWalkable(PathfindingNode possibleNode)
         {
-            var ret = possibleNode.Equals(_startingNode) || !_grid.IsWalkable(possibleNode.X, possibleNode.Z) ||
-                   NodeInClosedList(possibleNode);
-            return ret;
+            var isStart = possibleNode.Equals(_startingNode);
+            var isWalkable = !_grid.IsWalkable(possibleNode.X, possibleNode.Z);
+            var nodeInClosedList = NodeInClosedList(possibleNode);
+            return isStart || isWalkable || nodeInClosedList;
         }
 
         private void GoToNextNode()
@@ -100,53 +100,61 @@ namespace AI.Pathfinding
                 _atDestination = true;
                 return;
             }
-            var closest = _openList[0];
-            foreach (var node in _openList)
+            PathfindingNode closest = null;
+            foreach (var node in _openList.Values)
             {
-                if (node.F < closest.F)
-                {
+                if (closest == null)
                     closest = node;
-                }
+                else if (node.F < closest.F)
+                    closest = node;
             }
-
-            _openList.Remove(closest);
+            _openList.Remove(closest.GetHashCode());
             _closedList.Add(closest);
             _currentNode = closest;
         }
 
         private bool NodeInClosedList(PathfindingNode node)
         {
-            return _closedList.Any(node.Equals);
+            return _closedList.Contains(node);
         }
 
         private PathfindingNode FindNodeInOpenList(PathfindingNode node)
         {
-            return _openList.FirstOrDefault(node.Equals);
+            PathfindingNode ret = null;
+            if (_openList.ContainsKey(node.GetHashCode()))
+            {
+                ret = _openList[node.GetHashCode()];
+            }
+            return ret;
         }
 
         // I mean this is really just an approximation but what can you do, eh
         // Pythagoras comes to save the day once again
-        private PathfindingNode GetNodeClosestToDestination()
-        {
-            var cloestDistance = float.PositiveInfinity;
-            var closestNode = _currentNode;
-            foreach (var node in _closedList)
-            {
-                var xDistance = Math.Abs(_destinationNode.X - node.X);
-                var zDistance = Math.Abs(_destinationNode.Z - node.Z);
-                var distance = xDistance * xDistance + zDistance * zDistance;
-                if (!(distance < cloestDistance)) continue;
-                cloestDistance = distance;
-                closestNode = node;
-            }
-            return closestNode;
-        }
+//        private PathfindingNode GetNodeClosestToDestination()
+//        {
+//            var cloestDistance = float.PositiveInfinity;
+//            var closestNode = _currentNode;
+//            var nodeRegex = new Regex(@"-?(\d+\.?\d*):-?(\d+\.?\d*)");
+//            foreach (var node in _closedList)
+//            {
+//                var groups = nodeRegex.Matches(node)[0].Groups;
+//                var x = float.Parse(groups[1].ToString());
+//                var z = float.Parse(groups[2].ToString());
+//                var xDistance = Math.Abs(_destinationNode.X - x);
+//                var zDistance = Math.Abs(_destinationNode.Z - z);
+//                var distance = xDistance * xDistance + zDistance * zDistance;
+//                if (!(distance < cloestDistance)) continue;
+//                cloestDistance = distance;
+//                closestNode = new PathfindingNode(x, z);
+//            }
+//            return closestNode;
+//        }
 
         private List<PathfindingNode> GetPath()
         {
             if (!_currentNode.Equals(_destinationNode))
             {
-                _currentNode = GetNodeClosestToDestination();
+                return new List<PathfindingNode>();
             }
             var path = new List<PathfindingNode>();
             while (_currentNode.Parent != null)

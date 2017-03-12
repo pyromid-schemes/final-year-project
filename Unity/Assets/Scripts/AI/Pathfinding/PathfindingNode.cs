@@ -1,10 +1,12 @@
 ﻿using System;
-
+using Valve.VR;
 namespace AI.Pathfinding
 {
     public class PathfindingNode : IEquatable<PathfindingNode>
     {
-        public float X, Z, G, H = 0;
+        public readonly float X;
+        public readonly float Z;
+        public float G, H = 0;
 
         public float F
         {
@@ -37,9 +39,20 @@ namespace AI.Pathfinding
             G = Parent.G + g;
         }
 
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 17;
+                hash = hash * 23 + X.GetHashCode();
+                hash = hash * 23 + Z.GetHashCode();
+                return hash;
+            }
+        }
+
         public bool Equals(PathfindingNode other)
         {
-            return other != null && ((Math.Abs(X - other.X) < 0.1f) && (Math.Abs(Z - other.Z) < 0.1f));
+            return other != null && Math.Abs(X - other.X) < 0.1f && Math.Abs(Z - other.Z) < 0.1f;
         }
     }
 }
