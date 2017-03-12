@@ -5,12 +5,22 @@ public class Equippable : MonoBehaviour {
 
     SteamVR_Controller.Device HoldingHand = null;
 
-    void OnCollisionStay(Collision col)
+    void OnCollisionEnter(Collision col)
     {
         CheckIfPlayerCollision(col.collider);
     }
 
-    void OnTriggerStay(Collider other)
+    void OnCollisionExit(Collision col)
+    {
+        CheckIfPlayerCollision(col.collider);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        CheckIfPlayerCollision(other);
+    }
+
+    void OnTriggerExit(Collider other)
     {
         CheckIfPlayerCollision(other);
     }

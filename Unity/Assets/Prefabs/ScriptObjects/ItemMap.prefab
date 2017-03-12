@@ -53,5 +53,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SwordPrefab: {fileID: 1000010951088904, guid: e36d60ab750f178419f3f63cb3acae38,
     type: 2}
+  ShieldPrefab: {fileID: 1000010169171540, guid: 57453c9b6c973084da28e594bb9b8b1a,
+    type: 2}
+  DaggerPrefab: {fileID: 0}
   LancePrefab: {fileID: 1000012642024732, guid: 364adb13db829a14db70757efdeff4d3,
     type: 2}
+  MedievalSwordPrefab: {fileID: 0}
