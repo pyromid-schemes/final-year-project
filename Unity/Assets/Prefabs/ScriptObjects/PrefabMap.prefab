@@ -34,7 +34,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012816911610}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 6.067869, y: -38.10664, z: 17.322376}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -51,8 +51,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f5fc54fe35254e369a5e25c69e4946a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  room1: {fileID: 1000014027449218, guid: e016e043fda793b4ea580ba672a48feb, type: 2}
-  room2: {fileID: 1000011255516834, guid: 33a097aa69713004a9f03030b8e4b4a6, type: 2}
+  room1: {fileID: 1000013174641054, guid: 125e614facd6fe54bb0f461e5e12fb14, type: 2}
+  room2: {fileID: 1000013196685198, guid: c265fde954cd77c42a1afce6752f1260, type: 2}
+  room3: {fileID: 1000010536289390, guid: cff187e6706996e4a9dc2626cc6f889d, type: 2}
+  room4: {fileID: 1000011626574896, guid: d48572cc0b134b14096a71ad34d493d1, type: 2}
+  room5: {fileID: 1000013500985502, guid: 8b28289101321f145a881e4c58530109, type: 2}
   mobKnight: {fileID: 1000012939565528, guid: cb510df9f35b420469fc36e6eac0db8a, type: 2}
   mobSkellyCheng: {fileID: 1000011574630884, guid: 17e620fb915f6bc4481512f9516cca15,
     type: 2}
