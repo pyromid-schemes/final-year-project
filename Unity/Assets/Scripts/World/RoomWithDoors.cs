@@ -37,7 +37,7 @@ namespace World
         private PotentialPosition ResolveDoorPosition(DoorPosition doorPosition)
         {
             Vector3 position = transform.position;
-            Vector3 rotation = transform.eulerAngles;
+            Vector3 rotation = Vector3.zero;
             Vector3 direction = Vector3.zero;
 
             switch (doorPosition)
@@ -49,19 +49,19 @@ namespace World
 
                 case DoorPosition.Down:
                     position += new Vector3(0, 0, -4.5f);
-                    rotation += new Vector3(0, 180, 0);
+                    rotation = new Vector3(0, 180, 0);
                     direction = Vector3.back;
                     break;
 
                 case DoorPosition.Left:
                     position += new Vector3(-4.5f, 0, 0);
-                    rotation += new Vector3(0, 270, 0);
+                    rotation = new Vector3(0, 270, 0);
                     direction = Vector3.left;
                     break;
 
                 case DoorPosition.Right:
                     position += new Vector3(4.5f, 0, 0);
-                    rotation += new Vector3(0, 90, 0);
+                    rotation = new Vector3(0, 90, 0);
                     direction = Vector3.right;
                     break;
             }
