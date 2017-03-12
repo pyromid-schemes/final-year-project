@@ -22,7 +22,7 @@ GameObject:
   - 114: {fileID: 114000012586891926}
   m_Layer: 0
   m_Name: ItemMap
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -51,7 +51,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8034b6de2262d974dad65d0c8844e51a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swordPrefab: {fileID: 1000012189939056, guid: b78a8e89891b2b64fa583be160f4672f,
+  SwordPrefab: {fileID: 1000010951088904, guid: e36d60ab750f178419f3f63cb3acae38,
     type: 2}
-  lancePrefab: {fileID: 1000012642024732, guid: 364adb13db829a14db70757efdeff4d3,
+  ShieldPrefab: {fileID: 1000010169171540, guid: 57453c9b6c973084da28e594bb9b8b1a,
     type: 2}
+  DaggerPrefab: {fileID: 0}
+  LancePrefab: {fileID: 1000012642024732, guid: 364adb13db829a14db70757efdeff4d3,
+    type: 2}
+  MedievalSwordPrefab: {fileID: 0}
