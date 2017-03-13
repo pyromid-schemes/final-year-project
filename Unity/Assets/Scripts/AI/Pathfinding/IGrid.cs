@@ -4,6 +4,6 @@ namespace AI.Pathfinding
 {
     public interface IGrid
     {
-        SortedDictionary<float, List<float>> GetMobPositions();
+        Dictionary<int, HashSet<PathfindingNode>> GetMobPositions();
     }
 }

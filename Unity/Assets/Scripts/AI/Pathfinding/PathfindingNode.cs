@@ -1,5 +1,4 @@
 ﻿using System;
-using Valve.VR;
 namespace AI.Pathfinding
 {
     public class PathfindingNode : IEquatable<PathfindingNode>

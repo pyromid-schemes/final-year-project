@@ -18,7 +18,7 @@ namespace AI.MobControllers
             Attack
         }
 
-        public override List<PathfindingNode> GetOccupiedSpaces()
+        public override HashSet<PathfindingNode> GetOccupiedSpaces()
         {
             return null;
         }

@@ -13,38 +13,24 @@ namespace AI.Pathfinding
         public static float SpaceBetween = 0.5f;
         public bool DebugMode;
         public DebugSphere TestThing;
-        private SortedDictionary<float, List<float>> _mobPositions;
+        private Dictionary<int, HashSet<PathfindingNode>> _mobPositions;
 
         public void Awake()
         {
             _gridManager = new GridManager(this);
+            _mobPositions = new Dictionary<int, HashSet<PathfindingNode>>();
         }
 
         public void FixedUpdate()
         {
-            Profiler.BeginSample("Add mob positions");
-            _mobPositions = new SortedDictionary<float, List<float>>();
+            _mobPositions.Clear();
             var mobs = WorldManager.GetMobs();
             foreach (var mob in mobs)
             {
                 var controller = mob.GetGameObject().GetComponent<SimpleMobController>();
                 var spaces = controller.GetOccupiedSpaces();
-                foreach (var node in spaces)
-                {
-                    var x = node.X;
-                    var z = node.Z;
-                    if (_mobPositions.ContainsKey(x))
-                    {
-                        if(!_mobPositions[x].Contains(z)) _mobPositions[x].Add(z);
-                        _mobPositions[x].Sort();
-                    }
-                    else
-                    {
-                        _mobPositions[x] = new List<float> {z};
-                    }
-                }
+                _mobPositions.Add(mob.GetGameObject().name.GetHashCode(), spaces);
             }
-            Profiler.EndSample();
         }
 
         public void AddNodes(GameObject room)
@@ -72,7 +58,7 @@ namespace AI.Pathfinding
             return _gridManager;
         }
 
-        public SortedDictionary<float, List<float>> GetMobPositions()
+        public Dictionary<int, HashSet<PathfindingNode>> GetMobPositions()
         {
             return _mobPositions;
         }

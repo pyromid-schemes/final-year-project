@@ -46,22 +46,19 @@ namespace AI.Pathfinding
             }
         }
 
-        private bool IsOccupied(float x, float z)
+        public bool IsOccupied(int id, PathfindingNode node)
         {
             var mobPositions = _grid.GetMobPositions();
-            try
+            foreach (var positions in mobPositions)
             {
-                return mobPositions[x].Contains(z);
+                if (positions.Key == id) continue;
+                if (positions.Value.Contains(node)) return true;
             }
-            catch (KeyNotFoundException)
-            {
-                return false;
-            }
+            return false;
         }
 
         public bool IsWalkable(float x, float z)
         {
-//            if (IsOccupied(x, z)) return false;
             try
             {
                 return _nodes[x].Contains(z);

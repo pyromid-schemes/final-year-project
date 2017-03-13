@@ -6,11 +6,11 @@ namespace Test.AI.Pathfinding
     public class GridFake : IGrid
     {
 
-        public SortedDictionary<float, List<float>> OccupiedNodes;
+        public Dictionary<int, HashSet<PathfindingNode>> OccupiedNodes;
 
-        public SortedDictionary<float, List<float>> GetMobPositions()
+        public Dictionary<int, HashSet<PathfindingNode>> GetMobPositions()
         {
-            return OccupiedNodes ?? new SortedDictionary<float, List<float>>();
+            return OccupiedNodes ?? new Dictionary<int, HashSet<PathfindingNode>>();
         }
     }
 }

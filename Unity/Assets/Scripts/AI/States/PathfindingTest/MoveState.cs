@@ -26,7 +26,7 @@ namespace AI.States.PathfindingTest
 
         public void OnFixedUpdate()
         {
-            _pathCalculator = new CalculatePath(_mob.Grid.GetGrid());
+            _pathCalculator = new CalculatePath(_mob.Grid.GetGrid(), 1);
             Transform player = GameObject.Find("MockVRPlayer").transform;
             List<PathfindingNode> path = _pathCalculator.GetPathToDestination(_mob.transform.position.x,
                 _mob.transform.position.z, player.position.x, player.position.z);

@@ -28,7 +28,7 @@ namespace Test.AI.Pathfinding
         {
             _grid = new GridFake();
             _gridManager = new GridManager(_grid);
-            _calculatePath = new CalculatePath(_gridManager);
+            _calculatePath = new CalculatePath(_gridManager, 1);
             _startingNode = new PathfindingNode(0f, 0f);
         }
 
@@ -157,7 +157,10 @@ namespace Test.AI.Pathfinding
             _gridManager.AddNode(0.5f, 0);
             _gridManager.AddNode(1f, 0);
 
-            _grid.OccupiedNodes = new SortedDictionary<float, List<float>> {{0.5f, new List<float> {0f}}};
+            _grid.OccupiedNodes = new Dictionary<int, HashSet<PathfindingNode>>
+            {
+                {9001, new HashSet<PathfindingNode> {new PathfindingNode(0.5f, 0)}}
+            };
 
             AssertPathEquals(new List<PathfindingNode>());
         }
@@ -176,7 +179,10 @@ namespace Test.AI.Pathfinding
             _gridManager.AddNode(1.5f, 0);
             _gridManager.AddNode(2f, 0);
 
-            _grid.OccupiedNodes = new SortedDictionary<float, List<float>> {{1.5f, new List<float> {0f}}};
+            _grid.OccupiedNodes = new Dictionary<int, HashSet<PathfindingNode>>
+            {
+                {9001, new HashSet<PathfindingNode> {new PathfindingNode(1.5f, 0)}}
+            };
 
             var expectedPath = new List<PathfindingNode>
             {

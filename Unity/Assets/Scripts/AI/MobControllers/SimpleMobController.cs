@@ -18,7 +18,7 @@ namespace AI.MobControllers
         public float RotateSpeed = 10f;
         public float Fov = 180f; // Not in use for now i don't think ?
 
-        public abstract List<PathfindingNode> GetOccupiedSpaces();
+        public abstract HashSet<PathfindingNode> GetOccupiedSpaces();
 
         protected abstract void InitialiseStates();
 

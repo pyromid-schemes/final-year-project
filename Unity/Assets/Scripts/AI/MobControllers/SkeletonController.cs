@@ -8,7 +8,7 @@ namespace AI.MobControllers
 {
     class SkeletonController : SimpleMobController
     {
-        private States _currentStateID;
+        private States _currentStateId;
 
         [HideInInspector]
         public enum States
@@ -18,11 +18,33 @@ namespace AI.MobControllers
             Defend
         }
 
-        public override List<PathfindingNode> GetOccupiedSpaces()
+        public override HashSet<PathfindingNode> GetOccupiedSpaces()
         {
-            return IsState(States.Pursue)
-                ? ((PursueState) StateManager.GetCurrentState()).GetPath()
-                : new List<PathfindingNode> {new PathfindingNode(transform.position.x, transform.position.z)};
+            PathfindingNode curNode;
+            if (IsState(States.Pursue) && ((PursueState) StateManager.GetCurrentState()).GetPath().Count > 0)
+            {
+                var path = ((PursueState) StateManager.GetCurrentState()).GetPath();
+                curNode = path[0];
+            }
+            else
+            {
+                var closest = Grid.GetGrid().GetClosestNode(transform.position.x, transform.position.z);
+                curNode = new PathfindingNode(closest.X, closest.Z);
+            }
+            var spaceBetween = Grid.SpaceBetween;
+            var curNodeX = curNode.X;
+            var curNodeZ = curNode.Z;
+            return new HashSet<PathfindingNode>
+            {
+                new PathfindingNode(curNodeX - spaceBetween, curNodeZ),
+                new PathfindingNode(curNodeX + spaceBetween, curNodeZ),
+                new PathfindingNode(curNodeX, curNodeZ - spaceBetween),
+                new PathfindingNode(curNodeX, curNodeZ + spaceBetween),
+                new PathfindingNode(curNodeX - spaceBetween, curNodeZ + spaceBetween),
+                new PathfindingNode(curNodeX + spaceBetween, curNodeZ + spaceBetween),
+                new PathfindingNode(curNodeX - spaceBetween, curNodeZ - spaceBetween),
+                new PathfindingNode(curNodeX + spaceBetween, curNodeZ - spaceBetween)
+            };
         }
 
         protected override void InitialiseStates()
@@ -36,7 +58,7 @@ namespace AI.MobControllers
 
             // Set starting state
             StateManager.SetCurrentState((int) States.Patrol);
-            _currentStateID = States.Patrol;
+            _currentStateId = States.Patrol;
             StateManager.GetCurrentState().OnEnter();
 
             // Setup transitions
@@ -56,7 +78,7 @@ namespace AI.MobControllers
         public void ChangeState(States nextState)
         {
             StateManager.ChangeToState((int) nextState);
-            _currentStateID = nextState;
+            _currentStateId = nextState;
         }
 
         // I think this could be done cleaner @DanC
@@ -88,7 +110,7 @@ namespace AI.MobControllers
 
         public bool IsState(States state)
         {
-            return _currentStateID.Equals(state);
+            return _currentStateId.Equals(state);
         }
 
         public bool IsAttacking()

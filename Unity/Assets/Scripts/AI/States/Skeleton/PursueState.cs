@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using AI.MobControllers;
 using AI.Pathfinding;
@@ -49,10 +50,17 @@ namespace AI.States.Skeleton
 
             var mobPos = _mob.transform.position;
             _mob.transform.LookAt(new Vector3(playerPos.x, mobPos.y, playerPos.z));
-            CheckIfAtNode(mobPos);
-            var nextNode = _path[_nextNodeIndex];
-            _mob.transform.position = Vector3.MoveTowards(mobPos,
-                new Vector3(nextNode.X, mobPos.y, nextNode.Z), 1f * Time.deltaTime);
+            try
+            {
+                CheckIfAtNode(mobPos);
+                var nextNode = _path[_nextNodeIndex];
+                _mob.transform.position = Vector3.MoveTowards(mobPos,
+                    new Vector3(nextNode.X, mobPos.y, nextNode.Z), 1f * Time.deltaTime);
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
         }
 
         public List<PathfindingNode> GetPath()
@@ -71,16 +79,14 @@ namespace AI.States.Skeleton
         {
             for (;;)
             {
-                Profiler.BeginSample("Pathfinding");
                 CalculatePath();
-                Profiler.EndSample();
                 yield return new WaitForSeconds(1f);
             }
         }
 
         private void CalculatePath()
         {
-            _pathCalculator = new CalculatePath(_mob.Grid.GetGrid());
+            _pathCalculator = new CalculatePath(_mob.Grid.GetGrid(), _mob.gameObject.name.GetHashCode());
             _path = _pathCalculator.GetPathToDestination(_mob.transform.position.x,
                 _mob.transform.position.z, _player.transform.position.x, _player.transform.position.z);
             _nextNodeIndex = 0;
