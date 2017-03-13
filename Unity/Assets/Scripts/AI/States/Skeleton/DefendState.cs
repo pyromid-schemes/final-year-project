@@ -33,11 +33,13 @@ namespace AI.States.Skeleton
             {
                 if (_timeSinceLastAttack > _mob.AttackCooldown)
                 {
+                    _mob.Sword.setWeaponIsActive(true);
                     _mob.Attack();
                     _timeSinceLastAttack = 0f;
                 }
                 else
                 {
+                    _mob.Sword.setWeaponIsActive(false);
                     _timeSinceLastAttack += Time.deltaTime;
                 }
             }
