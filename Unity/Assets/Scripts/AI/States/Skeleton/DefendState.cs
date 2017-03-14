@@ -5,10 +5,10 @@ namespace AI.States.Skeleton
 {
     class DefendState : IState
     {
-        private SkeletonController _mob;
+        private readonly SkeletonController _mob;
         private GameObject _player;
 
-        private float _timeSinceLastAttack = 0f;
+        private float _timeSinceLastAttack;
 
         public DefendState(SkeletonController mob)
         {

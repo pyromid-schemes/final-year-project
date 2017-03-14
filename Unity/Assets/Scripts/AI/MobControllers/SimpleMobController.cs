@@ -2,6 +2,7 @@
 using AI.Pathfinding;
 using AI.States;
 using UnityEngine;
+using World;
 
 namespace AI.MobControllers
 {
@@ -10,6 +11,7 @@ namespace AI.MobControllers
         protected StateManager StateManager;
         protected Animator Anim;
         [HideInInspector] public Grid Grid;
+        [HideInInspector] public WorldManager WorldManager;
         [HideInInspector] public Sword Sword;
         public Transform Eyes;
         public float AttackCooldown = 2f;
@@ -26,6 +28,7 @@ namespace AI.MobControllers
         {
             Anim = GetComponent<Animator>();
             Grid = GameObject.Find("Grid").GetComponent<Grid>();
+            WorldManager = GameObject.Find("WorldManager").GetComponent<WorldManager>();
             Sword = GetComponentInChildren<Sword>();
             Sword.setWeaponIsActive(false);
             InitialiseStates();
@@ -41,6 +44,5 @@ namespace AI.MobControllers
         {
             StateManager.GetCurrentState().OnFixedUpdate();
         }
-
     }
 }

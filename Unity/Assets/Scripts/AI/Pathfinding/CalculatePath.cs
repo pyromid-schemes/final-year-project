@@ -14,6 +14,7 @@ namespace AI.Pathfinding
         private PathfindingNode _startingNode;
         private PathfindingNode _destinationNode;
         private PathfindingNode _currentNode;
+        private const float MaxDistance = 12.5f;
 
         public CalculatePath(GridManager grid, int id)
         {
@@ -89,7 +90,7 @@ namespace AI.Pathfinding
 
         private bool NodeIsWalkable(PathfindingNode possibleNode)
         {
-            if (possibleNode.G > 10f / Grid.SpaceBetween) return false;
+            if (possibleNode.G > MaxDistance / Grid.SpaceBetween) return false;
             var isStart = possibleNode.Equals(_startingNode);
             if (isStart) return false;
             var isWalkable = _grid.IsWalkable(possibleNode.X, possibleNode.Z);

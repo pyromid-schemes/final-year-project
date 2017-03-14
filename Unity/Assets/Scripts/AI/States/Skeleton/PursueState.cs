@@ -12,6 +12,7 @@ namespace AI.States.Skeleton
         private readonly SkeletonController _mob;
         private CalculatePath _pathCalculator;
         private GameObject _player;
+        private Vector3 _playerPos;
         private int _nextNodeIndex;
         private List<PathfindingNode> _path;
         private Coroutine _pathfindingRoutine;
@@ -46,10 +47,10 @@ namespace AI.States.Skeleton
 
         public void OnFixedUpdate()
         {
-            var playerPos = _player.transform.position;
+            _playerPos = _mob.WorldManager.GetVRPlayer().transform.position;
 
             var mobPos = _mob.transform.position;
-            _mob.transform.LookAt(new Vector3(playerPos.x, mobPos.y, playerPos.z));
+            _mob.transform.LookAt(new Vector3(_playerPos.x, mobPos.y, _playerPos.z));
             try
             {
                 CheckIfAtNode(mobPos);
@@ -94,9 +95,8 @@ namespace AI.States.Skeleton
 
         private bool PlayerInSight()
         {
-            var playerPos = _player.transform.position;
             RaycastHit hit;
-            var direction = playerPos - _mob.transform.position;
+            var direction = _playerPos - _mob.transform.position;
             var selfPos = _mob.transform.position;
             selfPos.y += 1f;
             var ret = Physics.Raycast(_mob.transform.position, direction, out hit, _mob.MaxSightRange) &&
