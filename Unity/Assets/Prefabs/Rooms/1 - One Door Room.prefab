@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000013450730912}
   - 114: {fileID: 114000012872453986}
+  - 65: {fileID: 65000014171944156}
   m_Layer: 0
   m_Name: Wall Torch
   m_TagString: Untagged
@@ -5708,7 +5709,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013174641054}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.894255, y: -1.0663102, z: 4.3657465}
+  m_LocalPosition: {x: -4.5605597, y: 14.319483, z: 3.2885528}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -9823,6 +9824,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.5, y: 3, z: 0.45}
   m_Center: {x: 0, y: 1.5, z: 0}
+--- !u!65 &65000014171944156
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010006034228}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.15, y: 0.15, z: 0.15}
+  m_Center: {x: 0.015, y: 0.5, z: 0}
 --- !u!108 &108000010179319256
 Light:
   m_ObjectHideFlags: 1
