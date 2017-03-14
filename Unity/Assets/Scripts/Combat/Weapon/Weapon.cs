@@ -58,7 +58,7 @@ public abstract class Weapon : MonoBehaviour
 
     public void setWeaponIsActive(bool isActive)
     {
-        GetComponent<BoxCollider>().enabled = isActive;
+        GetComponent<Collider>().enabled = isActive;
     }
 
     void FixedUpdate()
