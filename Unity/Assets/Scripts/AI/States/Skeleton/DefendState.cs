@@ -18,8 +18,8 @@ namespace AI.States.Skeleton
         public void OnEnter()
         {
             _mob.ToDefendingState();
-            _player = GameObject.Find("Player");
             _timeSinceLastAttack = 0f;
+            _player = _mob.WorldManager.GetVRPlayer();
         }
 
         public void OnUpdate()
