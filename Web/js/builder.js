@@ -13,6 +13,8 @@ Builder.prototype = {
     tile_selector: null,
     typeOfTileToPlace: null,
 
+    cooldown_buttons: [],
+
     create: function(){
         this.add_room_btn(650, 20, Rooms.room1);
         this.add_room_btn(650, 70, Rooms.room2);
@@ -55,6 +57,8 @@ Builder.prototype = {
     listener: function(e){
         var key = e.key;
 
+        if(this.is_button_on_cooldown(key)) return;
+
         this.unselectTile();
 
         if(this.which_tile_to_place == key){
@@ -85,6 +89,10 @@ Builder.prototype = {
         this.tile_selector.y = obj.tile.y - 2;
         this.tile_selector.alpha = 1;
     },
+    deselectAll: function(){
+        this.unselectTile();
+        this.hideTileSelector();
+    },
     unselectTile: function(){
         this.main.ghostroom_room_unselected();
         this.main.mob_unselected();
@@ -96,6 +104,27 @@ Builder.prototype = {
 
     is_tile_selected: function(){
         return this.which_tile_to_place != -1;
+    },
+
+
+    startTimeDelay: function(){
+        var key = this.which_tile_to_place;
+        var delay = this.mobButtons[key].mob.spawnDelay;
+
+        this.cooldown_buttons.push(key);
+
+        var self = this;
+        setTimeout(function(){
+            var index = self.cooldown_buttons.indexOf(key);
+            self.cooldown_buttons.splice(index, 1);
+        }, delay);
+
+        this.deselectAll();
+    },
+
+    is_button_on_cooldown: function(key){
+        console.log(this.cooldown_buttons.indexOf(key) != -1);
+        return this.cooldown_buttons.indexOf(key) != -1;
     }
 };
 

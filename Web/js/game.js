@@ -377,6 +377,9 @@ Main.prototype = {
             Messages.send.placeMob({objectId: mob_data.id, xPos: x/TILE_SIZE, zPos: y/TILE_SIZE, id: mob_instance.id});
         }
 
+        this.builder.startTimeDelay();
+        // this.builder.deselectAll();
+
         return mob_instance;
     },
 
