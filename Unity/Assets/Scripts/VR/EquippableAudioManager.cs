@@ -14,7 +14,7 @@ public class EquippableAudioManager : MonoBehaviour {
 
     AudioSource Source;
 
-    readonly float VEL_TO_VOL_SCALE = 0.2f;
+    readonly float VOLUME = 0.5f;
 
     void Awake()
     {
@@ -26,24 +26,24 @@ public class EquippableAudioManager : MonoBehaviour {
         switch (colliderTag)
         {
             case "Shield":
-                ShieldHit(gameObject.GetComponent<Rigidbody>().velocity.magnitude * VEL_TO_VOL_SCALE);
+                ShieldHit(VOLUME);
                 break;
             case "Weapon":
-                WeaponHit(gameObject.GetComponent<Rigidbody>().velocity.magnitude * VEL_TO_VOL_SCALE);
+                WeaponHit(VOLUME);
                 break;
             case "Monster":
-                MonsterHit(gameObject.GetComponent<Rigidbody>().velocity.magnitude * VEL_TO_VOL_SCALE);
+                MonsterHit(VOLUME);
                 break;
             case "Wall":
-                PlayEnvironmentHit(gameObject.GetComponent<Rigidbody>().velocity.magnitude * VEL_TO_VOL_SCALE);
+                EnvironmentHit(VOLUME);
                 break;
             case "Floor":
-                PlayEnvironmentHit(gameObject.GetComponent<Rigidbody>().velocity.magnitude * VEL_TO_VOL_SCALE);
+                EnvironmentHit(VOLUME);
                 break;
         }
     }
 
-    public void PlayEnvironmentHit(float vol)
+    public void EnvironmentHit(float vol)
     {
         if (Random.value > 0.5)
         {

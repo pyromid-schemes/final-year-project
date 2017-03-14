@@ -25,6 +25,7 @@ GameObject:
   - 64: {fileID: 64000013222582738}
   - 64: {fileID: 64000012116882240}
   - 114: {fileID: 114000012439412156}
+  - 114: {fileID: 114000014013561330}
   m_Layer: 0
   m_Name: Shield
   m_TagString: Shield
@@ -131,3 +132,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17998a6a124ca0947a5277a966c1bee0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114000014013561330
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010169171540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41ce8bb8274ee1b4e9028a4602bf5f82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnvironmentHit1: {fileID: 8300000, guid: b1f24e595b72f854d8219ea2f347a7f9, type: 3}
+  EnvironmentHit2: {fileID: 8300000, guid: 09dec19d91045334d81c11be01a5b2d6, type: 3}
+  WeaponHit1: {fileID: 8300000, guid: 4de9215887a2edf46adad9fa7a08ddd7, type: 3}
+  WeaponHit2: {fileID: 8300000, guid: 48b23304c89682441b87aa8920143aad, type: 3}
+  ShieldHit1: {fileID: 8300000, guid: ba2996da6f316af4fa6603540d31ac8a, type: 3}
+  ShieldHit2: {fileID: 8300000, guid: ba2996da6f316af4fa6603540d31ac8a, type: 3}
+  MonsterHit1: {fileID: 8300000, guid: 2ab3d28920c015b4a9738a623abef7ff, type: 3}
+  MonsterHit2: {fileID: 8300000, guid: 93c2e748b4b572d4e80f0d4b4287b824, type: 3}
