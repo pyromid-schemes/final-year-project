@@ -250,6 +250,7 @@ GameObject:
   - 114: {fileID: 114000012425578510}
   - 114: {fileID: 114000014048412244}
   - 54: {fileID: 54000010620336382}
+  - 114: {fileID: 114000013804659140}
   m_Layer: 0
   m_Name: Skeleton
   m_TagString: Monster
@@ -1311,6 +1312,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ace5c31dd7b4fd641a31275fc35470b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114000013804659140
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011574630884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948a43f230b041b43a20d8035d35a6dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Moan: {fileID: 8300000, guid: 0e13430b1426c9746902aeeb758f8219, type: 3}
+  Die: {fileID: 8300000, guid: dd0c2d104c113604195c96126e33af59, type: 3}
 --- !u!114 &114000014048412244
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1326,8 +1340,9 @@ MonoBehaviour:
   Eyes: {fileID: 4000012067960544}
   AttackCooldown: 5
   AttackRange: 2
+  MaxSightRange: 10
   RotateSpeed: 10
-  FOV: 180
+  Fov: 180
 --- !u!136 &136000012293107156
 CapsuleCollider:
   m_ObjectHideFlags: 1

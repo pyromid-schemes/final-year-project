@@ -41,6 +41,7 @@ public class SkeletonHealth : MonoBehaviour, IDamageable
 
     public void OnZeroHealth()
     {
+        if (GetComponent<SkeletonAudioManager>()) { GetComponent<SkeletonAudioManager>().PlayDeath(); }
         StartCoroutine(PlayDeathAnimation());
     }
 

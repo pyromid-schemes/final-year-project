@@ -14,7 +14,7 @@ public class EquippableAudioManager : MonoBehaviour {
 
     AudioSource Source;
 
-    readonly float VOLUME = 0.5f;
+    float Volume = 0.5f;
 
     void Awake()
     {
@@ -26,19 +26,19 @@ public class EquippableAudioManager : MonoBehaviour {
         switch (colliderTag)
         {
             case "Shield":
-                ShieldHit(VOLUME);
+                ShieldHit(Volume);
                 break;
             case "Weapon":
-                WeaponHit(VOLUME);
+                WeaponHit(Volume);
                 break;
             case "Monster":
-                MonsterHit(VOLUME);
+                MonsterHit(Volume);
                 break;
             case "Wall":
-                EnvironmentHit(VOLUME);
+                EnvironmentHit(Volume);
                 break;
             case "Floor":
-                EnvironmentHit(VOLUME);
+                EnvironmentHit(Volume);
                 break;
         }
     }
