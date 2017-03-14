@@ -193,10 +193,6 @@ Main.prototype = {
         if(e.keyCode == Phaser.Keyboard.D){
             this.gridsnap_show_dots();
         }
-
-        if(e.keyCode == Phaser.Keyboard.S){
-            this.ghostroom_debug();
-        }
     },
 
     /* Initial setup */
