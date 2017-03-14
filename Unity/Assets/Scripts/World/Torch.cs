@@ -8,15 +8,16 @@ namespace World
     {
         private GameObject offTorch;
         private GameObject onTorch;
+        private bool lit;
 
         private readonly float SPAWN_CHANCE = 0.4f;
 
         void Start()
         {
-
             GetSubTorchModels();
             if (Random.value < SPAWN_CHANCE) {
                 onTorch.SetActive(true);
+                lit = true;
             }
             else {
                 offTorch.SetActive(true);
@@ -34,6 +35,15 @@ namespace World
             }
             if (offTorch == null || onTorch == null) {
                 throw new ArgumentException("This parent torch has doesn't contain a torch and empty torch.");
+            }
+        }
+
+        void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.name.Equals("HeldTorch") && !lit) {
+                offTorch.SetActive(false);
+                onTorch.SetActive(true);
+                lit = true;
             }
         }
     }
