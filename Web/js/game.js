@@ -4,7 +4,7 @@ var MAP_DRAW_OFFSET_X = 0;
 var MAP_DRAW_OFFSET_Y = 0;
 
 var SCROLL_SPEED = 0.014;
-var SCROLL_MIN = 0.6;
+var SCROLL_MIN = 0.55;
 var SCROLL_MAX = 1.7;
 var SCROLL_DEFAULT = 0.85;
 
@@ -34,7 +34,6 @@ Main.prototype = {
     /** GHOST ROOM STUFF **/
     currently_selected_tile_type: null,
     ghost_room: null,
-    can_place_ghost_room: false,
 
     /** GHOST MOB **/
     ghost_mob: null,
@@ -103,7 +102,7 @@ Main.prototype = {
 
 
         // Move the map to the center
-        this.scrollMap({x: -18 * 16, y: -18 * 14});
+        this.scrollMap({x: -15 * 16, y: -16 * 14});
         // Create a dummy room
         this.place_room('room2', 0, 0, 0, false);
 
@@ -127,8 +126,6 @@ Main.prototype = {
             this.ghost_mob.x = tile.x;
             this.ghost_mob.y = tile.y;
         }
-
-        this.get_tile_xy();
     },
 
     onDown: function(e){
@@ -185,21 +182,16 @@ Main.prototype = {
 
         // Set the 'zoom' on the map
         this.map_group.scale.set(this.game_zoom);
-        console.log("zoom: "+this.game_zoom);
     },
 
     keyOnDown: function(e, self){
-        this.builder.keyOnDown(e, null);
+        this.builder.keyOnDown(e);
 
         this.ghostroom_keyOnDown(e);
 
 
         if(e.keyCode == Phaser.Keyboard.D){
             this.gridsnap_show_dots();
-        }
-
-        if(e.keyCode == Phaser.Keyboard.S){
-            this.ghostroom_debug();
         }
     },
 
@@ -209,12 +201,8 @@ Main.prototype = {
         var map_h = 100;
         var empty_tile = this.game.make.sprite(0, 0, 'empty-tile');
 
-
         this.map_draw_offset = {x: MAP_DRAW_OFFSET_X, y: MAP_DRAW_OFFSET_Y};
         this.map_dimensions = {x: this.map_draw_offset.x, y: this.map_draw_offset.y, w: map_w * 16, h: map_h * 16};
-
-        console.log("map dimensions:");
-        console.log(this.map_dimensions);
 
         this.map_group = this.game.add.group();
 
@@ -345,9 +333,24 @@ Main.prototype = {
             this.currently_selected_tile_type = null;
         }
     },
-    place_mob: function(mob_id, x, y, send_message){
-        var mob_data = this.mob_types[mob_id];
-        if(mob_data == null) throw new Error("No mob data for ["+mob_id+"]");
+    place_mob: function(mob_type, x, y, send_message){
+        var mob_data = this.mob_types[mob_type];
+        if(mob_data == null) throw new Error("No mob data for ["+mob_type+"]");
+
+
+        // Check mob is inside any rooms bb
+        var can_place_mob = false;
+        for(var i=0; i<this.rooms.length; i++){
+            var r = this.rooms[i];
+            if(Utility.isPointWithinBB({x: x, y: y}, r.bb)){
+                can_place_mob = true;
+                break;
+            }
+        }
+
+        console.log("can place mob: "+can_place_mob);
+        if(can_place_mob == false) return;
+
 
         var mob = this.game.add.image(x, y, mob_data.sprite.key, null, this.map_group);
         mob.pivot.x = mob_data.sprite.size.width / 2;
@@ -359,7 +362,7 @@ Main.prototype = {
         var healthbar = this.healthbar_add(x, y - 14);
 
         var mob_instance = {
-            mob_id: mob_id,
+            mob_id: mob_type,
             x: x,
             y: y,
             mob_type: mob_data,
@@ -367,11 +370,14 @@ Main.prototype = {
             id: this.mob_id_count++,
             healthbar: healthbar
         };
+
         this.mobs.push(mob_instance);
 
         if(send_message){
             Messages.send.placeMob({objectId: mob_data.id, xPos: x/TILE_SIZE, zPos: y/TILE_SIZE, id: mob_instance.id});
         }
+
+        return mob_instance;
     },
 
     /** PLAYER **/
@@ -446,7 +452,7 @@ Main.prototype = {
 
     isMouseInsideMap: function() {
         var mouse = this.getAccurateCoords();
-        return Utility.isPointWithinRect(mouse, this.map_dimensions);
+        return Utility.isPointWithinRect(mouse, MAP_MASK);
     },
     getAccurateCoords: function(){
         var pointer = this.game.input.activePointer;
@@ -493,6 +499,7 @@ Main.prototype = {
         return {w: MAP_MASK.w / this.game_zoom, h: MAP_MASK.h / this.game_zoom};
     },
 
+    // ToDo: Get mob positions with room positions
     worldStatus: function(data){
         this.removeAllMobs();
         this.removeAllRooms();
@@ -500,6 +507,7 @@ Main.prototype = {
             var rot = Utility.unityRotToWebRot(data[i].rot); // converts Unity rotation to correct web rotation
             this.place_room(data[i].objectId, data[i].xPos * TILE_SIZE, data[i].zPos * TILE_SIZE, rot, false);
         }
+        this.updatePlayerHealthbarPercent(1);
         this.redrawPlayer();
     },
 
@@ -511,25 +519,33 @@ Main.prototype = {
                 this.deleteMob(data[i].id);
             }else {
                 var health_percentage = (data[i].currentHealth / data[i].maxHealth);
-                this.updateMob(data[i].id, {x: data[i].xPos * TILE_SIZE, y: data[i].zPos * TILE_SIZE}, data[i].rot, health_percentage);
+                this.updateMob(data[i].id, data[i].objectId, {x: data[i].xPos * TILE_SIZE, y: data[i].zPos * TILE_SIZE}, data[i].rot, health_percentage);
             }
         }
     },
-    updateMob: function(id, pos, rot, hp){
+    updateMob: function(id, type, pos, rot, hp){
         var index = this.findMobIndex(id);
-        var mob = this.mobs[index];
-        mob.mob.position.x = pos.x;
-        mob.mob.position.y = pos.y;
-        mob.mob.rotation = Utility.unityRotToWebRot(rot - 180);
+        if( index == -1) { // place mob
+            var mob = this.place_mob(type, pos.x, pos.y, false);
+            mob.id = id;
+        }else {
+            var mob = this.mobs[index];
+            mob.mob.position.x = pos.x;
+            mob.mob.position.y = pos.y;
+            mob.mob.rotation = Utility.unityRotToWebRot(rot - 180);
 
-        pos.y -= 14;
+            pos.y -= 14;
 
-        mob.healthbar.setPercentage(hp);
-        mob.healthbar.setPosition(pos.x, pos.y);
-        mob.healthbar.redraw();
+            mob.healthbar.setPercentage(hp);
+            mob.healthbar.setPosition(pos.x, pos.y);
+            mob.healthbar.redraw();
+        }
     },
     deleteMob: function(id){
+        console.log("deleteMob (id = "+id+")");
         var index = this.findMobIndex(id);
+        if( index == -1 ) return null;
+
         this.mobs[index].healthbar.destroy();
         this.mobs[index].mob.destroy();
         this.mobs.splice(index, 1);
@@ -538,10 +554,11 @@ Main.prototype = {
         for(var i=0; i<this.mobs.length; i++){
             if(this.mobs[i].id == id) return i;
         }
-        if(index == -1) throw new Error("Cannot find mob with id="+id);
+        return -1;
     },
     removeAllMobs: function(){
         for(var i=0; i<this.mobs.length; i++) {
+            this.mobs[i].healthbar.destroy();
             this.mobs[i].mob.destroy();
         }
         this.mobs = [];
