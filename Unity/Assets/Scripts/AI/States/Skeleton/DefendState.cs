@@ -27,6 +27,7 @@ namespace AI.States.Skeleton
             if (Vector3.Distance(_mob.Eyes.position, _player.transform.position) > _mob.AttackRange &&
                 !_mob.IsAttacking())
             {
+                _mob.Sword.setWeaponIsActive(false);
                 _mob.ChangeState(SkeletonController.States.Pursue);
             }
             else
