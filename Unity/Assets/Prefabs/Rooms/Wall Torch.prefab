@@ -35,6 +35,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000013611481812}
   - 114: {fileID: 114000011124714826}
+  - 65: {fileID: 65000010297394992}
   m_Layer: 0
   m_Name: Wall Torch
   m_TagString: Untagged
@@ -264,6 +265,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010593844384}
   m_Mesh: {fileID: 4300000, guid: 7e9d2070a6cbedc46b0697e323dce65e, type: 3}
+--- !u!65 &65000010297394992
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010521639886}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!108 &108000013898309226
 Light:
   m_ObjectHideFlags: 1

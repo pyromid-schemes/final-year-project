@@ -23,7 +23,7 @@ GameObject:
   - 23: {fileID: 23000010219734302}
   - 65: {fileID: 65000012308974772}
   - 95: {fileID: 95000012492924768}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: door_2
   m_TagString: Door
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - 23: {fileID: 23000013671476954}
   - 65: {fileID: 65000013139432488}
   - 95: {fileID: 95000011882193158}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: door_2 (1)
   m_TagString: Door
   m_Icon: {fileID: 0}
@@ -58,7 +58,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000013461843690}
   - 95: {fileID: 95000011335533544}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Doors
   m_TagString: Door
   m_Icon: {fileID: 0}
