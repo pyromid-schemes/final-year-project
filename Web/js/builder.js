@@ -109,21 +109,36 @@ Builder.prototype = {
 
     startTimeDelay: function(){
         var key = this.which_tile_to_place;
-        var delay = this.mobButtons[key].mob.spawnDelay;
+        var mob_btn = this.mobButtons[key];
+        var delay = mob_btn.mob.spawnDelay;
 
+        // Add the mob key to a 'cooldown' list, which is checked when a btn is pressed to see if it is on cooldown
         this.cooldown_buttons.push(key);
 
+        // Create the grey cooldown overlay
+        var btn = this.game.add.image(mob_btn.tile.x + 32, mob_btn.tile.y, '1x1');
+        btn.width = -32;
+        btn.height = 32;
+        btn.alpha = 0.5;
+
+        // Tween the width over the lifetime of the cooldown
+        this.game.add.tween(btn).to({width: 0}, delay, Phaser.Easing.Linear.None, true);
+
+        // Remove the grey overlay and remove the mob's key from the cooldown button list
         var self = this;
         setTimeout(function(){
             var index = self.cooldown_buttons.indexOf(key);
             self.cooldown_buttons.splice(index, 1);
+
+            btn.destroy();
         }, delay);
 
+        // Now the button is on cooldown, deselect it
         this.deselectAll();
     },
 
+    // Checks whether a btn key is on cooldown
     is_button_on_cooldown: function(key){
-        console.log(this.cooldown_buttons.indexOf(key) != -1);
         return this.cooldown_buttons.indexOf(key) != -1;
     }
 };
