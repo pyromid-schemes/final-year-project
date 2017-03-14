@@ -55,5 +55,5 @@ MonoBehaviour:
     type: 2}
   ShieldPrefab: {fileID: 1000010169171540, guid: 57453c9b6c973084da28e594bb9b8b1a,
     type: 2}
-  LancePrefab: {fileID: 1000012642024732, guid: 364adb13db829a14db70757efdeff4d3,
+  TorchPrefab: {fileID: 1000014168455908, guid: 86cd57ef56231a64987c4d79e66555e9,
     type: 2}
