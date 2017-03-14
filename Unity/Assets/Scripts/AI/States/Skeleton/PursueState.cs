@@ -97,13 +97,15 @@ namespace AI.States.Skeleton
 
         private bool PlayerInSight()
         {
-            RaycastHit hit;
-            var direction = _playerPos - _mob.transform.position;
-            var selfPos = _mob.transform.position;
-            selfPos.y += 1f;
-            var ret = Physics.Raycast(_mob.transform.position, direction, out hit, _mob.MaxSightRange) &&
-                      hit.collider.CompareTag("Player");
-            return ret;
+            return Physics.CheckSphere(_mob.transform.position, _mob.MaxSightRange + 2f, LayerMask.GetMask("Player"));
+
+//            RaycastHit hit;
+//            var direction = _playerPos - _mob.transform.position;
+//            var selfPos = _mob.transform.position;
+//            selfPos.y += 1f;
+//            var ret = Physics.Raycast(_mob.transform.position, direction, out hit, _mob.MaxSightRange) &&
+//                      hit.collider.CompareTag("Player");
+//            return ret;
         }
     }
 }
