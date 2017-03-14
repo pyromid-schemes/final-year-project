@@ -38,9 +38,9 @@ namespace World
             }
         }
 
-        void OnCollisionEnter(Collision collision)
+        void OnTriggerEnter(Collider other)
         {
-            if (collision.gameObject.name.Equals("HeldTorch") && !lit) {
+            if (other.gameObject.name.Equals("HeldTorch") && !lit) {
                 offTorch.SetActive(false);
                 onTorch.SetActive(true);
                 lit = true;
