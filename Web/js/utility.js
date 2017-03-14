@@ -12,6 +12,9 @@ var Utility = {
     isPointWithinRect: function(point, rect){
         return ( point.x >= rect.x && point.y >= rect.y && point.x <= rect.x + rect.w && point.y <= rect.y + rect.h );
     },
+    isPointWithinBB: function(point, bb){
+      return this.isPointWithinRect(point, {x: bb.x1, y: bb.y1, w: bb.x2 - bb.x1, h: bb.y2 - bb.y1});
+    },
 
     // Do two bounding boxes collide?
     doBoundingBoxesCollide: function(bb1, bb2){

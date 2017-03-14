@@ -32,6 +32,9 @@ Main.appendPrototype({
 
         this.ghostroom_red.destroy();
         this.ghostroom_green.destroy();
+
+        this.ghostroom_red = null;
+        this.ghostroom_green = null;
     },
 
     ghostroom_create_room: function(key, suffix){
@@ -176,6 +179,8 @@ Main.appendPrototype({
 
 
     ghostroom_debug: function(){
+        if(this.ghostroom_red == null) return;
+
         var tile = this.get_tile_xy();
         var pos = {x: tile.x * 16, y: tile.y * 16};
         var gsp = this.ghostroom_generate_snap_points(pos);

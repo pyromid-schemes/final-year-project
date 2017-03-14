@@ -43,7 +43,7 @@ Builder.prototype = {
     },
 
 
-    keyOnDown: function(e, self){
+    keyOnDown: function(e){
         if(e.keyCode == Phaser.Keyboard.ESC){
             this.unselectTile();
             this.hideTileSelector();
