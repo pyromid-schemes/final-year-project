@@ -10,7 +10,7 @@ namespace World
         private GameObject onTorch;
         private bool lit;
 
-        private readonly float SPAWN_CHANCE = 0.4f;
+        private readonly float SPAWN_CHANCE = 0.1f;
 
         void Start()
         {
