@@ -3,9 +3,15 @@ using System.Collections;
 
 public class Equippable : MonoBehaviour {
 
+    EquippableAudioManager AudioManager = null;
     SteamVR_Controller.Device HoldingHand = null;
 
     private float PulseTimeRemaningS = 0;
+
+    void Awake()
+    {
+        AudioManager = gameObject.GetComponent<EquippableAudioManager>();
+    }
 
     void FixedUpdate()
     {
@@ -37,27 +43,12 @@ public class Equippable : MonoBehaviour {
             if (other.gameObject.layer != LayerMask.NameToLayer("Player"))
             {
                 PulseTimeRemaningS = 0.1f;
-                switch (other.gameObject.tag)
-                {
-                    case "Monster":
-                        break;
-                    case "Wall":
-                        break;
-                    case "Floor":
-                        break;
-                }
+                if (AudioManager) { AudioManager.PlayCollisionWith(other.gameObject.tag); }
             }
-            else
+            else if(other.gameObject.tag == "Weapon" || other.gameObject.tag == "Shield")
             {
-                switch (other.gameObject.tag)
-                {
-                    case "Weapon":
-                        PulseTimeRemaningS = 0.1f;
-                        break;
-                    case "Shield":
-                        PulseTimeRemaningS = 0.1f;
-                        break;
-                }
+                PulseTimeRemaningS = 0.1f;
+                if (AudioManager) { AudioManager.PlayCollisionWith(other.gameObject.tag); }
             }
         }
     }
