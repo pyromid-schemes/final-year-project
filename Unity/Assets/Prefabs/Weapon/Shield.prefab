@@ -22,7 +22,8 @@ GameObject:
   - 33: {fileID: 33000010296684364}
   - 23: {fileID: 23000012390091218}
   - 54: {fileID: 54000012615644178}
-  - 65: {fileID: 65000013340014156}
+  - 64: {fileID: 64000013222582738}
+  - 64: {fileID: 64000012116882240}
   - 114: {fileID: 114000012439412156}
   m_Layer: 0
   m_Name: Shield
@@ -95,8 +96,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &65000013340014156
-BoxCollider:
+--- !u!64 &64000012116882240
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010169171540}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 1
+  m_Mesh: {fileID: 4300000, guid: 176b2704b742b4e13a95b47b307c3266, type: 3}
+--- !u!64 &64000013222582738
+MeshCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -105,8 +118,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.48041758, y: 0.050644346, z: 0.4722828}
-  m_Center: {x: 0, y: -0.0025157928, z: 0.01031439}
+  m_Convex: 1
+  m_Mesh: {fileID: 4300000, guid: 176b2704b742b4e13a95b47b307c3266, type: 3}
 --- !u!114 &114000012439412156
 MonoBehaviour:
   m_ObjectHideFlags: 1
