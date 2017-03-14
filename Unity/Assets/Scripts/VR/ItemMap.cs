@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class ItemMap : MonoBehaviour {
     public GameObject SwordPrefab;
     public GameObject ShieldPrefab;
+    public GameObject TorchPrefab;
     //public GameObject DaggerPrefab;
     //public GameObject MedievalSwordPrefab;
 
@@ -15,6 +16,7 @@ public class ItemMap : MonoBehaviour {
         ItemTransforms = new Dictionary<string, Transform>();
         ItemTransforms.Add(SwordPrefab.name, SwordPrefab.transform);
         ItemTransforms.Add(ShieldPrefab.name, ShieldPrefab.transform);
+        ItemTransforms.Add(TorchPrefab.name, TorchPrefab.transform);
         //ItemTransforms.Add(DaggerPrefab.name, DaggerPrefab.transform);
         //ItemTransforms.Add(MedievalSwordPrefab.name, MedievalSwordPrefab.transform);
     }
