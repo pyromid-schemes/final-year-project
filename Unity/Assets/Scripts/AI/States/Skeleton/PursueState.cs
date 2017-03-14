@@ -38,8 +38,10 @@ namespace AI.States.Skeleton
                 _mob.StopCoroutine(_pathfindingRoutine);
                 _mob.ChangeState(SkeletonController.States.Patrol);
             }
-            else if (Vector3.Distance(_mob.transform.position, _player.transform.position) < _mob.AttackRange)
+            else
             {
+                var playerCheck = new Vector3(_playerPos.x, _mob.transform.position.y, _playerPos.z);
+                if (!(Vector3.Distance(_mob.transform.position, playerCheck) < _mob.AttackRange)) return;
                 _mob.StopCoroutine(_pathfindingRoutine);
                 _mob.ChangeState(SkeletonController.States.Defend);
             }
