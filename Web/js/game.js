@@ -105,7 +105,7 @@ Main.prototype = {
         // Move the map to the center
         this.scrollMap({x: -15 * 16, y: -16 * 14});
         // Create a dummy room
-        this.place_room('room2', 0, 0, 0, false);
+        this.place_room('room6', 0, 0, 0, false);
 
 
         // Setup and move the player to [0,0]
