@@ -28,7 +28,7 @@ namespace World
 
 		void Start ()
 		{
-			AddPrefab ("room2", 0, 0, 0);
+			AddPrefab ("room6", 0, 0, 0);
 		}
 	
 		void Update ()

@@ -12,7 +12,8 @@ namespace World
 	    public GameObject room3;
 	    public GameObject room4;
 	    public GameObject room5;
-		public GameObject mobKnight;
+        public GameObject room6;
+        public GameObject mobKnight;
 		public GameObject mobSkellyCheng;
 
 		private Dictionary<string, GameObject> map;
@@ -26,7 +27,8 @@ namespace World
 			map.Add ("room3", room3);
 			map.Add ("room4", room4);
 			map.Add ("room5", room5);
-			map.Add ("mobKnight", mobKnight);
+            map.Add ("room6", room6);
+            map.Add ("mobKnight", mobKnight);
 			map.Add ("mobSkellyCheng", mobSkellyCheng);
 		}
 

@@ -16,7 +16,7 @@ public abstract class Weapon : MonoBehaviour
     // Kept to true to for compatability issues until earlier statement is resolved
     void Start()
     {
-        setWeaponIsActive(false);
+        setWeaponIsActive(true);
     }
 
     void OnCollisionEnter(Collision other)
