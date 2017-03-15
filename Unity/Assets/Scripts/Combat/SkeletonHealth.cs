@@ -31,7 +31,13 @@ public class SkeletonHealth : MonoBehaviour, IDamageable
 
     public void ApplyDamage(int damage)
     {
-        health -= damage;
+        if (health - damage > 0)
+        {
+            health -= damage;
+        }
+        else {
+            health = 0;
+        }
     }
 
     public bool HealthIsZero()
