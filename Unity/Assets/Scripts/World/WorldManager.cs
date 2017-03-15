@@ -54,6 +54,7 @@ namespace World
 			for (int i = 0; i < mobSpawnQueue.Count; i++) {
 				var mob = (GameObject)Instantiate (mobSpawnQueue [i].gameObj, mobSpawnQueue[i].position, Quaternion.identity);
 				mob.SetActive (true);
+			    mob.name = "Mob_" + mobSpawnQueue[i].id;
 				mobs.Add (new PlacedMob (mobSpawnQueue [i].name, mobSpawnQueue [i].id, mob));
 				mobSpawnQueue.RemoveAt (i);
 			}

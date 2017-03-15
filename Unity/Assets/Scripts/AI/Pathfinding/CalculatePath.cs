@@ -1,35 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace AI.Pathfinding
 {
     public class CalculatePath
     {
         private readonly GridManager _grid;
-        private List<PathfindingNode> _openList;
-        private List<PathfindingNode> _closedList;
+        private readonly int _id;
+        private readonly Dictionary<int, PathfindingNode> _openList;
+        private readonly HashSet<PathfindingNode> _closedList;
+
         private bool _atDestination;
         private PathfindingNode _startingNode;
         private PathfindingNode _destinationNode;
         private PathfindingNode _currentNode;
+        private const float MaxDistance = 12.5f;
 
-        public CalculatePath(GridManager grid)
+        public CalculatePath(GridManager grid, int id)
         {
+            _id = id;
             _grid = grid;
-            _openList = new List<PathfindingNode>();
-            _closedList = new List<PathfindingNode>();
+            _openList = new Dictionary<int, PathfindingNode>();
+            _closedList = new HashSet<PathfindingNode>();
         }
 
         public List<PathfindingNode> GetPathToDestination(float startingX, float startingZ, float destinationX,
             float destinationZ)
         {
-            _openList = new List<PathfindingNode>();
-            _closedList = new List<PathfindingNode>();
+            _openList.Clear();
+            _closedList.Clear();
             var closestStartingNode = _grid.GetClosestNode(startingX, startingZ);
             var closestDestinationNode = _grid.GetClosestNode(destinationX, destinationZ);
-            _startingNode = new PathfindingNode(closestStartingNode.x, closestStartingNode.z);
-            _destinationNode = new PathfindingNode(closestDestinationNode.x, closestDestinationNode.z);
+            _startingNode = new PathfindingNode(closestStartingNode.X, closestStartingNode.Z);
+            _destinationNode = new PathfindingNode(closestDestinationNode.X, closestDestinationNode.Z);
             _currentNode = _startingNode;
             if (_currentNode.Equals(_destinationNode))
             {
@@ -49,46 +52,53 @@ namespace AI.Pathfinding
 
         private void AddAdjacentNodesToOpenList()
         {
-            List<PathfindingNode> possibleNodes = new List<PathfindingNode>
+            var possibleNodes = new List<PathfindingNode>
             {
                 // Up down left right
-                new PathfindingNode(_currentNode, _currentNode.X - Grid._spaceBetween, _currentNode.Z),
-                new PathfindingNode(_currentNode, _currentNode.X + Grid._spaceBetween, _currentNode.Z),
-                new PathfindingNode(_currentNode, _currentNode.X, _currentNode.Z - Grid._spaceBetween),
-                new PathfindingNode(_currentNode, _currentNode.X, _currentNode.Z + Grid._spaceBetween),
+                new PathfindingNode(_currentNode, _currentNode.X - Grid.SpaceBetween, _currentNode.Z),
+                new PathfindingNode(_currentNode, _currentNode.X + Grid.SpaceBetween, _currentNode.Z),
+                new PathfindingNode(_currentNode, _currentNode.X, _currentNode.Z - Grid.SpaceBetween),
+                new PathfindingNode(_currentNode, _currentNode.X, _currentNode.Z + Grid.SpaceBetween),
                 // Diagonals
-                new PathfindingNode(_currentNode, _currentNode.X - Grid._spaceBetween,
-                    _currentNode.Z + Grid._spaceBetween, 1.41f),
-                new PathfindingNode(_currentNode, _currentNode.X + Grid._spaceBetween,
-                    _currentNode.Z + Grid._spaceBetween, 1.41f),
-                new PathfindingNode(_currentNode, _currentNode.X - Grid._spaceBetween,
-                    _currentNode.Z - Grid._spaceBetween, 1.41f),
-                new PathfindingNode(_currentNode, _currentNode.X + Grid._spaceBetween,
-                    _currentNode.Z - Grid._spaceBetween, 1.41f)
+                new PathfindingNode(_currentNode, _currentNode.X - Grid.SpaceBetween,
+                    _currentNode.Z + Grid.SpaceBetween, 1.41f),
+                new PathfindingNode(_currentNode, _currentNode.X + Grid.SpaceBetween,
+                    _currentNode.Z + Grid.SpaceBetween, 1.41f),
+                new PathfindingNode(_currentNode, _currentNode.X - Grid.SpaceBetween,
+                    _currentNode.Z - Grid.SpaceBetween, 1.41f),
+                new PathfindingNode(_currentNode, _currentNode.X + Grid.SpaceBetween,
+                    _currentNode.Z - Grid.SpaceBetween, 1.41f)
             };
 
             foreach (var possibleNode in possibleNodes)
             {
-                if (NodeIsNotWalkable(possibleNode)) continue;
+                if (!NodeIsWalkable(possibleNode)) continue;
                 possibleNode.H = CalculateH(possibleNode);
                 var existingOpenNode = FindNodeInOpenList(possibleNode);
                 if (existingOpenNode != null)
                 {
                     if (!(possibleNode.F < existingOpenNode.F)) continue;
-                    _openList.Remove(existingOpenNode);
-                    _openList.Add(possibleNode);
+                    _openList.Remove(existingOpenNode.GetHashCode());
+                    _openList.Add(possibleNode.GetHashCode(), possibleNode);
                 }
                 else
                 {
-                    _openList.Add(possibleNode);
+                    _openList.Add(possibleNode.GetHashCode(), possibleNode);
                 }
             }
         }
 
-        private bool NodeIsNotWalkable(PathfindingNode possibleNode)
+        private bool NodeIsWalkable(PathfindingNode possibleNode)
         {
-            return possibleNode.Equals(_startingNode) || !_grid.IsWalkable(possibleNode.X, possibleNode.Z) ||
-                   NodeInClosedList(possibleNode);
+            if (possibleNode.G > MaxDistance / Grid.SpaceBetween) return false;
+            var isStart = possibleNode.Equals(_startingNode);
+            if (isStart) return false;
+            var isWalkable = _grid.IsWalkable(possibleNode.X, possibleNode.Z);
+            if (!isWalkable) return false;
+            var isOccupied = _grid.IsOccupied(_id, possibleNode);
+            if (isOccupied) return false;
+            var nodeInClosedList = NodeInClosedList(possibleNode);
+            return !nodeInClosedList;
         }
 
         private void GoToNextNode()
@@ -98,28 +108,36 @@ namespace AI.Pathfinding
                 _atDestination = true;
                 return;
             }
-            var closest = _openList[0];
-            foreach (var node in _openList)
+            PathfindingNode closest = null;
+            foreach (var node in _openList.Values)
             {
-                if (node.F < closest.F)
-                {
+                if (closest == null)
                     closest = node;
-                }
+                else if (node.F < closest.F)
+                    closest = node;
             }
-
-            _openList.Remove(closest);
+            if (closest == null)
+            {
+                throw new Exception("Who knows how this happened. Something must have broke somewhere");
+            }
+            _openList.Remove(closest.GetHashCode());
             _closedList.Add(closest);
             _currentNode = closest;
         }
 
         private bool NodeInClosedList(PathfindingNode node)
         {
-            return _closedList.Any(node.Equals);
+            return _closedList.Contains(node);
         }
 
         private PathfindingNode FindNodeInOpenList(PathfindingNode node)
         {
-            return _openList.FirstOrDefault(node.Equals);
+            PathfindingNode ret = null;
+            if (_openList.ContainsKey(node.GetHashCode()))
+            {
+                ret = _openList[node.GetHashCode()];
+            }
+            return ret;
         }
 
         // I mean this is really just an approximation but what can you do, eh
@@ -127,7 +145,7 @@ namespace AI.Pathfinding
         private PathfindingNode GetNodeClosestToDestination()
         {
             var cloestDistance = float.PositiveInfinity;
-            var closestNode = _currentNode;
+            var closestNode = _startingNode;
             foreach (var node in _closedList)
             {
                 var xDistance = Math.Abs(_destinationNode.X - node.X);
@@ -144,7 +162,7 @@ namespace AI.Pathfinding
         {
             if (!_currentNode.Equals(_destinationNode))
             {
-                _currentNode = GetNodeClosestToDestination();
+                return new List<PathfindingNode>();
             }
             var path = new List<PathfindingNode>();
             while (_currentNode.Parent != null)

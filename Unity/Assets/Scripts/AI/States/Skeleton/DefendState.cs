@@ -1,14 +1,14 @@
-﻿using AI.MobControllers;
+﻿﻿using AI.MobControllers;
 using UnityEngine;
 
 namespace AI.States.Skeleton
 {
     class DefendState : IState
     {
-        private SkeletonController _mob;
+        private readonly SkeletonController _mob;
         private GameObject _player;
 
-        private float _timeSinceLastAttack = 0f;
+        private float _timeSinceLastAttack;
 
         public DefendState(SkeletonController mob)
         {
@@ -18,26 +18,31 @@ namespace AI.States.Skeleton
         public void OnEnter()
         {
             _mob.ToDefendingState();
-            _player = GameObject.Find("Player");
-            _timeSinceLastAttack = 0f;
+            _timeSinceLastAttack = _mob.AttackCooldown;
         }
 
         public void OnUpdate()
         {
-            if (Vector3.Distance(_mob.Eyes.position, _player.transform.position) > _mob.AttackRange &&
+            _player = _mob.WorldManager.GetVRPlayer();
+            var playerCheck = new Vector3(_player.transform.position.x, _mob.transform.position.y,
+                _player.transform.position.z);
+            if (Vector3.Distance(_mob.transform.position, playerCheck) > _mob.AttackRange + 1f &&
                 !_mob.IsAttacking())
             {
+                _mob.Sword.setWeaponIsActive(false);
                 _mob.ChangeState(SkeletonController.States.Pursue);
             }
-            else
+            else if (!_mob.IsDying())
             {
                 if (_timeSinceLastAttack > _mob.AttackCooldown)
                 {
+                    _mob.Sword.setWeaponIsActive(true);
                     _mob.Attack();
                     _timeSinceLastAttack = 0f;
                 }
-                else
+                else if(!_mob.IsAttacking())
                 {
+                    _mob.Sword.setWeaponIsActive(false);
                     _timeSinceLastAttack += Time.deltaTime;
                 }
             }
@@ -48,5 +53,6 @@ namespace AI.States.Skeleton
             _mob.transform.LookAt(new Vector3(_player.transform.position.x, _mob.transform.position.y,
                 _player.transform.position.z));
         }
+
     }
 }

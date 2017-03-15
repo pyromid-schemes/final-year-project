@@ -23,13 +23,13 @@ namespace AI.States.Skeleton
         public void OnUpdate()
         {
             if (!Physics.CheckSphere(_mob.transform.position, _mob.MaxSightRange, LayerMask.GetMask("Player"))) return;
-            var forward = _mob.transform.forward;
-            var playerPos = _player.transform.position;
-            if (!(Vector3.Dot(Vector3.Normalize(forward), Vector3.Normalize(playerPos)) >= 0)) return;
-            RaycastHit hit;
-            var direction = Vector3.Normalize(playerPos - _mob.transform.position);
-            if (!Physics.Raycast(_mob.transform.position, direction, out hit) ||
-                !hit.collider.CompareTag("Player")) return;
+//            var forward = _mob.transform.forward;
+//            var playerPos = _player.transform.position;
+//            if (!(Vector3.Dot(Vector3.Normalize(forward), Vector3.Normalize(playerPos)) >= 0)) return;
+//            RaycastHit hit;
+//            var direction = Vector3.Normalize(playerPos - _mob.transform.position);
+//            if (!Physics.Raycast(_mob.transform.position, direction, out hit) ||
+//                !hit.collider.CompareTag("Player")) return;
             _mob.ChangeState(SkeletonController.States.Pursue);
         }
 

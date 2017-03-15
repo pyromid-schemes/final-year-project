@@ -1,28 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace AI.Pathfinding
 {
     public struct Node
     {
-        public readonly float x;
-        public readonly float z;
+        public readonly float X;
+        public readonly float Z;
 
         public Node(float x, float z)
         {
-            this.x = x;
-            this.z = z;
+            X = x;
+            Z = z;
+        }
+
+        public bool Equals(Node other)
+        {
+            return Math.Abs(other.X - X) < 0.00001 && Math.Abs(other.Z - Z) < 0.00001;
         }
     }
 
     public class GridManager
     {
         private readonly SortedDictionary<float, List<float>> _nodes;
+        private readonly IGrid _grid;
 
-        public GridManager()
+        public GridManager(IGrid grid)
         {
             _nodes = new SortedDictionary<float, List<float>>();
+            _grid = grid;
         }
 
         public void AddNode(float x, float z)
@@ -38,13 +46,24 @@ namespace AI.Pathfinding
             }
         }
 
+        public bool IsOccupied(int id, PathfindingNode node)
+        {
+            var mobPositions = _grid.GetMobPositions();
+            foreach (var positions in mobPositions)
+            {
+                if (positions.Key == id) continue;
+                if (positions.Value.Contains(node)) return true;
+            }
+            return false;
+        }
+
         public bool IsWalkable(float x, float z)
         {
             try
             {
                 return _nodes[x].Contains(z);
             }
-            catch (KeyNotFoundException e)
+            catch (KeyNotFoundException)
             {
                 return false;
             }
@@ -52,31 +71,27 @@ namespace AI.Pathfinding
 
         public Node GetClosestNode(float currentX, float currentZ)
         {
-            if(_nodes.ContainsKey(currentX) && _nodes[currentX].Contains(currentZ))
+            if (_nodes.ContainsKey(currentX) && _nodes[currentX].Contains(currentZ))
             {
                 return new Node(currentX, currentZ);
             }
-            float closestX = 0f;
-            float closestXDifference = Single.PositiveInfinity;
-            float closestZ = 0f;
-            float closestZDifference = Single.PositiveInfinity;
-            foreach (float x in _nodes.Keys)
+            var closestX = 0f;
+            var closestXDifference = float.PositiveInfinity;
+            var closestZ = 0f;
+            var closestZDifference = float.PositiveInfinity;
+            foreach (var x in _nodes.Keys)
             {
-                float difference = Math.Max(currentX, x) - Math.Min(currentX, x);
-                if (difference < closestXDifference)
-                { 
-                    closestX = x;
-                    closestXDifference = difference;
-                }
+                var difference = Math.Max(currentX, x) - Math.Min(currentX, x);
+                if (!(difference < closestXDifference)) continue;
+                closestX = x;
+                closestXDifference = difference;
             }
-            foreach (float z in _nodes[closestX])
+            foreach (var z in _nodes[closestX])
             {
-                float difference = Math.Max(currentZ, z) - Math.Min(currentZ, z);
-                if (difference < closestZDifference)
-                {
-                    closestZ = z;
-                    closestZDifference = difference;
-                }
+                var difference = Math.Max(currentZ, z) - Math.Min(currentZ, z);
+                if (!(difference < closestZDifference)) continue;
+                closestZ = z;
+                closestZDifference = difference;
             }
 
             return new Node(closestX, closestZ);
@@ -89,14 +104,11 @@ namespace AI.Pathfinding
 
         public void Debug_Dump()
         {
-            string toPrint = "";
+            var toPrint = "";
             foreach (var x in _nodes)
             {
                 toPrint += x.Key + ": [";
-                foreach (float z in x.Value)
-                {
-                    toPrint += z + ", ";
-                }
+                toPrint = x.Value.Aggregate(toPrint, (current, z) => current + (z + ", "));
                 toPrint += "]\n";
             }
             Debug.Log(toPrint);

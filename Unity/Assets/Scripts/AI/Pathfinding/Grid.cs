@@ -1,51 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
+using AI.MobControllers;
 using UnityEngine;
-using UnityEngine.Networking;
-using Valve.VR;
+using World;
 
 namespace AI.Pathfinding
 {
-    public class Grid : MonoBehaviour
+    public class Grid : MonoBehaviour, IGrid
     {
         private GridManager _gridManager;
-        public static float _spaceBetween = 0.5f;
-        public bool DebugMode = false;
-        public DebugSphere testThing;
+        public WorldManager WorldManager;
+        public static float SpaceBetween = 0.5f;
+        public bool DebugMode;
+        public DebugSphere TestThing;
+        private Dictionary<int, HashSet<PathfindingNode>> _mobPositions;
 
-        void Awake()
+        public void Awake()
         {
-            _gridManager = new GridManager();
+            _gridManager = new GridManager(this);
+            _mobPositions = new Dictionary<int, HashSet<PathfindingNode>>();
+        }
+
+        public void FixedUpdate()
+        {
+            _mobPositions.Clear();
+            var mobs = WorldManager.GetMobs();
+            foreach (var mob in mobs)
+            {
+                var controller = mob.GetGameObject().GetComponent<SimpleMobController>();
+                var spaces = controller.GetOccupiedSpaces();
+                _mobPositions.Add(mob.GetGameObject().name.GetHashCode(), spaces);
+            }
         }
 
         public void AddNodes(GameObject room)
         {
-            Component[] children = room.GetComponentsInChildren(typeof(Transform));
-            foreach (Component child in children)
+            var children = room.GetComponentsInChildren(typeof(Transform));
+            foreach (var child in children)
             {
-                if (child.tag == "Walkable")
-                {
-                    double _rounding = _spaceBetween/2;
-                    double x = Math.Round((double) child.transform.position.x/_rounding) * _rounding;
-                    double z = Math.Round((double) child.transform.position.z/_rounding) * _rounding;
-                    _gridManager.AddNode((float) x, (float) z);
+                if (!child.CompareTag("Walkable")) continue;
+                double rounding = SpaceBetween / 2;
+                var x = Math.Round(child.transform.position.x / rounding) * rounding;
+                var z = Math.Round(child.transform.position.z / rounding) * rounding;
+                _gridManager.AddNode((float) x, (float) z);
 
-                    if (DebugMode)
-                    {
-                        DebugSphere debug = (DebugSphere) Instantiate(
-                                testThing,
-                                new Vector3(child.transform.position.x, 2.5f, child.transform.position.z),
-                                child.transform.rotation);
-                        debug.parent = child.gameObject;
-                    }
-                }
+                if (!DebugMode) continue;
+                var debug = (DebugSphere) Instantiate(
+                    TestThing,
+                    new Vector3(child.transform.position.x, 2.5f, child.transform.position.z),
+                    child.transform.rotation);
+                debug.parent = child.gameObject;
             }
         }
 
         public GridManager GetGrid()
         {
             return _gridManager;
+        }
+
+        public Dictionary<int, HashSet<PathfindingNode>> GetMobPositions()
+        {
+            return _mobPositions;
         }
     }
 }

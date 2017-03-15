@@ -423,6 +423,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114000011083506918, guid: eca1898a26e104afba3cadffc1d26b7e,
+        type: 2}
+      propertyPath: WorldManager
+      value: 
+      objectReference: {fileID: 1912315223}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: eca1898a26e104afba3cadffc1d26b7e, type: 2}
   m_IsPrefabParent: 0
