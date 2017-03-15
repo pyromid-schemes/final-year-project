@@ -109,6 +109,8 @@ Builder.prototype = {
 
     startTimeDelay: function(){
         var key = this.which_tile_to_place;
+        if(key == -1) return;
+
         var mob_btn = this.mobButtons[key];
         var delay = mob_btn.mob.spawnDelay;
 
