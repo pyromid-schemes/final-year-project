@@ -13,6 +13,7 @@ namespace AI.MobControllers
         [HideInInspector] public Grid Grid;
         [HideInInspector] public WorldManager WorldManager;
         [HideInInspector] public Sword Sword;
+        [HideInInspector] public SkeletonHealth Health;
         public Transform Eyes;
         public float AttackCooldown = 2f;
         public float AttackRange = 2f;
@@ -31,6 +32,7 @@ namespace AI.MobControllers
             Grid = GameObject.Find("Grid").GetComponent<Grid>();
             WorldManager = GameObject.Find("WorldManager").GetComponent<WorldManager>();
             Sword = GetComponentInChildren<Sword>();
+            Health = GetComponent<SkeletonHealth>();
             Sword.setWeaponIsActive(false);
             InitialiseStates();
         }

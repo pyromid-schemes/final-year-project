@@ -118,6 +118,11 @@ namespace AI.MobControllers
             return Anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Attack");
         }
 
+        public bool IsDying()
+        {
+            return Anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Death");
+        }
+
         void SetWalking(bool isWalking)
         {
             Anim.SetBool("walking", isWalking);

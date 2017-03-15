@@ -32,7 +32,7 @@ namespace AI.States.Skeleton
                 _mob.Sword.setWeaponIsActive(false);
                 _mob.ChangeState(SkeletonController.States.Pursue);
             }
-            else
+            else if (!_mob.IsDying())
             {
                 if (_timeSinceLastAttack > _mob.AttackCooldown)
                 {
