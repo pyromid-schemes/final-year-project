@@ -115,7 +115,7 @@ namespace AI.MobControllers
 
         public bool IsAttacking()
         {
-            return Anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Attack");
+            return Anim.GetNextAnimatorStateInfo(0).IsName("Base Layer.Attack") || Anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Attack");
         }
 
         public bool IsDying()
