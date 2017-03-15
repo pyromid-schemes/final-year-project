@@ -49,6 +49,7 @@ Main.prototype = {
         this.game.load.image('empty-tile', 'assets/empty-tile.png');
         this.game.load.image('empty-tile64', 'assets/empty-tile64.png');
         this.game.load.image('builder-button-selector', 'assets/selector.png');
+        this.game.load.image('1x1', 'assets/buttons/1x1.png');
 
         Object.keys(Mobs).forEach(function(k){
             self.preload_mob(Mobs[k]);
@@ -298,13 +299,14 @@ Main.prototype = {
             Messages.send.buildRoom({objectId: room_id, xPos: x / 16, zPos: y / 16, rot: rot});
         }
 
-        this.redrawPlayer();
-
         for(var i=0; i<room_data.door_positions.length; i++){
             var door_pos = this.ghostroom_translate_door_pos(room_data.door_positions[i]);
             var pos = {x: x + door_pos.x, y: y + door_pos.y};
             this.gridsnap_add_point(pos);
         }
+
+        this.redrawPlayer();
+        this.redrawMobs();
     },
 
     // ToDo: Fix the rooms id and array bug...
@@ -338,7 +340,7 @@ Main.prototype = {
         if(mob_data == null) throw new Error("No mob data for ["+mob_type+"]");
 
 
-        // Check mob is inside any rooms bb
+        // This checks whether the mob is within placeable regions
         var can_place_mob = false;
         for(var i=0; i<this.rooms.length; i++){
             var r = this.rooms[i];
@@ -347,8 +349,6 @@ Main.prototype = {
                 break;
             }
         }
-
-        console.log("can place mob: "+can_place_mob);
         if(can_place_mob == false) return;
 
 
@@ -377,7 +377,38 @@ Main.prototype = {
             Messages.send.placeMob({objectId: mob_data.id, xPos: x/TILE_SIZE, zPos: y/TILE_SIZE, id: mob_instance.id});
         }
 
+        this.builder.startTimeDelay();
+
         return mob_instance;
+    },
+
+    redrawMobs: function(){
+        var new_mobs = [];
+        for(var i=0; i<this.mobs.length; i++){
+            var mob = this.mobs[i];
+
+            console.log(mob);
+
+            var new_mob = this.game.add.image(mob.x, mob.y, mob.mob_type.sprite.key, null, this.map_group);
+            new_mob.pivot.x = mob.mob_type.sprite.size.width / 2;
+            new_mob.pivot.y = mob.mob_type.sprite.size.height / 2;
+            new_mob.scale.setTo(mob.mob_type.sprite.scale);
+            new_mob.rotation = mob.mob.rotation;
+
+            var new_instance = {
+                mob_id: mob.mob_id,
+                x: mob.x,
+                y: mob.y,
+                mob_type: mob.mob_type,
+                mob: new_mob,
+                id: mob.id,
+                healthbar: mob.healthbar
+            };
+
+            new_mobs.push(new_instance);
+            mob.mob.destroy();
+        }
+        this.mobs = new_mobs;
     },
 
     /** PLAYER **/

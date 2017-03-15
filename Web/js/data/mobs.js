@@ -13,7 +13,8 @@ var Mobs = {
         builderButton: {
             key: 'builder-button-mob-ant',
             image: 'assets/buttons/mobs/ant.png'
-        }
+        },
+        spawnDelay: 5000
     },
     bear: {
         id: 'mobBear',
@@ -29,7 +30,8 @@ var Mobs = {
         builderButton: {
             key: 'builder-button-mob-bear',
             image: 'assets/buttons/mobs/bear.png'
-        }
+        },
+        spawnDelay: 8000
     },
     skellyCheng: {
         id: 'mobSkellyCheng',
@@ -45,6 +47,7 @@ var Mobs = {
         builderButton: {
             key: 'builder-button-mob-skelly-cheng',
             image: 'assets/buttons/mobs/skelly-cheng.png'
-        }
+        },
+        spawnDelay: 10000
     }
 };

@@ -65,6 +65,9 @@ Main.appendPrototype({
 
             var pos = {x: tile.x * 16, y: tile.y * 16};
 
+            pos.x = Math.floor((pos.x + 80) / 160) * 160;
+            pos.y = Math.floor((pos.y + 80) / 160) * 160;
+
             this.ghostroom_update_room_positions(pos);
             this.ghostroom_check_room_collisions(pos);
         }
