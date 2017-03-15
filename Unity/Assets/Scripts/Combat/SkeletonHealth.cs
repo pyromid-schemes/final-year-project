@@ -7,12 +7,14 @@ public class SkeletonHealth : MonoBehaviour, IDamageable
 	private int maxHealth;
     private int health;
     private GameObject self;
+    private bool isDying;
     private bool isDead;
 
     public SkeletonHealth()
     {
 		maxHealth = 10;
 		health = maxHealth;
+        isDying = false;
         isDead = false;
     }
 
@@ -47,7 +49,11 @@ public class SkeletonHealth : MonoBehaviour, IDamageable
 
     public void OnZeroHealth()
     {
-        StartCoroutine(PlayDeathAnimation());
+        if (!isDying)
+        {
+            if (GetComponent<SkeletonAudioManager>()) { GetComponent<SkeletonAudioManager>().PlayDeath(); }
+            StartCoroutine(PlayDeathAnimation());
+        }
     }
 
     public bool IsDead()
@@ -68,6 +74,7 @@ public class SkeletonHealth : MonoBehaviour, IDamageable
     //This should be extracted out but I can't without exposing isDead 
     private IEnumerator PlayDeathAnimation()
     {
+        isDying = true;
         GetComponent<Animator>().Play("Death");
         yield return new WaitForSeconds(GetComponent<Animator>().GetCurrentAnimatorClipInfo(0).Length * 2);
         self.SetActive(false);

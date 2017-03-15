@@ -220,7 +220,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013919393970}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -537,10 +537,10 @@ MonoBehaviour:
   size: 0
   color: {r: 0, g: 1, b: 1, a: 1}
   vertices:
-  - {x: 0.5000001, y: 0.01, z: -0.50000006}
-  - {x: -0.5000001, y: 0.01, z: -0.50000006}
-  - {x: -0.5000001, y: 0.01, z: 0.50000006}
-  - {x: 0.5000001, y: 0.01, z: 0.50000006}
+  - {x: 0.50000006, y: 0.01, z: -0.5000001}
+  - {x: -0.50000006, y: 0.01, z: -0.5000001}
+  - {x: -0.50000006, y: 0.01, z: 0.5000001}
+  - {x: 0.50000006, y: 0.01, z: 0.5000001}
   - {x: 0.6500001, y: 0.01, z: -0.6500001}
   - {x: -0.6500001, y: 0.01, z: -0.6500001}
   - {x: -0.6500001, y: 0.01, z: 0.6500001}
@@ -597,7 +597,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8329ba186749c124ba7d9db787e99366, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemMap: {fileID: 0}
+  ItemTransforms: {fileID: 0}
 --- !u!114 &114000012849377122
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -620,7 +620,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d37c2cf88f7c59f4c8cf5d3812568143, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  index: -1
+  index: 2
   origin: {fileID: 0}
   isValid: 0
 --- !u!114 &114000013659841320
@@ -634,7 +634,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8329ba186749c124ba7d9db787e99366, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemMap: {fileID: 0}
+  ItemTransforms: {fileID: 0}
 --- !u!114 &114000014013667148
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -646,7 +646,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d37c2cf88f7c59f4c8cf5d3812568143, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  index: -1
+  index: 1
   origin: {fileID: 0}
   isValid: 0
 --- !u!124 &124000011484547658
