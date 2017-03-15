@@ -26,7 +26,7 @@ namespace AI.States.Skeleton
         {
             var playerCheck = new Vector3(_player.transform.position.x, _mob.transform.position.y,
                 _player.transform.position.z);
-            if (Vector3.Distance(_mob.Eyes.position, playerCheck) > _mob.AttackRange &&
+            if (Vector3.Distance(_mob.transform.position, playerCheck) > _mob.AttackRange &&
                 !_mob.IsAttacking())
             {
                 _mob.Sword.setWeaponIsActive(false);

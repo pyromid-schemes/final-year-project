@@ -27,7 +27,6 @@ namespace AI.States.Skeleton
             _nextNodeIndex = 0;
             _mob.ToWalkingState();
             _player = GameObject.Find("Player");
-            CalculatePath();
             _pathfindingRoutine = _mob.StartCoroutine(CalculatePathWithWait());
         }
 
