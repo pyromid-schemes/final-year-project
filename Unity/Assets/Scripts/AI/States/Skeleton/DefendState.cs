@@ -1,4 +1,5 @@
-﻿using AI.MobControllers;
+﻿using System.Collections;
+using AI.MobControllers;
 using UnityEngine;
 
 namespace AI.States.Skeleton
@@ -7,8 +8,7 @@ namespace AI.States.Skeleton
     {
         private readonly SkeletonController _mob;
         private GameObject _player;
-
-        private float _timeSinceLastAttack;
+        private Coroutine _attack;
 
         public DefendState(SkeletonController mob)
         {
@@ -18,7 +18,7 @@ namespace AI.States.Skeleton
         public void OnEnter()
         {
             _mob.ToDefendingState();
-            _timeSinceLastAttack = _mob.AttackCooldown;
+            _attack = _mob.StartCoroutine(Attack());
         }
 
         public void OnUpdate()
@@ -29,22 +29,12 @@ namespace AI.States.Skeleton
             if (Vector3.Distance(_mob.transform.position, playerCheck) > _mob.AttackRange + 1f &&
                 !_mob.IsAttacking())
             {
-                _mob.Sword.setWeaponIsActive(false);
+                _mob.StopCoroutine(_attack);
                 _mob.ChangeState(SkeletonController.States.Pursue);
             }
-            else if (!_mob.IsDying())
+            else if (_mob.IsDying())
             {
-                if (_timeSinceLastAttack > _mob.AttackCooldown)
-                {
-                    _mob.Sword.setWeaponIsActive(true);
-                    _mob.Attack();
-                    _timeSinceLastAttack = 0f;
-                }
-                else
-                {
-                    _mob.Sword.setWeaponIsActive(false);
-                    _timeSinceLastAttack += Time.deltaTime;
-                }
+                _mob.StopCoroutine(_attack);
             }
         }
 
@@ -52,6 +42,20 @@ namespace AI.States.Skeleton
         {
             _mob.transform.LookAt(new Vector3(_player.transform.position.x, _mob.transform.position.y,
                 _player.transform.position.z));
+        }
+
+        private IEnumerator Attack()
+        {
+            for (;;)
+            {
+                _mob.Sword.setWeaponIsActive(true);
+                _mob.Attack();
+                while (_mob.IsAttacking())
+                {
+                }
+                _mob.Sword.setWeaponIsActive(false);
+                yield return new WaitForSeconds(_mob.AttackCooldown);
+            }
         }
     }
 }
