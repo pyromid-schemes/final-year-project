@@ -40,7 +40,7 @@ namespace AI.States.Skeleton
                     _mob.Attack();
                     _timeSinceLastAttack = 0f;
                 }
-                else
+                else if(!_mob.IsAttacking())
                 {
                     _mob.Sword.setWeaponIsActive(false);
                     _timeSinceLastAttack += Time.deltaTime;
