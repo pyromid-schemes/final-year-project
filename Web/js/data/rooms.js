@@ -14,7 +14,8 @@ var Rooms = {
     room2: generate_room(2, [DOOR_UP, DOOR_RIGHT, DOOR_DOWN, DOOR_LEFT]),
     room3: generate_room(3, [DOOR_UP, DOOR_DOWN]),
     room4: generate_room(4, [DOOR_UP, DOOR_RIGHT, DOOR_DOWN]),
-    room5: generate_room(5, [DOOR_UP, DOOR_RIGHT])
+    room5: generate_room(5, [DOOR_UP, DOOR_RIGHT]),
+    room6: generate_room(6, [DOOR_UP])
 };
 
 function generate_room(room_id, doors){

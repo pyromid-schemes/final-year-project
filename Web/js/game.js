@@ -105,7 +105,7 @@ Main.prototype = {
         // Move the map to the center
         this.scrollMap({x: -15 * 16, y: -16 * 14});
         // Create a dummy room
-        this.place_room('room2', 0, 0, 0, false);
+        this.place_room('room6', 0, 0, 0, false);
 
 
         // Setup and move the player to [0,0]
@@ -142,7 +142,7 @@ Main.prototype = {
 
                 if(this.ghost_mob != null){
                     var world = this.get_world_xy();
-                    this.place_mob(this.currently_selected_tile_type, world.x, world.y, true);
+                    this.place_mob(this.currently_selected_tile_type, world.x, world.y, true, true);
                 }
             }
         }
@@ -335,7 +335,7 @@ Main.prototype = {
             this.currently_selected_tile_type = null;
         }
     },
-    place_mob: function(mob_type, x, y, send_message){
+    place_mob: function(mob_type, x, y, send_message, trigger_cooldown){
         var mob_data = this.mob_types[mob_type];
         if(mob_data == null) throw new Error("No mob data for ["+mob_type+"]");
 
@@ -377,7 +377,9 @@ Main.prototype = {
             Messages.send.placeMob({objectId: mob_data.id, xPos: x/TILE_SIZE, zPos: y/TILE_SIZE, id: mob_instance.id});
         }
 
-        this.builder.startTimeDelay();
+        if(trigger_cooldown){
+            this.builder.startTimeDelay();
+        }
 
         return mob_instance;
     },
@@ -540,6 +542,8 @@ Main.prototype = {
         }
         this.updatePlayerHealthbarPercent(1);
         this.redrawPlayer();
+
+        if(this.ghost_mob != null) this.ghost_mob.z = 1500;
     },
 
 
@@ -557,7 +561,7 @@ Main.prototype = {
     updateMob: function(id, type, pos, rot, hp){
         var index = this.findMobIndex(id);
         if( index == -1) { // place mob
-            var mob = this.place_mob(type, pos.x, pos.y, false);
+            var mob = this.place_mob(type, pos.x, pos.y, false, false);
             mob.id = id;
         }else {
             var mob = this.mobs[index];
