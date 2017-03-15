@@ -57,7 +57,7 @@ namespace AI.States.Skeleton
                 CheckIfAtNode(mobPos);
                 var nextNode = _path[_nextNodeIndex];
                 _mob.transform.position = Vector3.MoveTowards(mobPos,
-                    new Vector3(nextNode.X, mobPos.y, nextNode.Z), 1f * Time.deltaTime);
+                    new Vector3(nextNode.X, mobPos.y, nextNode.Z), _mob.Speed * Time.deltaTime);
             }
             catch (Exception)
             {

@@ -18,6 +18,7 @@ namespace AI.MobControllers
         public float AttackRange = 2f;
         public float MaxSightRange = 10f;
         public float RotateSpeed = 10f;
+        public float Speed = 1f;
         public float Fov = 180f; // Not in use for now i don't think ?
 
         public abstract HashSet<PathfindingNode> GetOccupiedSpaces();

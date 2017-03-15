@@ -18,15 +18,15 @@ namespace AI.States.Skeleton
         public void OnEnter()
         {
             _mob.ToDefendingState();
-            _timeSinceLastAttack = 0f;
-            _player = _mob.WorldManager.GetVRPlayer();
+            _timeSinceLastAttack = _mob.AttackCooldown;
         }
 
         public void OnUpdate()
         {
+            _player = _mob.WorldManager.GetVRPlayer();
             var playerCheck = new Vector3(_player.transform.position.x, _mob.transform.position.y,
                 _player.transform.position.z);
-            if (Vector3.Distance(_mob.transform.position, playerCheck) > _mob.AttackRange &&
+            if (Vector3.Distance(_mob.transform.position, playerCheck) > _mob.AttackRange + 1f &&
                 !_mob.IsAttacking())
             {
                 _mob.Sword.setWeaponIsActive(false);
