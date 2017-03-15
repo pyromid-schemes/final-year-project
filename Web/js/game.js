@@ -105,7 +105,7 @@ Main.prototype = {
         // Move the map to the center
         this.scrollMap({x: -15 * 16, y: -16 * 14});
         // Create a dummy room
-        this.place_room('room6', 0, 0, 0, false);
+        this.place_room('room6', 0, 0, Math.PI, false, true);
 
 
         // Setup and move the player to [0,0]
@@ -258,7 +258,7 @@ Main.prototype = {
             this.currently_selected_tile_type = null;
         }
     },
-    place_room: function(room_id, x, y, rot, send_message){
+    place_room: function(room_id, x, y, rot, send_message, world_message){
         var room_data = this.room_types[room_id];
 
         if(room_data == null) throw new Error("Cannot place room with id: "+room_id);
@@ -297,6 +297,14 @@ Main.prototype = {
         if(send_message){
             var rot =  Utility.webRotToUnityRot(rot);
             Messages.send.buildRoom({objectId: room_id, xPos: x / 16, zPos: y / 16, rot: rot});
+        }
+
+        if(world_message){
+            rot = (Utility.webRotToUnityRot(rot) / 90) + 2;
+
+            if(rot > 3) rot -= 4;
+
+            this.ghostroom_rot = rot;
         }
 
         for(var i=0; i<room_data.door_positions.length; i++){
@@ -536,9 +544,11 @@ Main.prototype = {
     worldStatus: function(data){
         this.removeAllMobs();
         this.removeAllRooms();
+        this.grid_snap_points = [];
+
         for(var i=0; i<data.length; i++){
             var rot = Utility.unityRotToWebRot(data[i].rot); // converts Unity rotation to correct web rotation
-            this.place_room(data[i].objectId, data[i].xPos * TILE_SIZE, data[i].zPos * TILE_SIZE, rot, false);
+            this.place_room(data[i].objectId, data[i].xPos * TILE_SIZE, data[i].zPos * TILE_SIZE, rot, false, true);
         }
         this.updatePlayerHealthbarPercent(1);
         this.redrawPlayer();
