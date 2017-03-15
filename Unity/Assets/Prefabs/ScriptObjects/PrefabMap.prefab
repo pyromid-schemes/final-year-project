@@ -56,6 +56,7 @@ MonoBehaviour:
   room3: {fileID: 1000010536289390, guid: cff187e6706996e4a9dc2626cc6f889d, type: 2}
   room4: {fileID: 1000011626574896, guid: d48572cc0b134b14096a71ad34d493d1, type: 2}
   room5: {fileID: 1000013500985502, guid: 8b28289101321f145a881e4c58530109, type: 2}
+  room6: {fileID: 1000013593355724, guid: 439f392732399124fad3ffd9558da16a, type: 2}
   mobKnight: {fileID: 1000012939565528, guid: cb510df9f35b420469fc36e6eac0db8a, type: 2}
   mobSkellyCheng: {fileID: 1000011574630884, guid: 17e620fb915f6bc4481512f9516cca15,
     type: 2}

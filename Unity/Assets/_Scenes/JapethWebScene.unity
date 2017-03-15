@@ -25,7 +25,7 @@ RenderSettings:
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 0
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 340a725d9c9debb4fb8ecde98dd6f85e, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -105,7 +105,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &262334620
 Light:
   m_ObjectHideFlags: 0
@@ -397,12 +397,12 @@ Prefab:
         type: 2}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 2058978514}
+      objectReference: {fileID: 2145850788}
     - target: {fileID: 23000011954377732, guid: 5bcc5e101650bfd448ebc2bd6dd48074,
         type: 2}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2022598045}
+      objectReference: {fileID: 1731045843}
     - target: {fileID: 114000013659841320, guid: 5bcc5e101650bfd448ebc2bd6dd48074,
         type: 2}
       propertyPath: ItemTransforms
@@ -460,12 +460,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 114000012332729108, guid: 4b6e87ee2f14743f7b489a545e8bd0cd,
-        type: 2}
-      propertyPath: room6
-      value: 
-      objectReference: {fileID: 1000013593355724, guid: 439f392732399124fad3ffd9558da16a,
-        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4b6e87ee2f14743f7b489a545e8bd0cd, type: 2}
   m_IsPrefabParent: 0
@@ -475,7 +469,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1364971717}
   m_Script: {fileID: 11500000, guid: 5f5fc54fe35254e369a5e25c69e4946a, type: 3}
---- !u!21 &2022598045
+--- !u!21 &1731045843
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
@@ -572,7 +566,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 2049416105}
   m_Script: {fileID: 11500000, guid: 075f5d213993a4a7497f270cb654a4c9, type: 3}
---- !u!43 &2058978514
+--- !u!43 &2145850788
 Mesh:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
