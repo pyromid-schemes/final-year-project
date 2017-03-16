@@ -6,15 +6,13 @@ public abstract class Weapon : MonoBehaviour
     private bool isColliding;
     private bool blocked;
 
+    private float TimeOfLastHit;
+    public float DamageCooldownS = 0.1f;
+
     public Weapon()
     {
         isColliding = false;
         blocked = false;
-    }
-
-    void Start()
-    {
-        setWeaponIsActive(false);
     }
 
     void OnCollisionEnter(Collision other)
@@ -22,6 +20,7 @@ public abstract class Weapon : MonoBehaviour
         if (CollisionIsValid(other))
         {
             isColliding = true;
+            TimeOfLastHit = Time.time;
 
             switch (other.collider.gameObject.tag)
             {
@@ -43,18 +42,27 @@ public abstract class Weapon : MonoBehaviour
         }
     }
 
+    void OnCollisionExit(Collision other)
+    {
+        isColliding = false;
+    }
+
     bool CollisionIsValid(Collision other)
     {
         return !isColliding && !other.gameObject.tag.Equals(transform.root.gameObject.tag);
     }
 
-    private void ApplyDamageToMonster(Collider other)
+    void FixedUpdate()
     {
-        if (blocked)
+        if(TimeOfLastHit + DamageCooldownS < Time.time)
         {
             blocked = false;
         }
-        else
+    }
+
+    private void ApplyDamageToMonster(Collider other)
+    {
+        if(!blocked)
         {
             other.gameObject.GetComponent<IDamageable>().ApplyDamage(GetDamage());
         }
@@ -66,11 +74,6 @@ public abstract class Weapon : MonoBehaviour
         {
             col.enabled = isActive;
         }
-    }
-
-    void FixedUpdate()
-    {
-        isColliding = false;
     }
 
     public abstract int GetDamage();
