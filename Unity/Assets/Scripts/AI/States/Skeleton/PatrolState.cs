@@ -27,9 +27,7 @@ namespace AI.States.Skeleton
             var direction = Vector3.Normalize(playerCheck - _mob.transform.position);
             var forward = _mob.transform.forward;
             var dot = Vector3.Dot(Vector3.Normalize(direction), Vector3.Normalize(forward));
-            Debug.Log(dot >=0);
             if (!(dot >= 0)) return;
-            Debug.Log("PLAYER IS IN FRONT");
             RaycastHit hit;
             var selfPos = _mob.transform.position;
             selfPos.y += 1f;
