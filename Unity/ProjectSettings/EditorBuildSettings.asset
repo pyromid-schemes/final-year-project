@@ -5,9 +5,5 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/_Scenes/JapethScene.unity
-  - enabled: 0
-    path: Assets/_Scenes/Iteration4.unity
   - enabled: 1
-    path: Assets/_Scenes/Iteration6.5.unity
+    path: Assets/_Scenes/JapethWebScene.unity
