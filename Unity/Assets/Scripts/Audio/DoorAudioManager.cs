@@ -16,7 +16,6 @@ public class DoorAudioManager : MonoBehaviour {
 
 	void PlayDoorOpen()
     {
-        //Source.SetScheduledEndTime(2.0);
         Source.PlayOneShot(OpenDoor, Volume);
 	}
 }

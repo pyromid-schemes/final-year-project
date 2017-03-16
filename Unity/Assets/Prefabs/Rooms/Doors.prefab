@@ -58,6 +58,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000013461843690}
   - 95: {fileID: 95000011335533544}
+  - 114: {fileID: 114000012701899826}
   m_Layer: 8
   m_Name: Doors
   m_TagString: Door
@@ -253,3 +254,15 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114000012701899826
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011570427702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5ff7652cbbc355459cab4cd9b583eae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OpenDoor: {fileID: 8300000, guid: 8fbea281e0580834192e380bc801fbf9, type: 3}
