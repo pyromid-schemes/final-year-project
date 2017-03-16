@@ -21,27 +21,33 @@ public abstract class Weapon : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        if (isColliding) return;
-        isColliding = true;
-
-        switch (other.collider.gameObject.tag)
+        if (CollisionIsValid(other))
         {
-            case "Weapon":
-                blocked = true;
-                break;
-            case "Shield":
-                blocked = true;
-                break;
-            case "Monster":
-                print("hit");
-                ApplyDamageToMonster(other.collider);
-                break;
-            case "Player":
-                ApplyDamageToMonster(other.collider);
-                break;
-            default:
-                break;
+            isColliding = true;
+
+            switch (other.collider.gameObject.tag)
+            {
+                case "Weapon":
+                    blocked = true;
+                    break;
+                case "Shield":
+                    blocked = true;
+                    break;
+                case "Monster":
+                    ApplyDamageToMonster(other.collider);
+                    break;
+                case "Player":
+                    ApplyDamageToMonster(other.collider);
+                    break;
+                default:
+                    break;
+            }
         }
+    }
+
+    bool CollisionIsValid(Collision other)
+    {
+        return !isColliding && !other.gameObject.tag.Equals(transform.root.gameObject.tag);
     }
 
     private void ApplyDamageToMonster(Collider other)
