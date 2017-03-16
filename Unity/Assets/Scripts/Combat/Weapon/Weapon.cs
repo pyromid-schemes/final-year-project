@@ -12,11 +12,6 @@ public abstract class Weapon : MonoBehaviour
         blocked = false;
     }
 
-    void Start()
-    {
-        setWeaponIsActive(false);
-    }
-
     void OnCollisionEnter(Collision other)
     {
         if (CollisionIsValid(other))
