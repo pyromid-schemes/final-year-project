@@ -287,9 +287,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnvironmentHit1: {fileID: 8300000, guid: a88fd5283a32edd42883717ccfd54fd3, type: 3}
   EnvironmentHit2: {fileID: 8300000, guid: e4020f29888795e49a3c99a61316dff2, type: 3}
-  WeaponHit1: {fileID: 8300000, guid: e4020f29888795e49a3c99a61316dff2, type: 3}
-  WeaponHit2: {fileID: 8300000, guid: e4020f29888795e49a3c99a61316dff2, type: 3}
-  ShieldHit1: {fileID: 8300000, guid: a88fd5283a32edd42883717ccfd54fd3, type: 3}
+  WeaponHit1: {fileID: 8300000, guid: a88fd5283a32edd42883717ccfd54fd3, type: 3}
+  WeaponHit2: {fileID: 8300000, guid: a88fd5283a32edd42883717ccfd54fd3, type: 3}
+  ShieldHit1: {fileID: 8300000, guid: e4020f29888795e49a3c99a61316dff2, type: 3}
   ShieldHit2: {fileID: 8300000, guid: a88fd5283a32edd42883717ccfd54fd3, type: 3}
   MonsterHit1: {fileID: 8300000, guid: 2ab3d28920c015b4a9738a623abef7ff, type: 3}
   MonsterHit2: {fileID: 8300000, guid: 2ab3d28920c015b4a9738a623abef7ff, type: 3}

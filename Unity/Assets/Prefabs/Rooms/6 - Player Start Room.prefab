@@ -3685,7 +3685,7 @@ GameObject:
   - 65: {fileID: 65000012242363362}
   m_Layer: 8
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4528,7 +4528,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013593355724}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.61495686, y: -4.019697, z: 2.5702515}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -9857,6 +9857,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ace5c31dd7b4fd641a31275fc35470b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DamageCooldownS: 0.1
 --- !u!114 &114000010405894486
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9868,8 +9869,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41ce8bb8274ee1b4e9028a4602bf5f82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnvironmentHit1: {fileID: 8300000, guid: b1f24e595b72f854d8219ea2f347a7f9, type: 3}
-  EnvironmentHit2: {fileID: 8300000, guid: 09dec19d91045334d81c11be01a5b2d6, type: 3}
+  EnvironmentHit1: {fileID: 8300000, guid: a88fd5283a32edd42883717ccfd54fd3, type: 3}
+  EnvironmentHit2: {fileID: 8300000, guid: e4020f29888795e49a3c99a61316dff2, type: 3}
   WeaponHit1: {fileID: 8300000, guid: 22b1739ed6453d649bb67562c097f7f7, type: 3}
   WeaponHit2: {fileID: 8300000, guid: e21aaebf5bdb07b48bb30a3e1c9e7b6d, type: 3}
   ShieldHit1: {fileID: 8300000, guid: 4de9215887a2edf46adad9fa7a08ddd7, type: 3}
@@ -9887,14 +9888,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41ce8bb8274ee1b4e9028a4602bf5f82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnvironmentHit1: {fileID: 8300000, guid: b1f24e595b72f854d8219ea2f347a7f9, type: 3}
-  EnvironmentHit2: {fileID: 8300000, guid: 09dec19d91045334d81c11be01a5b2d6, type: 3}
-  WeaponHit1: {fileID: 8300000, guid: b1f24e595b72f854d8219ea2f347a7f9, type: 3}
-  WeaponHit2: {fileID: 8300000, guid: 09dec19d91045334d81c11be01a5b2d6, type: 3}
-  ShieldHit1: {fileID: 8300000, guid: b1f24e595b72f854d8219ea2f347a7f9, type: 3}
-  ShieldHit2: {fileID: 8300000, guid: 09dec19d91045334d81c11be01a5b2d6, type: 3}
-  MonsterHit1: {fileID: 8300000, guid: b1f24e595b72f854d8219ea2f347a7f9, type: 3}
-  MonsterHit2: {fileID: 8300000, guid: 09dec19d91045334d81c11be01a5b2d6, type: 3}
+  EnvironmentHit1: {fileID: 8300000, guid: a88fd5283a32edd42883717ccfd54fd3, type: 3}
+  EnvironmentHit2: {fileID: 8300000, guid: e4020f29888795e49a3c99a61316dff2, type: 3}
+  WeaponHit1: {fileID: 8300000, guid: a88fd5283a32edd42883717ccfd54fd3, type: 3}
+  WeaponHit2: {fileID: 8300000, guid: a88fd5283a32edd42883717ccfd54fd3, type: 3}
+  ShieldHit1: {fileID: 8300000, guid: e4020f29888795e49a3c99a61316dff2, type: 3}
+  ShieldHit2: {fileID: 8300000, guid: a88fd5283a32edd42883717ccfd54fd3, type: 3}
+  MonsterHit1: {fileID: 8300000, guid: 2ab3d28920c015b4a9738a623abef7ff, type: 3}
+  MonsterHit2: {fileID: 8300000, guid: 2ab3d28920c015b4a9738a623abef7ff, type: 3}
 --- !u!114 &114000011704109852
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9906,8 +9907,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41ce8bb8274ee1b4e9028a4602bf5f82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnvironmentHit1: {fileID: 8300000, guid: b1f24e595b72f854d8219ea2f347a7f9, type: 3}
-  EnvironmentHit2: {fileID: 8300000, guid: 09dec19d91045334d81c11be01a5b2d6, type: 3}
+  EnvironmentHit1: {fileID: 8300000, guid: a88fd5283a32edd42883717ccfd54fd3, type: 3}
+  EnvironmentHit2: {fileID: 8300000, guid: e4020f29888795e49a3c99a61316dff2, type: 3}
   WeaponHit1: {fileID: 8300000, guid: 4de9215887a2edf46adad9fa7a08ddd7, type: 3}
   WeaponHit2: {fileID: 8300000, guid: 48b23304c89682441b87aa8920143aad, type: 3}
   ShieldHit1: {fileID: 8300000, guid: ba2996da6f316af4fa6603540d31ac8a, type: 3}
