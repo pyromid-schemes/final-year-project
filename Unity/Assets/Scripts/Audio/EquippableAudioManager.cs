@@ -13,6 +13,8 @@ public class EquippableAudioManager : MonoBehaviour {
     public AudioClip MonsterHit2;
 
     AudioSource Source;
+    float TimeOfLastAudio;
+    float PauseBetweenNewSounds = 0.1f;
 
     float Volume = 0.5f;
 
@@ -45,49 +47,65 @@ public class EquippableAudioManager : MonoBehaviour {
 
     public void EnvironmentHit(float vol)
     {
-        if (Random.value > 0.5)
+        if(!Source.isPlaying || TimeOfLastAudio + PauseBetweenNewSounds < Time.time)
         {
-            Source.PlayOneShot(EnvironmentHit1, vol);
-        }
-        else
-        {
-            Source.PlayOneShot(EnvironmentHit2, vol);
+            TimeOfLastAudio = Time.time;
+            if (Random.value > 0.5)
+            {
+                Source.PlayOneShot(EnvironmentHit1, vol);
+            }
+            else
+            {
+                Source.PlayOneShot(EnvironmentHit2, vol);
+            }
         }
     }
 
     public void WeaponHit(float vol)
     {
-        if (Random.value > 0.5)
+        if (!Source.isPlaying || TimeOfLastAudio + PauseBetweenNewSounds < Time.time)
         {
-            Source.PlayOneShot(WeaponHit1, vol);
-        }
-        else
-        {
-            Source.PlayOneShot(WeaponHit2, vol);
+            TimeOfLastAudio = Time.time;
+            if (Random.value > 0.5)
+            {
+                Source.PlayOneShot(WeaponHit1, vol);
+            }
+            else
+            {
+                Source.PlayOneShot(WeaponHit2, vol);
+            }
         }
     }
 
     public void ShieldHit(float vol)
     {
-        if (Random.value > 0.5)
+        if (!Source.isPlaying || TimeOfLastAudio + PauseBetweenNewSounds < Time.time)
         {
-            Source.PlayOneShot(ShieldHit1, vol);
-        }
-        else
-        {
-            Source.PlayOneShot(ShieldHit2, vol);
+            TimeOfLastAudio = Time.time;
+            if (Random.value > 0.5)
+            {
+                Source.PlayOneShot(ShieldHit1, vol);
+            }
+            else
+            {
+                Source.PlayOneShot(ShieldHit2, vol);
+            }
         }
     }
 
     public void MonsterHit(float vol)
     {
-        if (Random.value > 0.5)
+        if (!Source.isPlaying || TimeOfLastAudio + PauseBetweenNewSounds < Time.time)
         {
-            Source.PlayOneShot(MonsterHit1, vol);
-        }
-        else
-        {
-            Source.PlayOneShot(MonsterHit2, vol);
+            TimeOfLastAudio = Time.time;
+            if (Random.value > 0.5)
+            {
+                Source.PlayOneShot(MonsterHit1, vol);
+            }
+            else
+            {
+                Source.PlayOneShot(MonsterHit2, vol);
+            }
         }
     }
 }

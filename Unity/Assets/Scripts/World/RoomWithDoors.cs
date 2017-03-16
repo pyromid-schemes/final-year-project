@@ -30,6 +30,7 @@ namespace World
         private IEnumerator AnimateThenKillDoors(GameObject doors)
         {
             doors.GetComponent<Animator>().Play("TwoDoors");
+            doors.GetComponent<DoorAudioManager>().PlayDoorOpen();
             yield return new WaitForSeconds(doors.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0).Length + 1);
             Destroy(doors.gameObject);
         }

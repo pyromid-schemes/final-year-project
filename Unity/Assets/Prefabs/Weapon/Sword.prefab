@@ -155,8 +155,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41ce8bb8274ee1b4e9028a4602bf5f82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnvironmentHit1: {fileID: 8300000, guid: b1f24e595b72f854d8219ea2f347a7f9, type: 3}
-  EnvironmentHit2: {fileID: 8300000, guid: 09dec19d91045334d81c11be01a5b2d6, type: 3}
+  EnvironmentHit1: {fileID: 8300000, guid: a88fd5283a32edd42883717ccfd54fd3, type: 3}
+  EnvironmentHit2: {fileID: 8300000, guid: e4020f29888795e49a3c99a61316dff2, type: 3}
   WeaponHit1: {fileID: 8300000, guid: 22b1739ed6453d649bb67562c097f7f7, type: 3}
   WeaponHit2: {fileID: 8300000, guid: e21aaebf5bdb07b48bb30a3e1c9e7b6d, type: 3}
   ShieldHit1: {fileID: 8300000, guid: 4de9215887a2edf46adad9fa7a08ddd7, type: 3}
