@@ -17,6 +17,7 @@ namespace AI.MobControllers
         public Transform Eyes;
         public float AttackCooldown = 2f;
         public float AttackRange = 2f;
+        public float AggroRange = 2f;
         public float MaxSightRange = 10f;
         public float RotateSpeed = 10f;
         public float Speed = 1f;
