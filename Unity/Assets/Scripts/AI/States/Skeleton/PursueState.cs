@@ -11,7 +11,6 @@ namespace AI.States.Skeleton
     {
         private readonly SkeletonController _mob;
         private CalculatePath _pathCalculator;
-        private GameObject _player;
         private Vector3 _playerPos;
         private int _nextNodeIndex;
         private List<PathfindingNode> _path;
@@ -26,7 +25,6 @@ namespace AI.States.Skeleton
         {
             _nextNodeIndex = 0;
             _mob.ToWalkingState();
-            _player = GameObject.Find("Player");
             _pathfindingRoutine = _mob.StartCoroutine(CalculatePathWithWait());
         }
 
@@ -90,21 +88,23 @@ namespace AI.States.Skeleton
         {
             _pathCalculator = new CalculatePath(_mob.Grid.GetGrid(), _mob.gameObject.name.GetHashCode());
             _path = _pathCalculator.GetPathToDestination(_mob.transform.position.x,
-                _mob.transform.position.z, _player.transform.position.x, _player.transform.position.z);
+                _mob.transform.position.z, _playerPos.x, _playerPos.z);
             _nextNodeIndex = 0;
         }
 
         private bool PlayerInSight()
         {
-            return Physics.CheckSphere(_mob.transform.position, _mob.MaxSightRange + 2f, LayerMask.GetMask("Player"));
+//            return Physics.CheckSphere(_mob.transform.position, _mob.MaxSightRange + 2f, LayerMask.GetMask("Player"));
 
-//            RaycastHit hit;
-//            var direction = _playerPos - _mob.transform.position;
-//            var selfPos = _mob.transform.position;
-//            selfPos.y += 1f;
-//            var ret = Physics.Raycast(_mob.transform.position, direction, out hit, _mob.MaxSightRange) &&
-//                      hit.collider.CompareTag("Player");
-//            return ret;
+            RaycastHit hit;
+            var playerPos = _mob.WorldManager.GetVRPlayer().transform.position;
+            var selfPos = _mob.transform.position;
+            selfPos.y += 1f;
+            var direction = new Vector3(playerPos.x, selfPos.y, playerPos.z) -
+                            selfPos;
+            var ret = Physics.Raycast(selfPos, direction, out hit, _mob.MaxSightRange) &&
+                      hit.collider.CompareTag("Player");
+            return ret;
         }
     }
 }

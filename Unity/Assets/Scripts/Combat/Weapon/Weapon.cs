@@ -12,11 +12,9 @@ public abstract class Weapon : MonoBehaviour
         blocked = false;
     }
 
-    //TODO: set to false once AI and VR player has implemented the ability to toggle weapon hit boxes
-    // Kept to true to for compatability issues until earlier statement is resolved
     void Start()
     {
-        setWeaponIsActive(true);
+        setWeaponIsActive(false);
     }
 
     void OnCollisionEnter(Collision other)
