@@ -1980,7 +1980,7 @@ GameObject:
   - 65: {fileID: 65000013677326794}
   - 114: {fileID: 114000013233670728}
   m_Layer: 8
-  m_Name: Sword Stand
+  m_Name: Item Stand
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2694,7 +2694,7 @@ GameObject:
   - 65: {fileID: 65000011443430694}
   - 114: {fileID: 114000013437587712}
   m_Layer: 8
-  m_Name: Shield Stand
+  m_Name: Item Stand (1)
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2837,7 +2837,7 @@ GameObject:
   - 65: {fileID: 65000010481251338}
   - 114: {fileID: 114000013488461990}
   m_Layer: 8
-  m_Name: Torch Stand
+  m_Name: Item Stand (2)
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
