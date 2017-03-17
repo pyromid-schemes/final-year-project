@@ -22,8 +22,6 @@ Builder.prototype = {
         this.add_room_btn(700, 70, Rooms.room4);
         this.add_room_btn(650, 120, Rooms.room5);
 
-        this.add_mob_btn(650, 180, Mobs.ant);
-        this.add_mob_btn(700, 180, Mobs.bear);
         this.add_mob_btn(650, 230, Mobs.skellyCheng);
 
         this.tile_selector = this.game.add.sprite(0, 0, 'builder-button-selector');
@@ -113,6 +111,8 @@ Builder.prototype = {
 
         var mob_btn = this.mobButtons[key];
         var delay = mob_btn.mob.spawnDelay;
+
+        if(delay == 0) return;
 
         // Add the mob key to a 'cooldown' list, which is checked when a btn is pressed to see if it is on cooldown
         this.cooldown_buttons.push(key);
