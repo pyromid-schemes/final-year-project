@@ -14,6 +14,7 @@ public class SkeletonAudioManager : MonoBehaviour {
     void Awake()
     {
         Source = gameObject.AddComponent<AudioSource>();
+        Source.spatialBlend = 1;
     }
 	
 	void Update()

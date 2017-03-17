@@ -21,6 +21,7 @@ public class EquippableAudioManager : MonoBehaviour {
     void Awake()
     {
         Source = gameObject.AddComponent<AudioSource>();
+        Source.spatialBlend = 1;
     }
 
     public void PlayCollisionWith(string colliderTag)

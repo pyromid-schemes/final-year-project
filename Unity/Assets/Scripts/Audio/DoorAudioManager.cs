@@ -12,6 +12,7 @@ public class DoorAudioManager : MonoBehaviour {
     void Awake()
     {
         Source = gameObject.AddComponent<AudioSource>();
+        Source.spatialBlend = 1;
     }
 
 	public void PlayDoorOpen()
