@@ -397,8 +397,6 @@ Main.prototype = {
         for(var i=0; i<this.mobs.length; i++){
             var mob = this.mobs[i];
 
-            console.log(mob);
-
             var new_mob = this.game.add.image(mob.x, mob.y, mob.mob_type.sprite.key, null, this.map_group);
             new_mob.pivot.x = mob.mob_type.sprite.size.width / 2;
             new_mob.pivot.y = mob.mob_type.sprite.size.height / 2;
