@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/*
+ * @author Daniel Burnley
+ */
 namespace AI.Pathfinding
 {
     public struct Node

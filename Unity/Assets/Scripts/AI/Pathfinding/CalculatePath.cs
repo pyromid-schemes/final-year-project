@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
+/*
+ * @author Daniel Burnley
+ */
 namespace AI.Pathfinding
 {
     public class CalculatePath

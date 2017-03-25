@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
+/*
+ * @author Daniel Burnley
+ */
 namespace AI.States.Exceptions
 {
     public class InvalidStateTransitionException : Exception

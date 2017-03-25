@@ -1,6 +1,9 @@
 ﻿using AI.MobControllers;
 using UnityEngine;
 
+/*
+ * @author Daniel Burnley
+ */
 namespace AI.States.Skeleton
 {
     class PatrolState : IState
