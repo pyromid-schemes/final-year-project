@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * @author Daniel Cheng
+ * Combat Controller for the Mock VR player, this allows the user to attack using the left mouse button.
+ */
 public class CombatController : MonoBehaviour {
     private Animator animator;
     private Weapon weapon;

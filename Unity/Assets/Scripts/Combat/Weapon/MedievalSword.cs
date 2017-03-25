@@ -1,5 +1,11 @@
 ﻿using UnityEngine;
 
+/*
+ * @author Daniel Cheng
+ * Medieval sword class allows the medieval sword model to deal damage based on a range as well as
+ * calculate if it can do critical damage by rolling a critical strike chance, 
+ * Weapon abstract class handles collision detection
+ */
 public class MedievalSword : Weapon
 {
     private const int maxDamage = 3;

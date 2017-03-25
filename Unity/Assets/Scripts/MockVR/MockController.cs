@@ -1,6 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * @author Daniel Cheng
+ * MockController for the Mock VR player which allows the user to use the WASD keys for movement.
+ * W for fowards, A for left, S for back, D for right
+ * In addition, the user mouse will lock into the screen whilst the mock vr player is in use, 
+ * press escape to enable the mouse outside the game
+ * This class also handles collision detection thus preventing the Mock VR player from walking through walls 
+ */
 public class MockController : MonoBehaviour
 {
     private CharacterController controller;

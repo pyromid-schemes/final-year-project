@@ -1,6 +1,10 @@
 ﻿using System;
 using UnityEngine;
 
+/*
+ * @author Daniel Cheng
+ * Health class for the prototype knight monster.
+ */
 public class KnightHealth : MonoBehaviour, IDamageable
 {
 	private int maxHealth;

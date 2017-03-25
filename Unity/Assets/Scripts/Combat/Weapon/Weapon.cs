@@ -1,6 +1,10 @@
 ﻿using System;
 using UnityEngine;
 
+/*
+ * @author: Daniel Cheng
+ * Weapon class that handles collision detection and transfer of damage
+ */
 public abstract class Weapon : MonoBehaviour
 {
     private bool isColliding;
@@ -15,6 +19,7 @@ public abstract class Weapon : MonoBehaviour
         blocked = false;
     }
 
+    // detects and indentifies the type of collision
     void OnCollisionEnter(Collision other)
     {
         if (CollisionIsValid(other))
