@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+/*
+    @author Jamie Redding (jgr2)
+*/
 
 namespace World
 {

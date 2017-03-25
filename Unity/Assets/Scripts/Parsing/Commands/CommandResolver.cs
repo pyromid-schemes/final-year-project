@@ -2,6 +2,9 @@
 using UnityEngine;
 using System;
 using World;
+/*
+    @author Jamie Redding (jgr2)
+*/
 
 namespace Parsing.Commands
 {

@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+/*
+    @author Jamie Redding (jgr2)
+*/
 
 namespace Parsing.Commands
 {

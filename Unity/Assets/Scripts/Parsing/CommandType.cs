@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+/*
+    @author Jamie Redding (jgr2)
+*/
 
 namespace Parsing
 {

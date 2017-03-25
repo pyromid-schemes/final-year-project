@@ -1,6 +1,9 @@
 ﻿using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
+/*
+    @author Jamie Redding (jgr2)
+*/
 
 namespace World
 {
