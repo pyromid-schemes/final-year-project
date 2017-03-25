@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-
+/*
+ * @author Japeth Gurr and Daniel Cheng
+ * Health script for the VR player.
+ */
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
     private int maxHealth;

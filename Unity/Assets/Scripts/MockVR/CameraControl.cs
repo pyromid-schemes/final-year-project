@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+/*
+ *@author Daniel Cheng
+ * Camera control to allow the player to use the mouse for the Mock VR player.
+ * This allows them to move the mouse causing the Mock VR player to look based at where the mouse is looking at
+ */
 public class CameraControl : MonoBehaviour {
 
     private Vector2 mouseLook;
