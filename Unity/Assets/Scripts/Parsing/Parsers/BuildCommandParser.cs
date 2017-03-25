@@ -6,6 +6,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Parsing.Commands;
 using System;
+/*
+    @author Jamie Redding (jgr2)
+*/
 
 namespace Parsing.Parsers
 {

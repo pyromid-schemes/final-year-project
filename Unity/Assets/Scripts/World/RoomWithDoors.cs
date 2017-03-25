@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+/*
+    @author Jamie Redding (jgr2)
+*/
 
 namespace World
 {

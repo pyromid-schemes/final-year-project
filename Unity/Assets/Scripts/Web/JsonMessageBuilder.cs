@@ -4,6 +4,9 @@ using System.Text;
 using World;
 using System.Collections.Generic;
 using Communication;
+/*
+    @author Jamie Redding (jgr2)
+*/
 
 namespace Web
 {

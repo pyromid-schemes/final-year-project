@@ -1,5 +1,8 @@
 ﻿using System;
 using UnityEngine;
+/*
+    @author Jamie Redding (jgr2)
+*/
 
 namespace Communication
 {

@@ -1,5 +1,8 @@
 ﻿using System;
 using Parsing;
+/*
+    @author Jamie Redding (jgr2)
+*/
 
 namespace Parsing.Commands
 {

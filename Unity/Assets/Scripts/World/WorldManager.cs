@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using AI.Pathfinding;
 using Communication;
+/*
+    @author Jamie Redding (jgr2)
+*/
 
 namespace World
 {
