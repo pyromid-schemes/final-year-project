@@ -1,3 +1,4 @@
+// author: Jamie Redding (jgr2)
 var UnityClient = {
 	"buildCommand": function(objectId, xPos, zPos, rot) {
 		var command = {
