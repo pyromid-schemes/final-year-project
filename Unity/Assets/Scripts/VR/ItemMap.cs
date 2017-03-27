@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+/*
+ * @author Japeth Gurr (jarg2)
+ * Script for ItemMap prefab;
+ * Stores default prefab transforms for specified GameObjects
+*/
 public class ItemMap : MonoBehaviour {
     public GameObject SwordPrefab;
     public GameObject ShieldPrefab;
     public GameObject TorchPrefab;
-    //public GameObject DaggerPrefab;
-    //public GameObject MedievalSwordPrefab;
 
     private Dictionary<string, Transform> ItemTransforms;
 
@@ -17,8 +19,6 @@ public class ItemMap : MonoBehaviour {
         ItemTransforms.Add(SwordPrefab.name, SwordPrefab.transform);
         ItemTransforms.Add(ShieldPrefab.name, ShieldPrefab.transform);
         ItemTransforms.Add(TorchPrefab.name, TorchPrefab.transform);
-        //ItemTransforms.Add(DaggerPrefab.name, DaggerPrefab.transform);
-        //ItemTransforms.Add(MedievalSwordPrefab.name, MedievalSwordPrefab.transform);
     }
 
     public Transform GetDefaultTransform(string itemName)

@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+/*
+ * @author Japeth Gurr (jarg2)
+ * Script to freeze a GameObject above an item stand
+*/
 public class HoldItemOnStella : MonoBehaviour {
 	
     void Awake()
@@ -27,6 +30,7 @@ public class HoldItemOnStella : MonoBehaviour {
         }
     }
 
+    // If the Item stand has any items attatched, free them so they behave properly
     void FreeChildren()
     {
         foreach(Transform child in gameObject.transform)

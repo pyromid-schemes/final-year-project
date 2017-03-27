@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+/*
+ * @author Japeth Gurr (jarg2)
+ * Audio management script for equippable items 
+*/
 public class EquippableAudioManager : MonoBehaviour {
 
     public AudioClip EnvironmentHit1;

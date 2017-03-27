@@ -1,6 +1,10 @@
 ﻿using System;
 using UnityEngine;
-
+/*
+ * @author Japeth Gurr (jarg2)
+ * Class to handle Hand Tracked movement;
+ * Includes validation and movement calculations
+*/
 namespace VirtualReality.MovementMethods
 {
 	public class RelativeToHand : IMovementMethod

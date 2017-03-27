@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 /*
- * @author Japeth Gurr and Daniel Cheng
+ * @author Japeth Gurr (jarg2) and Daniel Cheng
  * Health script for the VR player.
  */
 public class PlayerHealth : MonoBehaviour, IDamageable
@@ -46,14 +46,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     private IEnumerator FadeDamageOverlay()
     {
-        //for (float alpha = 1.0f; alpha > 0.0f; alpha -= (Time.deltaTime / damageFadeDurationS))
-        //{
-        //    Color newColor = DamageOverlay.color;
-        //    newColor.a = alpha;
-        //    DamageOverlay.color = newColor;
-        //    yield return null;
-        //}
-
         float opacity = 1.0f;
         while(opacity > 0f)
         {

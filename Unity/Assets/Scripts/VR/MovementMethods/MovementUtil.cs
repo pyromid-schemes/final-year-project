@@ -1,6 +1,9 @@
 ﻿using System;
 using UnityEngine;
-
+/*
+ * @author Japeth Gurr (jarg2)
+ * Class containing utility functions for movement methods
+*/
 namespace VirtualReality.MovementMethods
 {
 	public class MovementUtil

@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+/*
+ * @author Japeth Gurr (jarg2)
+ * Audio management script for doors 
+*/
 public class DoorAudioManager : MonoBehaviour {
 
     public AudioClip OpenDoor;

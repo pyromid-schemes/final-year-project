@@ -1,6 +1,10 @@
 ﻿using System;
 using UnityEngine;
-
+/*
+ * @author Japeth Gurr (jarg2)
+ * Class to handle Head Tracked movement;
+ * Includes validation and movement calculations
+*/
 namespace VirtualReality.MovementMethods
 {
 	public class RelativeToPlayerHead : IMovementMethod

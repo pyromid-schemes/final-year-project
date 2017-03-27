@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 /*
- * @author Daniel Cheng
+ * @author Daniel Cheng and Japeth Gurr (jarg2)
  * Health class for the Skeleton monster. Allows the skeleton to recieve damage, have max and current heath
  * and on zero health play a death animation
  */
