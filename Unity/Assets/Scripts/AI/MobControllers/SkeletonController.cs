@@ -4,6 +4,9 @@ using AI.States;
 using AI.States.Skeleton;
 using UnityEngine;
 
+/*
+ * @author Daniel Burnley
+ */
 namespace AI.MobControllers
 {
     class SkeletonController : SimpleMobController

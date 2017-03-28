@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
-
+/*
+ * @author Japeth Gurr (jarg2)
+ * Script to handle picking up, handling, and releasing GameObjects;
+ * One copy attatched to each hand
+*/
 namespace VirtualReality
 {
     [RequireComponent(typeof(SteamVR_TrackedObject))]

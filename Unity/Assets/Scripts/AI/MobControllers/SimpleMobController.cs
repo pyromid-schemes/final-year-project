@@ -4,6 +4,9 @@ using AI.States;
 using UnityEngine;
 using World;
 
+/*
+ * @author Daniel Burnley
+ */
 namespace AI.MobControllers
 {
     abstract class SimpleMobController : MonoBehaviour

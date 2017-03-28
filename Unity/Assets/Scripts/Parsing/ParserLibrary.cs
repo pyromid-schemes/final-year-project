@@ -3,6 +3,9 @@ using Parsing.Parsers;
 using Newtonsoft.Json;
 using UnityEngine;
 using System;
+/*
+    @author Jamie Redding (jgr2)
+*/
 
 namespace Parsing
 {

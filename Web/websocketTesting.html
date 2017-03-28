@@ -1,3 +1,4 @@
+<!-- author: Jamie Redding (jgr2) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,9 +26,19 @@
 </head>
 <body>
 <div id="main">
+    <h2>1. Connect</h2>
     <input id="url" type="text" value="localhost"/>
     <input id="openWSButton" type="button" value="Open connection" onclick="openWebSocket(config);"/>
     <input id="closeWSButton" type="button" value="Close connection" onclick="closeWebSocket();" disabled/>
+    <h2>2. Send commands</h2>
+    <h3>2a. Predefined commands</h3>
+    <table>
+        <tr>
+            <td><input type="button" value="Send unsupported message" onclick="sendUnsupportedMessage();"></td>
+            <td>{"unsupported" : true}</td>
+        </tr>
+    </table>
+    <h3>2b. Custom commands</h3>
     <table>
         <tr>
             <th>command</th>
@@ -74,12 +85,10 @@
             </form>
         </tr>
     </table>
-    <br>
-</div>
-<div id="footer">
+    <h2>3. Responses</h2>
     Update frequency: <span id="updateFrequency"></span><br>
     <label for="showMovement">Show movement in output</label>
-    <input id="showMovement" type="checkbox" onclick="setShowMovement();">
+    <input id="showMovement" type="checkbox" onclick="setShowMovement();" checked>
     <br>
     <div>
         <input type="button" onclick="clearOutput();" value="Clear output"/>
@@ -104,7 +113,7 @@
 <script type="text/javascript" src="js/sockets/webSockets.js"></script>
 <script type="text/javascript" src="js/sockets/unityClient.js"></script>
 <script type="text/javascript" charset="UTF-8">
-    var showMovement = false;
+    var showMovement = true;
     var updateFrequency = 0;
 
     var config = {
@@ -182,6 +191,10 @@
     function sendSpawnMobCommand() {
         var spawnMobForm = document.getElementById("spawnMobForm").elements;
         UnityClient.spawnMobCommand(spawnMobForm[0].value, spawnMobForm[1].value, spawnMobForm[2].value, spawnMobForm[3].value);
+    }
+
+    function sendUnsupportedMessage() {
+        sendMessage(JSON.stringify({"unsupported" : true}));
     }
 
     function writeToOutput(text, id) {

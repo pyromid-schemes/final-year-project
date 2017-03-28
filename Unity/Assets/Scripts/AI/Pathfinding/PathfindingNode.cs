@@ -1,4 +1,7 @@
 ﻿using System;
+/*
+ * @author Daniel Burnley
+ */
 namespace AI.Pathfinding
 {
     public class PathfindingNode : IEquatable<PathfindingNode>

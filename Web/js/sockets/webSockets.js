@@ -1,3 +1,4 @@
+// author: Jamie Redding
 var ws;
 var readyToSend = false;
 

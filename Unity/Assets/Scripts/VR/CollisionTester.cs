@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+/*
+ * @author Japeth Gurr (jarg2)
+ * Debugging script to all squak collision information 
+*/
 [RequireComponent(typeof(Collider))]
 public class CollisionTester : MonoBehaviour {
 

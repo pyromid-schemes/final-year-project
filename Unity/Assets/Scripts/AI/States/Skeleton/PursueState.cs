@@ -5,6 +5,9 @@ using AI.MobControllers;
 using AI.Pathfinding;
 using UnityEngine;
 
+/*
+ * @author Daniel Burnley
+ */
 namespace AI.States.Skeleton
 {
     internal class PursueState : IState

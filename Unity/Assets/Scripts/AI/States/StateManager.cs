@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using AI.States.Exceptions;
 
+/*
+ * @author Daniel Burnley
+ */
 namespace AI.States
 {
     public class StateManager

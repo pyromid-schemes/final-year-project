@@ -49,7 +49,7 @@ namespace AI.Pathfinding
                     TestThing,
                     new Vector3(child.transform.position.x, 2.5f, child.transform.position.z),
                     child.transform.rotation);
-                debug.parent = child.gameObject;
+                debug.Parent = child.gameObject;
             }
         }
 

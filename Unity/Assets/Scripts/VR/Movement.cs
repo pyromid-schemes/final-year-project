@@ -1,7 +1,11 @@
 ﻿using System;
 using UnityEngine;
 using VirtualReality.MovementMethods;
-
+/*
+ * @author Japeth Gurr (jarg2)
+ * Script to handle Movement Input;
+ * One copy attatched to each hand
+*/
 namespace VirtualReality
 {
     [RequireComponent(typeof(SteamVR_TrackedObject))]

@@ -1,4 +1,7 @@
 ﻿using System;
+/*
+    @author Jamie Redding (jgr2)
+*/
 
 namespace Parsing
 {
