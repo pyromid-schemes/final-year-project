@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 /*
- * @author Japeth Gurr and Daniel Cheng
+ * @author Japeth Gurr and Kin Chung Cheng
  * Health script for the VR player.
  */
 public class PlayerHealth : MonoBehaviour, IDamageable

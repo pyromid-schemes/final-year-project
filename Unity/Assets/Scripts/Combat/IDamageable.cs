@@ -1,5 +1,5 @@
 ﻿/*
- *@author Daniel Cheng
+ *@author Kin Chung Cheng
  * Base interface for all objects that should receive damage  
  */
 public interface IDamageable

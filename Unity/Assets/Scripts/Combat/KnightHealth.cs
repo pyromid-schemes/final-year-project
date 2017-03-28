@@ -2,7 +2,7 @@
 using UnityEngine;
 
 /*
- * @author Daniel Cheng
+ * @author Kin Chung Cheng
  * Health class for the prototype knight monster.
  */
 public class KnightHealth : MonoBehaviour, IDamageable

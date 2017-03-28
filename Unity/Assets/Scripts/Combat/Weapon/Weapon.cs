@@ -2,7 +2,7 @@
 using UnityEngine;
 
 /*
- * @author: Daniel Cheng
+ * @author: Kin Chung Cheng
  * Weapon class that handles collision detection and transfer of damage
  */
 public abstract class Weapon : MonoBehaviour

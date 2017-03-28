@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 /*
- * @author Daniel Cheng
+ * @author Kin Chung Cheng
  * Health script for the mock VR player
  * This has a self kill key for testing of player health, to test this press k.
  * On zero health the player will be rendered inactive
