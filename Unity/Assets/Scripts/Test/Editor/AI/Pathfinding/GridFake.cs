@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using AI.Pathfinding;
-
+/**
+ * @author Daniel Burnley
+ */
 namespace Test.AI.Pathfinding
 {
     public class GridFake : IGrid

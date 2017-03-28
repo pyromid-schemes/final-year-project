@@ -2,6 +2,9 @@
 using AI.States.Exceptions;
 using NUnit.Framework;
 
+/**
+ * @author Daniel Burnley
+ */
 namespace Test.AI.States
 {
     class StateManagerTest
@@ -11,8 +14,7 @@ namespace Test.AI.States
         private enum States
         {
             Meow,
-            Woof,
-            Quack
+            Woof
         }
 
         [SetUp]

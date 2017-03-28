@@ -2,7 +2,9 @@
 using NUnit.Framework;
 using Communication;
 using System.Collections.Generic;
-
+/**
+ * @author Jamie Redding
+ */
 namespace Test.Communication
 {
 	public class IPCManagerTest

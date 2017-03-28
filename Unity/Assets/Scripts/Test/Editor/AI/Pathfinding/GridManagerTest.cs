@@ -2,14 +2,15 @@
 using AI.Pathfinding;
 using NUnit.Framework;
 
+/**
+ * @author Daniel Burnley
+ */
 namespace Test.AI.Pathfinding
 {
     class GridManagerTest
     {
         private GridManager _gridManager;
         private List<Node> _expectedNodes;
-        private float _currentX;
-        private float _currentZ;
 
         private void AddExpectedNode(float x, float z)
         {

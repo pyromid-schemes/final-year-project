@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using AI.Pathfinding;
 using NUnit.Framework;
-
+/**
+ * @author Daniel Burnley
+ */
 namespace Test.AI.Pathfinding
 {
     class CalculatePathTest

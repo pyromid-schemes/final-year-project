@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using AI.MobControllers;
 using UnityEngine;
 using World;
-
+/**
+ * @author Daniel Burnley
+ */
 namespace AI.Pathfinding
 {
     public class Grid : MonoBehaviour, IGrid

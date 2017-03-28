@@ -1,5 +1,7 @@
 ﻿using System;
-
+/**
+ * @author Jamie Redding
+ */
 namespace Test.Builders
 {
 	public class BuildCommandBuilder

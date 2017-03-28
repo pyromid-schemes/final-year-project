@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using AI.States;
-
+/**
+ * @author Daniel Burnley
+ */
 namespace Test.AI.States
 {
     class StateStub : IState
     {
-        public bool HasEntered = false;
+        public bool HasEntered;
 
         public void OnEnter()
         {

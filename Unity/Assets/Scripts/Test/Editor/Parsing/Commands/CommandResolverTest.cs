@@ -5,7 +5,9 @@ using Parsing.Commands;
 using Newtonsoft.Json;
 using Test.Builders;
 using World;
-
+/**
+ * @author Jamie Redding
+ */
 namespace Test.Parsing.Commands
 {
 	public class CommandResolverTest
