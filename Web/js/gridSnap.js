@@ -1,15 +1,23 @@
+/*
+ @author Daniel Jackson (dj233)
+ */
+
 Main.appendPrototype({
 
+    // A list of gridsnap points
     grid_snap_points: [],
 
+    // Preload the debug circle
     gridsnap_preload: function(){
         this.game.load.image('gridsnap-circle', 'assets/gridsnap/circle.png');
     },
 
+    // Add a GSP (Grid snap point) to the list
     gridsnap_add_point: function(pos){
         this.grid_snap_points.push(pos);
     },
 
+    // debug print
     gridsnap_print: function(){
         console.log("gridsnap_print::");
         for(var i=0; i<this.grid_snap_points.length; i++){
@@ -17,6 +25,7 @@ Main.appendPrototype({
         }
     },
 
+    // Add a GSP debug dot to the game
     gridsnap_add_dot: function(pos){
         var img = this.game.add.image(pos.x, pos.y, 'gridsnap-circle', null, this.map_group);
         img.pivot.x = 32;
@@ -25,7 +34,7 @@ Main.appendPrototype({
         return img;
     },
 
-
+    // Debug, show all the available grid snap point's
     gridsnap_show_dots: function(){
         var temp_points = [];
         for(var i=0; i<this.grid_snap_points.length; i++){
@@ -50,7 +59,7 @@ Main.appendPrototype({
         }, TIME_TO_START_FADE);
     },
 
-
+    // Lookup for whether a point is within the list
     gridsnap_is_point_in_list: function(p){
         for(var i=0; i<this.grid_snap_points.length; i++){
             var p1 = this.grid_snap_points[i];

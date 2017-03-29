@@ -1,3 +1,7 @@
+/*
+ @author Daniel Jackson (dj233)
+ */
+
 var Splash = function(game){
 };
 
@@ -21,13 +25,11 @@ Splash.prototype = {
         // Make the original scale small
         this.logo.scale.setTo(0.2, 0.2);
 
-        // Illuminati logo
-        var illuminati = true;
-
         // Add a spin and scale tween
-        this.game.add.tween(this.logo).to({angle: (illuminati ? 900 : 1080)}, 2000, Phaser.Easing.Linear.None, true);
+        this.game.add.tween(this.logo).to({angle: 1080}, 2000, Phaser.Easing.Linear.None, true);
         this.game.add.tween(this.logo.scale).to({x: 1.5, y: 1.5}, 2000, Phaser.Easing.Quadratic.In, true);
 
+        // set a timeout to exit to main menu
         var self = this;
         setTimeout(function () {
             self.game.add.tween(self.logo).to({alpha: 0}, 800, Phaser.Easing.Linear.None, true);
@@ -44,6 +46,7 @@ Splash.prototype = {
         };
     },
 
+    // function to skip to the main game
     startingMain: false,
     goToMain: function(){
         if(!this.startingMain){

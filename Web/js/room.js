@@ -1,8 +1,14 @@
+/*
+ @author Daniel Jackson (dj233)
+ */
+
 Main.appendPrototype({
 
+    // room vars and types
     rooms: [],
     room_types: [],
 
+    // Preload all the rooms
     rooms_preload: function(){
         var self = this;
 
@@ -11,6 +17,7 @@ Main.appendPrototype({
         });
     },
 
+    // Create a room
     rooms_create: function(){
         var self = this;
 

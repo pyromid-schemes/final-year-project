@@ -1,3 +1,8 @@
+/*
+ @author Daniel Jackson (dj233)
+ */
+
+// A list of all our mobs
 var Mobs = {
     skellyCheng: {
         id: 'mobSkellyCheng',

@@ -1,3 +1,8 @@
+/*
+ @author Daniel Jackson (dj233)
+ */
+
+// Player data
 var Player = {
     id: 'player',
     sprite: {

@@ -1,14 +1,22 @@
+/*
+ @author Daniel Jackson (dj233)
+ */
+
+// Constants for door positions
 var DOOR_UP = { x: 0, y: -80 };
 var DOOR_RIGHT = { x: 80, y: 0 };
 var DOOR_DOWN = { x: 0, y: 80 };
 var DOOR_LEFT = { x: -80, y: 0 };
 
+// Array lookup
 var DOORS = [DOOR_UP, DOOR_RIGHT, DOOR_DOWN, DOOR_LEFT];
 
+// Defaults
 var SCALE_THIRD = 1/3;
 var CENTER_480 = { x: 240, y: 240 };
 var SCALED_480 = { w: 160, h: 160, cx: 80, cy: 80 };
 
+// Create all the rooms in the world
 var Rooms = {
     room1: generate_room(1, [DOOR_UP]),
     room2: generate_room(2, [DOOR_UP, DOOR_RIGHT, DOOR_DOWN, DOOR_LEFT]),
@@ -18,6 +26,7 @@ var Rooms = {
     room6: generate_room(6, [DOOR_UP])
 };
 
+// Prototype for mass room generation
 function generate_room(room_id, doors){
     var room_key = 'room' + room_id;
     return {

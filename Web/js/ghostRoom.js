@@ -1,3 +1,8 @@
+/*
+ @author Daniel Jackson (dj233)
+ */
+
+// Basic math functions
 var PI_HALF = Math.PI/2;
 var PI_2 = Math.PI * 2;
 
@@ -14,6 +19,7 @@ Main.appendPrototype({
     ghostroom_preload: function(){
     },
 
+    // When a room tile is selected, this creates the ghostroom objects
     ghostroom_room_selected: function(key){
         this.ghostroom_selected_room_key = key;
 
@@ -27,6 +33,7 @@ Main.appendPrototype({
 
         this.ghostroom_update();
     },
+    // Tile is deselected, ghostroom disappears
     ghostroom_room_unselected: function(){
         if(this.ghostroom_red == null) return;
 
@@ -37,6 +44,7 @@ Main.appendPrototype({
         this.ghostroom_green = null;
     },
 
+    // Prototype function for creating red/green rooms
     ghostroom_create_room: function(key, suffix){
         var room = this.game.add.image(0, 0, key+suffix, null, this.map_group);
         room.scale.setTo(this.room_types[key].scale);
@@ -45,6 +53,7 @@ Main.appendPrototype({
         return room;
     },
 
+    // Update the positions of the ghostroom(s) - red/green
     ghostroom_update_room_positions: function(pos){
         this.ghostroom_red.x = pos.x; this.ghostroom_red.y = pos.y;
         this.ghostroom_green.x = pos.x; this.ghostroom_green.y = pos.y;
@@ -55,10 +64,12 @@ Main.appendPrototype({
         }
     },
 
+    // If the mouse moves, update the positions
     ghostroom_mouse_move: function(){
         this.ghostroom_update();
     },
 
+    // Update for checking positions and whether collisions are happening
     ghostroom_update: function(){
         if(this.ghostroom_red != null){
             var tile = this.get_tile_xy();
@@ -73,6 +84,7 @@ Main.appendPrototype({
         }
     },
 
+    // the collision detection function
     ghostroom_check_room_collisions: function(pos){
         this.ghostroom_can_place = true;
         for(var i=0; i<this.rooms.length; i++){
@@ -107,6 +119,7 @@ Main.appendPrototype({
         }
     },
 
+    // Ghostroom grid snap point generation
     ghostroom_generate_snap_points: function(pos){
         var grid_snap_points = [];
         for(var i=0; i<this.ghostroom_obj.door_positions.length; i++){
@@ -119,6 +132,7 @@ Main.appendPrototype({
         return grid_snap_points;
     },
 
+    // Turn a door index position into a relative door index based on rotation
     ghostroom_translate_door_pos: function(door_pos){
         var door_index = -1;
         for(var i=0; i<DOORS.length; i++){
@@ -130,8 +144,7 @@ Main.appendPrototype({
         return DOORS[door_index];
     },
 
-
-
+    // When rotating a room, both the green and red rooms need to rotate
     ghostroom_rotate_rooms: function(){
         if(this.ghostroom_red == null) return;
 
@@ -144,6 +157,7 @@ Main.appendPrototype({
         this.ghostroom_green.rotation = rot;
     },
 
+    // Keyboard handler for rotation
     ghostroom_keyOnDown: function(e) {
         if(e.keyCode == Phaser.Keyboard.R){
             this.ghostroom_rotate_rooms();
@@ -151,6 +165,7 @@ Main.appendPrototype({
         }
     },
 
+    // Check if a ghostroom can be placed - if it can, then place the real room and update ghostroom to red
     ghostroom_try_to_place: function(){
         if(this.ghostroom_red == null) return;
 
@@ -164,6 +179,7 @@ Main.appendPrototype({
 
     },
 
+    // Basic redraw functionality
     ghostroom_redraw: function(){
         if(this.ghostroom_red == null) return;
 
@@ -180,7 +196,7 @@ Main.appendPrototype({
         for(var i=0; i<rot; i++) this.ghostroom_rotate_rooms();
     },
 
-
+    // Debug method for showing gridsnap points
     ghostroom_debug: function(){
         if(this.ghostroom_red == null) return;
 

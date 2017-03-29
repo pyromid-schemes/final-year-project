@@ -1,3 +1,6 @@
+/*
+ @author Daniel Jackson (dj233)
+ */
 
 /** CONSTANTS **/
 var MAP_DRAW_OFFSET_X = 0;
@@ -18,8 +21,10 @@ var Main = function(game){
 };
 
 Main.prototype = {
+    // The game object has a reference to a builder object
     builder: null,
 
+    // Variables for the map objects
     game_zoom: 1,
     map_group: null,
     game_data: null,
@@ -28,6 +33,7 @@ Main.prototype = {
     map_dimensions: null,
     empty_background: null,
 
+    // Dragging variables
     is_dragging: false,
     drag_current: {x: 0, y: 0},
 
@@ -44,49 +50,59 @@ Main.prototype = {
     mob_id_count: 0,
 
     preload: function(){
+        // JS closures fix
         var self = this;
 
+        // Load the misc items
         this.game.load.image('empty-tile', 'assets/empty-tile.png');
         this.game.load.image('empty-tile64', 'assets/empty-tile64.png');
         this.game.load.image('builder-button-selector', 'assets/selector.png');
         this.game.load.image('1x1', 'assets/buttons/1x1.png');
 
+        // For every mob, preload the images
         Object.keys(Mobs).forEach(function(k){
             self.preload_mob(Mobs[k]);
         });
 
+        // Load the player images
         this.game.load.image(Player.sprite.key, Player.sprite.image);
 
+        // Preload healthbar stuff
         this.healthbar_preload();
+        // Preload gridsnap module
         this.gridsnap_preload();
+        // Preload all rooms
         this.rooms_preload();
     },
+    // Takes a mob object and preloads the sprite and builder button
     preload_mob: function(mob){
         this.game.load.image(mob.sprite.key, mob.sprite.image);
         this.game.load.image(mob.builderButton.key, mob.builderButton.image);
     },
 
+    // Phaser.create override
     create: function(){
+        // Set the background colour
         var graphics = this.game.add.graphics(0, 0);
         graphics.beginFill(0xccccff, 1);
         graphics.drawRect(0, 0, 800, 600);
         graphics.endFill();
 
+        // Setup the checkerboard
         this.create_tiled_background();
 
-        /** DEBUG **/
-        this.game_data = document.getElementById('data');
-        this.gd2 = document.getElementById('data2');
-        this.gd3 = document.getElementById('data3');
-
+        // Setup handlers for input
         this.game.input.onDown.add(this.onDown, this);
         this.game.input.onUp.add(this.onUp, this);
         this.game.input.addMoveCallback(this.onMove, this);
 
+        // Setup more keybaord input handlers
         var self = this;
         this.game.input.keyboard.onDownCallback = function(e){
             self.keyOnDown(e, self);
         };
+
+        // Setup the zooming functionality
         document.getElementById('game').addEventListener("mousewheel", function(e){
             self.mouseWheel(e);
         }, false);
@@ -94,9 +110,10 @@ Main.prototype = {
         // Create the builder object
         this.builder = new Builder(this.game, this); this.builder.create();
 
-
+        // Setup rooms
         this.rooms_create();
 
+        // Add the mob type objects to the game
         Object.keys(Mobs).forEach(function(k){
             self.addMobType(Mobs[k]);
         });
@@ -116,10 +133,12 @@ Main.prototype = {
         window.mainScene = this;
     },
 
+    // Adds a mob type
     addMobType: function(mob_data){
         this.mob_types[mob_data.id] = mob_data;
     },
 
+    // Phaser.update override
     update: function(){
         if(this.ghost_mob != null){
             var tile = this.get_world_xy();
@@ -129,6 +148,7 @@ Main.prototype = {
         }
     },
 
+    // Keyboard input handler
     onDown: function(e){
         if(this.isMouseInsideMap()){
             if(!window.builderScene.is_tile_selected()){
@@ -147,9 +167,11 @@ Main.prototype = {
             }
         }
     },
+    // Mouse click up event
     onUp: function(e){
         this.is_dragging = false;
     },
+    // Mouse move event
     onMove: function(e){
         if(this.is_dragging){
             var pointer = this.game.input.activePointer;
@@ -165,7 +187,7 @@ Main.prototype = {
         }
     },
 
-    // ToDo: remove magic numbers
+    // Scrolls the map by a certain amount
     scrollMap: function(diff){
         this.map_group.pivot.x += diff.x / this.game_zoom;
         this.map_group.pivot.y += diff.y / this.game_zoom;
@@ -177,6 +199,7 @@ Main.prototype = {
         this.empty_background.pivot.y = (this.map_dimensions.h / 2) - diff3.y*16;
     },
 
+    // Handles the mouse wheel scroll for zoom
     mouseWheel: function(e){
         var delta = this.game.input.mouse.wheelDelta * -SCROLL_SPEED;
         this.game_zoom = Math.min(SCROLL_MAX, Math.max(SCROLL_MIN, this.game_zoom + delta));
@@ -185,11 +208,12 @@ Main.prototype = {
         this.map_group.scale.set(this.game_zoom);
     },
 
+    // Keyboard handlers
     keyOnDown: function(e, self){
         this.builder.keyOnDown(e);
 
+        // delegate key press to ghostroom for cancellation
         this.ghostroom_keyOnDown(e);
-
 
         if(e.keyCode == Phaser.Keyboard.D){
             this.gridsnap_show_dots();
@@ -251,6 +275,7 @@ Main.prototype = {
         this.ghost_room.pivot.x = 64;
         this.ghost_room.pivot.y = 64;
     },
+    // Deselect the room
     room_unselected: function(){
         if(this.ghost_room != null){
             this.ghost_room.destroy();
@@ -258,6 +283,7 @@ Main.prototype = {
             this.currently_selected_tile_type = null;
         }
     },
+    // Place a room with certain parameters
     place_room: function(room_id, x, y, rot, send_message, world_message){
         var room_data = this.room_types[room_id];
 
@@ -317,7 +343,7 @@ Main.prototype = {
         this.redrawMobs();
     },
 
-    // ToDo: Fix the rooms id and array bug...
+    // Blank slate for rooms - called from a sync message from Unity
     removeAllRooms: function(){
         for(var i=0; i<this.rooms.length; i++) this.rooms[i].room.destroy();
         this.rooms = [];
@@ -336,6 +362,7 @@ Main.prototype = {
         var size = 16 / mob.sprite.size.width;
         this.ghost_mob.scale.set(size, size);
     },
+    // If a mob button has been unselected, hide the ghost mob
     mob_unselected: function(){
         if(this.ghost_mob != null){
             this.ghost_mob.destroy();
@@ -343,6 +370,7 @@ Main.prototype = {
             this.currently_selected_tile_type = null;
         }
     },
+    // Place a mob a certain position
     place_mob: function(mob_type, x, y, send_message, trigger_cooldown){
         var mob_data = this.mob_types[mob_type];
         if(mob_data == null) throw new Error("No mob data for ["+mob_type+"]");
@@ -392,6 +420,7 @@ Main.prototype = {
         return mob_instance;
     },
 
+    // Phaser is dumb and things need to be redrawn - no z index
     redrawMobs: function(){
         var new_mobs = [];
         for(var i=0; i<this.mobs.length; i++){
@@ -439,6 +468,7 @@ Main.prototype = {
             healthbar: healthbar
         };
     },
+    // Called from a Unity message with player updates
     setPlayerData: function(msg) {
         this.player.position.x = msg.xPos * TILE_SIZE;
         this.player.position.y = msg.zPos * TILE_SIZE;
@@ -452,7 +482,7 @@ Main.prototype = {
         this.updatePlayerHealthbarPercent(msg.currentHealth / msg.maxHealth);
     },
 
-    // ToDo: Should refactor this and the two above to be nicer...
+    // Phaser cannot redraw... have to manually redraw the player object
     redrawPlayer: function(){
         if(this.player == null) return;
 
@@ -471,6 +501,7 @@ Main.prototype = {
         this.player.healthbar.redraw();
     },
 
+    // When a player message is received, update the healthbar
     updatePlayerHealthbar: function(){
         var pos = {
             x: this.player.sprite.position.x,
@@ -478,6 +509,7 @@ Main.prototype = {
         };
         this.player.healthbar.setPosition(pos.x, pos.y);
     },
+    // Update the percentage derived from health/maxHealth
     updatePlayerHealthbarPercent: function(percentage){
         this.player.healthbar.setPercentage(percentage);
     },
@@ -486,19 +518,18 @@ Main.prototype = {
      * UTILITY
      * **/
 
-
-
-
+    // Is the current mouse position inside the map
     isMouseInsideMap: function() {
         var mouse = this.getAccurateCoords();
         return Utility.isPointWithinRect(mouse, MAP_MASK);
     },
+    // Phaser fix for mouse coordinates
     getAccurateCoords: function(){
         var pointer = this.game.input.activePointer;
         return {x: pointer.x - 1, y: pointer.y - 2};
     },
 
-    // ToDo: make this nicer/more descriptive?
+    // Gets the current tileXY position from the mouse
     get_tile_xy: function() {
         var mouse = this.getAccurateCoords();
 
@@ -520,6 +551,7 @@ Main.prototype = {
         return tile_xy;
     },
 
+    // Returns coorindates not bound to a 16x16 tile grid
     get_world_xy: function(){
         var mouse = this.getAccurateCoords();
 
@@ -534,11 +566,12 @@ Main.prototype = {
         return tile_new;
     },
 
+    // Gets the map dimensions relative to zoom
     get_cur_map_dim: function(){
         return {w: MAP_MASK.w / this.game_zoom, h: MAP_MASK.h / this.game_zoom};
     },
 
-    // ToDo: Get mob positions with room positions
+    // Sync message from Unity - blank slate and then redraw everything
     worldStatus: function(data){
         this.removeAllMobs();
         this.removeAllRooms();
@@ -566,6 +599,7 @@ Main.prototype = {
             }
         }
     },
+    // Message from Unity - update a mob position, rotation, health
     updateMob: function(id, type, pos, rot, hp){
         var index = this.findMobIndex(id);
         if( index == -1) { // place mob
@@ -584,6 +618,7 @@ Main.prototype = {
             mob.healthbar.redraw();
         }
     },
+    // Delete a mob when dead command is received
     deleteMob: function(id){
         console.log("deleteMob (id = "+id+")");
         var index = this.findMobIndex(id);
@@ -593,12 +628,14 @@ Main.prototype = {
         this.mobs[index].mob.destroy();
         this.mobs.splice(index, 1);
     },
+    // lookup for mobs
     findMobIndex: function(id){
         for(var i=0; i<this.mobs.length; i++){
             if(this.mobs[i].id == id) return i;
         }
         return -1;
     },
+    // Remove all the mobs from the game
     removeAllMobs: function(){
         for(var i=0; i<this.mobs.length; i++) {
             this.mobs[i].healthbar.destroy();

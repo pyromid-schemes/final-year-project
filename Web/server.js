@@ -1,3 +1,9 @@
+/*
+ @author Daniel Jackson (dj233)
+ */
+
+// Node.js basic server setup
+
 /**
  * Application configuration variables
  */
