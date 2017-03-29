@@ -35,7 +35,7 @@ namespace VirtualReality
                 {
                     EquippedObject.transform.SetParent(null);
                     EquippedObject.GetComponent<Rigidbody>().isKinematic = false;
-                    EquippedObject.GetComponent<Equipable>().UnequipedByPlayer();
+                    EquippedObject.GetComponent<Equipable>().UnequippedByPlayer();
                     TossObject(EquippedObject.GetComponent<Rigidbody>());
                     EquippedObject = null;
                 }
@@ -76,11 +76,11 @@ namespace VirtualReality
                 if (col.gameObject.GetComponent<Equipable>())
                 {
                     EquippedObject = col.gameObject;
-                    Transform equippable = ItemTransforms.GetDefaultTransform(col.name);
-                    EquippedObject.transform.localRotation = equippable.rotation;
-                    EquippedObject.transform.localPosition = equippable.position;
+                    Transform equipable = ItemTransforms.GetDefaultTransform(col.name);
+                    EquippedObject.transform.localRotation = equipable.rotation;
+                    EquippedObject.transform.localPosition = equipable.position;
 
-                    EquippedObject.GetComponent<Equipable>().EquipedByPlayer(Device);
+                    EquippedObject.GetComponent<Equipable>().EquippedByPlayer(Device);
                 }
             }
 

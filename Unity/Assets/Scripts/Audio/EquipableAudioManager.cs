@@ -4,7 +4,7 @@ using System.Collections;
  * @author Japeth Gurr (jarg2)
  * Audio management script for equippable items 
 */
-public class EquippableAudioManager : MonoBehaviour {
+public class EquipableAudioManager : MonoBehaviour {
 
     public AudioClip EnvironmentHit1;
     public AudioClip EnvironmentHit2;

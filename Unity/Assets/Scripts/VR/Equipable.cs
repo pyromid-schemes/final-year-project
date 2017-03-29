@@ -2,19 +2,19 @@
 using System.Collections;
 /*
  * @author Japeth Gurr (jarg2)
- * Script to handle functionality for Equippable objects;
- * Any GameObject with this script attatched will be treated as an equippable object 
+ * Script to handle functionality for Equipable objects;
+ * Any GameObject with this script attatched will be treated as an equipable object 
 */
 public class Equipable : MonoBehaviour {
 
-    EquippableAudioManager AudioManager = null;
+    EquipableAudioManager AudioManager = null;
     SteamVR_Controller.Device HoldingHand = null;
 
     private float HapticPulseTimeRemainingS = 0;
 
     void Awake()
     {
-        AudioManager = gameObject.GetComponent<EquippableAudioManager>();
+        AudioManager = gameObject.GetComponent<EquipableAudioManager>();
     }
 
     void FixedUpdate()
@@ -57,12 +57,12 @@ public class Equipable : MonoBehaviour {
         }
     }
 
-    public void EquipedByPlayer(SteamVR_Controller.Device device)
+    public void EquippedByPlayer(SteamVR_Controller.Device device)
     {
         HoldingHand = device; 
     }
 
-    public void UnequipedByPlayer()
+    public void UnequippedByPlayer()
     {
         HoldingHand = null;
     }
