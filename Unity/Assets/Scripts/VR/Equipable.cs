@@ -5,7 +5,7 @@ using System.Collections;
  * Script to handle functionality for Equippable objects;
  * Any GameObject with this script attatched will be treated as an equippable object 
 */
-public class Equippable : MonoBehaviour {
+public class Equipable : MonoBehaviour {
 
     EquippableAudioManager AudioManager = null;
     SteamVR_Controller.Device HoldingHand = null;
@@ -57,12 +57,12 @@ public class Equippable : MonoBehaviour {
         }
     }
 
-    public void EquippedByPlayer(SteamVR_Controller.Device device)
+    public void EquipedByPlayer(SteamVR_Controller.Device device)
     {
         HoldingHand = device; 
     }
 
-    public void UnequppedByPlayer()
+    public void UnequipedByPlayer()
     {
         HoldingHand = null;
     }
